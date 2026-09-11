@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Face Your Hope</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --yellow:#FCFF35; --yellow2:#E6E800;
+  --trans:all .25s cubic-bezier(.4,0,.2,1);
+  --splat:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcwAAAIiCAYAAABFffjpAAAd+0lEQVR42u3da27DuJIG0FjIlrL/BfSWAnh+zA3gdtsWJfFRRZ4DDDC43R1LFFmfSpalry+m9Hv/udtGgHpuhmDesPy+/XOLvo2PIm8vwGYIdJm2F0BgEtS7blJoAgITXVthaAIITIaFps4N4Bpn+At2lRE7uww3KgE6THScoQMeQIdJiAAa0dV92kZdJiAwCd2xtQyqDCEO8IlLsvwr1FpdHhWAgMBEhwogMMmoRjfXIjRLt0s3CghMdJoAApPZuswR26W7BAQmJA15AIEpgGwXgMBEuAMITCYKImEJCEwEkpAEBCZCE0BggiAHEJjCyfYACEyEFIDARGgCCEyEJoDARGgCCEyEJoDARGgCCEwQmgACE6EJAM383n/uv/efu5EAAKEJoBgDgNAEgM5C3PQjNAEQmB883pVZMzQFMABTdpgtglhoAjBtYNYOOaEJwDSB+fxj+Voh50f4ANQUIlRehWStwPu9/9yFZ2zvTpIcN0BgThqaq4fzkf0/ciVBcAIRhL7pJ+Ods743rT9GxhQQmAVdRI2HG/TqUP4+Z+UCv7fvZ8dGaAICszDYahTMHkVXaOreAYGZumD2DDKh2a7bN6aAwCwsqEJzjtC8EpzGFBCYHTvNnuG/WoEv3V93vwICs3GXWSOEeoWYTrNNt2k8AYHZoWj2DrHHz1Po63WbxhIQmAcKaLbQVOjrhiaADrNDaI7cn9lD88qJjOAEBGbjAn20SI/4fvE5NHWba5wsAQIzTOE8W0BHh6bgrHfsAZbvMHuF5uh9EpoAArO7M+HTO7DeheYswVljP3SZQBSpilHrzvHv7/cu0p/2K3pg9Nr2vWMvWAEdZoUAjN7N7D103qVaAIFZJWxqv+VkREC1fIZulisCOkhAYHYIlr/gvHozzchH2WUMBUEGCMzERfpVcJ4JzWj7lqHLvDLuwhkQmAmL9/ftn9uogBIMAAKze6g8d5tHQ1BoHt/Wll0mgMA86ci7F49+Pzk6tDI/3ECXDMwmfVH7vf/cz/zcJFNBfw7JqNv+alwft73Wdr86aRDQMIfI95tsqw1wxuKaOQwEGVBax6NfQZvid5hnQjNz8ETd108/+RHKQM2gHLHup+gwVymYOk1GFDP7QqRjMvKduZvFLXiMB7XO+tUIWoflyG2eJjBXuTRr4SMonWAJS4Gp6Dg5UPychNk38yzsWp8qMKMEiUDDCR7MFZZTdpgRQ7PFtqwcyiO/9FfAYM2wnDIwI4Z368Kk6GHe2E9hKTDTd18tQzPDbzOvLDCFToggLAXm4qHZapsUQcwTMs+16F+3uCQ7IDQVLbJ07b4rpmdYRt+nJd6HGSWcWoTmrEGsUK/VVbrqIiwz7Nf0HeYKoalIICwRlgJz6hBXMBRTYfn/29eiaJo78etgtitJ2yoHJtoCqhmamV80jZMN1ptzWb9yWabDjHiAdJqsHJal22hd6CoFptCsGppukiFrwHyau2f3RcjGCsRZns7lO8yJO01FgxlC3clg3uCc7TGWAjPomZmwUyhHnySNHv/a+2I+ITAnDomrt2fPUiCcPMw1Tq27y+e/LygRmEJTd0b6sHw3T2vtj3WAwFygmJ0NTZeezC/7IywRmMuHpkuTPM+pTHOiZFsf/50rl2OFJQIzqZoPThCazDIPWoSaKywIzAVD87l7WLUQRHxK0+gAzDgWJd9dXu0uoXk9MgR9i/9fEO4VhHf/XCGZOzRb/Ig/Q2fpygkCk0uhyZqh2TOw3n1ezbl5tHO0LhCYHO4oWO9Eqndn1+Nza58keAk2o5hIg4LQj6vbdSi6y+Oh0Wo+7h07v8skk2Vv+ml1S/7f39z7+6MWbsbvilYpcq32M8L4XdmGmnPWd6UIzEAL6OyD1HsuZEVjHaVBNeIFznvdZcuTWmsAgXmykNReQKWhOeLM3yWpdbrMKMf6zF2xAg2BGbw4tVykJaGpy9QdzxKWR5+44009CMwkhaVFtxn5t2YZHwawUmfc6vLop/+LctIjLBGYSYOzV7GY5exasYsXuKWB2OLGmqPdZc/546sJBOagYnN0Ue6FZtaQi/CbPl1mnbl79Tge/XmIeYPA1G2e6jSjPO1FJ5tz7tYan9qXa9/N+d7HU3fJVIEZ6bu+xxC7+oquyIXfb93yd5mtwufo3D+y3eYKAjPQWXK2bqzn2W+Lu4Rbbv/Kb2uJsGaudJyCEYG5SKf52G0+Pjy9VZc58oSh5uU8y2tOrZ/9OssJKQKz+8SOWHivXqYtLSi9v8us9bk9itJKgVzyKrgRPw3J+l5OT/phyg7zaDD1XAi1f7sZbQG3PBGgXmhGeEBB1t9Vjv49KvmkuDxR+raK3m+1OPLIu9LF+KqzjrYvR/9m7e1v9XezivZAjJlOmMwx0nSYRydty+fD1jzrPlr8nPnqYB2PGF2oo6zDTLcgz/xUY8TbGDKd6bZ6FVmLbvBd9332eGTuIqJ+x79KuOhABabQDFqsMoZmy8BscWNYtgIYLZg87UmICszAReLMG9pbdTulC2nvv/lUdFotxpL9OPPZrb+LbVmcoxc+lwiFJgKzSiFuFQB7n1Mz7Ho+c/boTUkRQnPEHdECs6zDzPhGHOHJnimeJXs2WFo9RqzWAun5irDnz3p+nm60It373aEKv4C4On/MIYEZZlFeCc3aE7llaPYuRo9POHoXokf2oXSsIxYXRQ/hKTCnOZO9+jqjqA8gvxJWrYOtxdhc/ecrFD0Fd47wNAoCM1Ro1vje8MjnzzaeI/5upjHVLcy7FowX0wVmq9Ds9Q7MyONZe3uPdrCZHuJwZs7MHrROJBCYi4RmzQWf8UzSA9T77NOZMRBEuksWDcyR35X17DZrv+Ek6/Ep+d758X/zRgyEJQLzYfLUDqV3xffqI95qvvYqQ0HttbBnDpZ3x1mYgsAcXjhbhmaNoMv2RocWodn6RqzoXefz/ghP3SUC83TnFT00n4Pz09979c96huard/5FvGT4ty3CY57O2igwm1vURdbqsXU9F/XePrR49F2mG5WOPod35iJcOt6Rx6DX73h1lyzdYbYqDCMvf159u8eVjrdVZzpyjGo+PUlHZl8gfWC+Crjob6N4/BtHn8hz5k0rowth7RA9GpqWLLpLRknzFoYaLzGu2Xm++xs1f++Z+TLdmcvR5B43bygRmAJTaB7qDGtfihU8Cmum4+0F0sJyZqme9FPz5xxnJvXe5dYrCyPb5VkwXxGYwc/KaoXmkQ62x5tCQODoLhGYYUOz5J/3nPC6TIQpCMyQoXn1ZhuhCeguBWaaM+5WQTLyjj+hqZM0CiAwTwfIp+8Rr/ws5NN/KzQB+JP6kkGNd14e/ayel1lKLxkL0fnsPQ+ZfMcPHWaozrPHU4EiPF5P4ZyfYwwCs3l49ggwoQnoLgUmCUPTAtVlApMFZrR3MNYIzV77o9MEWCgw/y6bzhCc0d79p8uEWHUBgZm2Q+sRmqNeSO3S7LxcQYA4hhfYnj8NmWUfFNH1uhbHXIfJoh3m8wTr3am1XiSjOk0AJu4w94ImUzj03n5dhy4THSaLBuYMwSk0QWAypy3LpMtyqbb3I80sUICAgdn7d4dZg9NzQAHmc7g7+b3/3Ht3NUfDJkrX1fN9mwIZYp4ss3hgjpgYV17hJTSBrKFZa10L84GBOeIgnJ04IydKyfs2hSasHZq9163wHBSYQvP6Nkc9IwUEO5UDs/fgXwmEURNEaAJCc7HAHFH8WwTCiEkiNAGhmVeT32Fm+OnHiO3bm5S1t8kiAAjeYfYq3BnvHivd5prbpNMEnGAH7TCzdZw9t610UtbcJgsBoEItzVb8WwTYiFu6Sz6z5kMiPLwbIEGH+e4xdxHCMnoHptMEiCFtAc14l+zVfai1zTpNwAl10A5z9s4t2zZbGICasEhg1giOCBPkzDYITQCB2TUwonSYQhNAYNL4xGGWThvIddIuMBfqLmeasEITQGAuFcBXfnojNAHrXmBO313WmsC1QtMCAmGJDjNNEJ8NLjcDAQjMZc8Az7y53SVawPquL82gte4Es0ygI+NQY588FQiEJckCU2ieGwuP0wMEZh2bA5130peMh+81Aet4wQ6zR7eTdULtjYlOE4SlUbgYmM8FsMeglhTdve0QmuOCU2iCsBSYjQa81WXBVoU7++RqHZoCE4SlwEw4CYTmuWATmiAsORiYiuD8k+3dcY1w1QBQv6I1BEWBqRjOPelqB6d5AupWlJDsse/dfpZg4s0XmgIT5q5ZI24KjRiUxYGpOM55tvbqeJ55DJ/yBDlrVYZfGvT6uVz1wBSaQtOcgJw1KvI6fbXd0YLyVGAKzTW+F4hylgqcr08zrc0otVdgCk2hCZPUpBnWYuQa6/Kb0LwcnOYFjK1FgjJYYCqKawSm0IQ8dUhQDgzMd4VSMRSaI5/tC6xRR3u/7/d0YCp4QlNoAr1r55W6MfRnJQpe/wP2OOYtD/7f51z92UjWW9eBODWzZq3oGZpFl2QVw3YHrMZvIXsHp9AEZmlajtjebcDzRnjq/bHQu/r3Wr+F5ehnOHkCVueh20G7zNYnK2cvBZf8d+YHMGOH6fVOAQ7cyAcLnwnOve81zQ1gtrD8+npzSTbihmZwNiiu/s7xyiXcM5da9wLS3ABmtLUu9EKzbmh+uknobHA+h+aZv6GrBGbuLv/VYZYUvL9i+vh/Dlv/8Nj7+1dDs+Rv7L1hwMkUMJt/Pcnn6GtWXhVZPzm4dgZ05UkXtS6NXv3tpSdEAbN1l/8JzBEbOXtRbR2az59Rq8sTmoDALAzMURs0W4HtEZivAqrG8SsNzXfbKzSBWcLyZWBG+u5plkI7IjRrHcfSk6lPoSkwgexh+Z/AjHijhtAcP6n2OkhdJDB7WH59PdwlG/WuxleP6cuoxp2ro04yPl2KFZTAKqpfwtNtxgnBXp1mrfC1HIGo3eXX19fXliUsI3fBPUInwr63uJFotisJwDx1/7lepS1Q2TuSlg9rbz3ZWnaaOk5gdFi+uxE29Rn9ypdoS/e/x0PbW+674ARhOToopwjMmQpq6+82s3aaQhOEZYSwnCIwZyyoLX+CkulGIKEJwjJCUE4VmDMX1LMvd+41KWuNu9AEeoblmWdvT3VXYqSC2uKlyq1ulDk6SVuNs9AEYTkiJ0o/e7rb+EcX1B53fx59q0yt7e81toIThGXPbCgOzMiPxcsWmq0un5Z85orf4wpNEJZX68SRz7/VeoeiwOz7vFgLyfiBsLxeGy4F5izhOaKQ9noYgQVl7EBg1qkFR7Zh2/vwrMUoW9h7NNz5BWDcYO0a3SurbqMfszZbpxnt5xo6TWDGsKy53g/f9DNz99azkNY+a7K0hCYIy37r+9P23a5sQJbgzBqYQkBowuqBGWE9/23zrdejzYSm4Ow1vsYJrN0Wbj0fbbZKYArNseNrjIAWthqFPUOH6U7KuQhFoHtgCpM8BV1I/Hc8jAnQNTCvhmaWojXytTHCst84OwEEmgbmX6FRbHSFQhNgJzBXCE4PXxCaANUCU8cZJ/CEpfECEgRmaXBmfG5rhkKu+K95RQGI6VIx+b3/3LMWpJXemSkojSUwODCzixyaCrzQBGLZFJF4Qe2YtBlnl2eBSx1mtsuqtYvgyHB6te3C0jgDQTvMbMXj1WW2rE98UbTHjfPjPHI3OFAcmNlD80p4ji6Uj9sqQMeEpnEHStwyf89TUuhK90fRXINXgwHVAjNbaNYKToVSaJoPwOHAnDU09/ZLkRSc5gPwzjZLsSi9cePTfrnxYy17c9x8AB7rwW3GonG129RZ6DbNB1ATnv+3W41LmZlD89P+KZQWibkATpoPB2bW8FToqLV4zCVYLyQvB2a2IFXo0G0CV19+ccu++L39gxHzzFyCeTKidD3fZl/4Ch2t5pO5BGvV/ptFD4ITEJggOAGBCQC9bIYAAPZ9GwIA+BCU//vqRWACwIeg1GECwE5ICkwAKAxKgQmAkDzy7xsyAISkwARASFZ5MYjABEBQCkwAhKTABIBu72IWmAAISYEJgJAUmAAISoEJgIAMtV0ODQBCcp/3YQIgLAUmAAhMABCYACAwAeB/fu8/9wzbOe1dsi2/RM5ycAEQmN1DEgCBKSh1lwDsSP8dprAEQIcZJCgBIGWHKSwBEJhBw9LlWACBCQDMFJguxQIgMANzORYAgQkAAlN3CcCCgSm8ABCYAhoAgSnEABCYQhMAgRk5NFsGp1AGYIrA7BWcADBFYApOAASm4AQgiNsK4XL0GbQCFyBujR62nSscjMcA9AB3AATmie5RgAIgMHWfAAjM9t0nAPzxLFkAEJgAIDABSC7TvSMCEwAEJgAITAAQmAAgMAFAYALAvmxPVxOYACAwAUBgAoDABGBeGd8OJTABQGACgMAEAIEJwJwyfn8pMAGgNDCzJj0AdO8whSYAPXzf/rn93n/uv/efe8rAFJoA9JAxKP8TmAAgPAsDU5cJAIUdptAEQJdZEJhCEwAKA1NoAkBhYApNACgMzMy3/wJATd/CEQAudpgAgMAEYLBM98oITAAQmAAgMAFILNtPF72tBAB0mAAgMAFIKuNVTa/3AgAdJgA0CkxdJgAtZc0ZHSYAnA1MXSYA6DABGCjr27HeBqYuEwChWdhhCk0AhGZBYApNAIRmYWACgNAsDExdJgCrh2Zxhyk0AVjZoUuyQhMAgSk0ARgkQ7Zss+4YAMJyeGAKTQBWCsuvr6+vyxua9RFHAAjQroEpNAFYITyrbYzQBGDm4Ky+EYITgBmDc5tthwCY0+iG7DbrjgGg2wzdYeo0AZix22z6thKhCcAsmr/eS2gCMEOX2eV9mEITgOyh2e0F0kITgMy2nh8mNAHI2mVuvXdMaAKgwxSaAAhMoQmAwBSaABAlMD0uD4Cshj1L9rG7FKQAXNHjiuW3DhIA9lW7JHslLH2XCcAygSkgARCYDbtLIQrAEoF5NCwFIwDLBaawBGC0XtnibSUA0DIwj3SXwhKAZQNTWAIwWs+MORWYpd2lsAQQNDpMBwMgrd/7z/379s8tc63uve23M4Pcaic8Wg9gfOhkqcXpA1NYAszTqUWtzSM640Mf2CosBSZAjhCKUqtHBOaWeeMBqKf0K7fR332O+uwqHebVjdddAuTqNEfV8ZFBvV0dDJ0lwHqd5rvOc9awPBSYwhJAaEYIzpSBOfKgABC3PtcOzgghvGXeeABiNzU1siJK3mwjN153CSA0szRnW+aNB2De0IyWN9uojdddAgjNTM3Z1mOQhCWA0MwclkWBKdwAqJULe2EY+Wu/rdcgCWAAoZk1LHcD06VYAHrIcEPpdjTchB4ANfMgy68vvjO37wDoKnu5XQm30p0VlgBCL7tLz5L9vf/chSGA0FvBrWY3+GrQBSpArtAsfZG0wKz4Ja6wBNBpThmYAg4Awfna1nrQZ36ZKMCMNE+dO8y9kHRAAHSaywfm0UEWngCCM7otysFw6RYgJk3Niw6zxsDUCj0HCECnGbrDvDIgNQdTt2khAfE6zZWbmcs35rQulDpNACfJ4QMzyhmNqQkgOEfbHAwANDUTBCYAQlNgAiA0k7g5GADUNOtXaTpMADQ4swSm7hJAaApMAKYNzZmCc8sw4KYdr3j+MOg2BaawpCAsX/3/gHq+XGAKS0rCUmiC0OzlZkDJHpbmDsy1lnWYwpLGC0yXqdih21wiMIUlNQq0Qi40EZrTBubq71dDYXY8EJoCU1dJ9+JsTkHO0Mywdm8jB8g0QVDmPi7GndFrf/oO0yJDWObtBIwCq86xzWAgLJmxG0BoVp/vghJhCUQNzUgnZVvPHYfSsNy7CcCccvaP+TZdYFpcnAnLT2eW5hQIzakC0+8rEZZrHkOYNTS/Z90xchXaxznzqgCbU8Dv/ec+8gStSYfpPYWcDUsnYM72Ierca/odptDk07x4ddneD+OBqKHZ/KYfocnjXPi+/XN79/22sAQih+Zm2OndVZacWAlLIFpo3mbcKeKF5ac5ICzznwg5bkSaizpMpgzL56BUdIGojZnAZOgk3rtUCxAlNAUmQ7tPYalAQZY5KTARloDQFJhEDUvfVwLZQlNgMs3ZH0DLWiMwgSpFyUNKmD00BSYAQjNCYLr8BsAMoanDnMTfc1pdFgMy1q8M2ykwJwlKIwFk7v561LGrXabAFJQwvBBBhtAUmEnD0igAM9aMyKEpME18YJHuLXr96PkTpTOhKTCFJbBIaGaoI5FD0/swJwtLYw2U1JLItaL3O3JL6+s2Yud1TTpLsN7Gd3B7+zpqLKKG+S3KwaPOhDWeMH8HVru2fNrXIy+BH7WNvWrt0O8wFXdhCZE7sBX2c6/b7PVzj9Gdf0n93CIcLPpPDsA6fK7D0b4+O7J9PXJpi3CQuD4xjSnUW2PP3ddqofnuppsVOs1Qgamw6ywhQkgcWWurhea74BwxFu+2bURGbaN3HGEJWTuv2UPz3X5HGIsRn7+NPhhcP/jGFtp3mSuc2B6tJb3G4lOYf9q2s8H+7vM8uGCCztL4wrW1t/ezigzr7lMdaR2EPcbi6HF49e9fHQeBmTwsjS/UWX9nupiRa6/1iXa00DxzHK6GZvfAVMyFJczaZY5Yhy0ug545WcgQmjVOdh7/RtPvMBXzvpMeGLMme6znljfavPvbUb/TrPHZZ7a1WWAKS2EJQjNXzfj0G8yMoVnjsvPj32iyY8Kyz2QyztCv0B5Zu7XW5uiT6ysPcKhdn86O/9FQ/PTZW8sBRmcJq671q91qlKfqnH0YfZROs2S7Q73eC2GJeb7ifhwNvqgPRxi5XWc/u+abTv7++6oDoLvsW0CMN1Hne7a5Wfobv1rreeVn1Y44wSp9SMXetgrMpGfZxpro837G0HSlqE69ijqOe4G59figVYrF7M+aBIjaRPTYzs0BFJKwcpFcZT+MY4V9WLG7/Dtw37d/blcekwTsr5kZrj5Z++bskh3mu9fUvHvvW6Qu0ncpCBtmmAtZT6Iud5hZdrxk0VrY0GZ9zdJpssYJ1Lv5ujlAOZx9dx/mpn2d6+SfcTaLNEdYWtzmpn2GsXP12+LMtS+Cch6rHkuXZ8laf7fZd3CmoqrIMMta02mScW5vFrCwxBw1BrA/TzeLEMxRY+G4UDBHLLz43eWIsdPR9hn37ONc64lZ5hsZbBEWjLAcE1aRHuu3ytn9qwdnKEPGgUUCc/Rkt9ByB+VKHca7MW95LDKtD2uZJQJz1GSfcYG1DI6ID4pXJNuNQ+uxzbjN5iEhArN3QTbB2x2XnpeEe35e9ECsOaetD2iwjlsXhxbFcNZiUHusIo+TsHz/714ZkyleoeQmIFYKzNIFfGZROHPOP0aen9omMHqOa4/LvUKTaEIVrr0FMnOhrVUcro5R6+9Qe33WLCcHJWO09xmZr/L0mCNOwgnTYZ6ZuM+LxITWVa56TMx9iCP8k34UjP3xqTVGrU5UVnwwwszzdrZLv6oIKTtMk3nc2DwGmLs17XO08fR9JgLTAglXiGve4fxue2c+trOHpZMBBKaFKSiNtzFcrMt0vJgmMBVb+2N/7SMITMJr+eP5524h801BQiR3lwkCk2FhuVLQCEvHjrVshoAzYdn6zRt+V2p/jTs6TKYomq+CtWYxi3rpTcEW/ghMuFRU/Jwi9rbP9EB332UiMBnurwgdfTapp9oAAhN2wjLrZwjKNcfBcUVg0qW7bP29pYIKCEzSh8XMYSkk843Lme8xHWcEJtW6ywjFp9flWMUTEJh06S51S7pLEJjoLnf+eYbuUsHHfEBgUj2gjryGK2LhUQyNJwhMQhXHloX0SHepoAvLv20tmTfmCwKTpgEV7XtLRQ8QmIQLod6XYj+Fs6B0UmKfEJiE7C6jfG+p0AHReL2XbmJocK3w9CCdGOgwmby77F1EFW3MJ3SYhArLV4VkxE0+j5+puAkWEJiEL46jL4sq2OPGeNaxN6cQmFTp5iIUm9J3bwKEOREzBGuH5ajvLQWlLqzVvDa30GHSvOAoNMIS0GEKxZ3/TQHFiQDoMBGWLHC8zWN0mFQNR0VGUAICk8KwVDhxMgDHuSSrsMBUJ4QgMLlcTIQlTgJBYOLMG0Bg4iwcXp0UmtcITKp2l4oKTgJBYCIsAQQmwKsTQyeCCEx0lwBBKaiTBqawBNBhIiwBBCbXwhIAgUkB3SWAwGSnuxSWAAITYQkgMAFAYKK7BBCYjCYsAQQmO92lsAQQmAhLAIEJAAIT3SWAwERYAghMghOWAAKTne5SWAIITHSWAHC+u/T6LgAdJgCk8n92jOO1MAD13wAAAABJRU5ErkJggg==);
+}
+[data-theme="light"]{
+  --bg:#FFFFFF; --surface:#FFFFFF; --raised:#FFFFFF; --overlay:#F3F3E6;
+  --ink:#0A0A0A; --ink2:#3C3C3C; --muted:#7C7C72;
+  --line:#0A0A0A; --sc:#0A0A0A;
+  --danger:#E23B2E; --danger-tx:#B71E12;
+  --tagink:#0A0A0A; --tagink-tx:#FCFF35;
+  --hopetx:#0A0A0A;
+}
+[data-theme="dark"]{
+  --bg:#0A0A0A; --surface:#151515; --raised:#171717; --overlay:#202020;
+  --ink:#FBFBF0; --ink2:#C6C6BC; --muted:#8A8A80;
+  --line:#FBFBF0; --sc:#FCFF35;
+  --danger:#FF574A; --danger-tx:#FF574A;
+  --tagink:#FCFF35; --tagink-tx:#0A0A0A;
+  --hopetx:#FCFF35;
+}
+
+@keyframes fadeIn   {from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes popIn    {0%{transform:scale(.7);opacity:0}65%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+@keyframes float    {0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes pulse    {0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes glowP    {0%,100%{box-shadow:0 0 0 rgba(252,255,53,0)}50%{box-shadow:0 0 16px rgba(252,255,53,.8)}}
+@keyframes hopePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.01)}}
+@keyframes celebrate{0%{transform:scale(1)}30%{transform:scale(1.12) rotate(-3deg)}70%{transform:scale(1.12) rotate(3deg)}100%{transform:scale(1)}}
+@keyframes shake    {0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+@keyframes resultIn {0%{opacity:0;transform:scale(.6) rotate(-4deg)}65%{transform:scale(1.05) rotate(1deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes roundIn  {0%{opacity:0;transform:translateY(-14px)}100%{opacity:1;transform:translateY(0)}}
+@keyframes splatSpin{0%{opacity:0;transform:scale(.4) rotate(-30deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;transition:var(--trans)}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overflow-x:hidden}
+.screen{display:none;padding:20px;max-width:640px;margin:0 auto;min-height:100vh;position:relative;z-index:1}
+.screen.active{display:block;animation:fadeIn .4s ease}
+
+/* INTRO SHIP ANIMATION */
+.anim-screen{padding:0}
+.anim-screen.active{display:flex !important;align-items:center;justify-content:center;min-height:100vh;animation:fadeIn .4s ease}
+.anim-stage{position:relative;width:100%;max-width:520px;height:62vh;max-height:540px;overflow:hidden}
+.anim-caption{position:absolute;top:7%;left:0;right:0;text-align:center;z-index:3;animation:capIn 3.4s ease both}
+.anim-caption .t{font-family:'Anton','Inter',sans-serif;font-weight:800;font-size:clamp(26px,8vw,40px);text-transform:uppercase;letter-spacing:1px;color:var(--ink);line-height:1;transform:rotate(-2deg)}
+.anim-caption .s{font-family:'Inter';font-weight:800;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--ink2);margin-top:10px}
+.sea-wrap{position:absolute;left:0;right:0;bottom:0;height:52%;overflow:hidden;z-index:2;animation:seaRise 3.4s ease-out both}
+.sea-svg{position:absolute;bottom:0;left:0;width:200%;height:100%;animation:waveScroll 7s linear infinite}
+.ship-anchor{position:absolute;left:50%;top:26%;width:60%;max-width:280px;transform:translateX(-50%);z-index:1}
+.ship-move{transform-origin:50% 88%;animation:shipSink 3.4s cubic-bezier(.45,.05,.55,.95) both}
+.ship-move svg{width:100%;display:block;overflow:visible}
+@keyframes shipSink{
+  0%{transform:translateY(-6px) rotate(0deg)}
+  20%{transform:translateY(-10px) rotate(-3deg)}
+  45%{transform:translateY(-2px) rotate(-9deg)}
+  70%{transform:translateY(24px) rotate(-18deg)}
+  100%{transform:translateY(58px) rotate(-25deg)}
+}
+@keyframes seaRise{0%{transform:translateY(46px)}100%{transform:translateY(0)}}
+@keyframes capIn{0%,25%{opacity:0}55%,100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){
+  .ship-move{animation-duration:1s} .sea-wrap{animation-duration:1s} .anim-caption{animation-duration:1s}
+}
+
+/* AMBIENT SPLATTER */
+.wave-bg{position:fixed;bottom:-60px;left:-80px;width:420px;height:420px;z-index:0;pointer-events:none;
+  background:var(--splat) no-repeat center/contain;opacity:.10;transform:rotate(8deg)}
+
+/* THEME TOGGLE */
+.theme-btn{position:fixed;top:12px;right:12px;z-index:500;background:var(--bg);border:2px solid var(--line);
+  padding:6px 12px;cursor:pointer;font-size:12px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px;
+  border-radius:4px;box-shadow:3px 3px 0 var(--sc)}
+.theme-btn:hover{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+
+/* TITLE PLATE (mirrors the cover) */
+.tb{position:relative;text-align:center;padding:26px 14px 22px;margin-bottom:24px;overflow:hidden}
+.tb .sub{position:relative;z-index:2;font-family:'Inter';font-size:12px;font-weight:800;letter-spacing:5px;
+  text-transform:uppercase;color:var(--ink);margin-bottom:2px}
+.tb h1{position:relative;z-index:2;font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;
+  color:var(--ink);line-height:.82;letter-spacing:1px;transform:rotate(-2.5deg);margin:6px 0;
+  font-size:clamp(44px,15vw,88px);-webkit-text-stroke:0;text-shadow:none}
+.tb h1 span{display:block}
+.tb .byline{position:relative;z-index:2;font-family:'Inter';font-size:13px;font-weight:800;letter-spacing:5px;
+  text-transform:uppercase;color:var(--ink);margin-top:10px}
+.tb .ital{position:relative;z-index:2;display:block;font-family:'Inter';font-style:normal;font-weight:600;
+  font-size:12px;letter-spacing:1px;color:var(--ink2);margin-top:8px;text-transform:uppercase}
+
+.tb-sm{position:relative;padding:8px 14px;margin-bottom:12px;flex:1;overflow:hidden;
+  border:2px solid var(--line);border-radius:4px;background:var(--bg)}
+.tb-sm h1{position:relative;z-index:2;font-family:'Anton';font-weight:400;font-size:22px;letter-spacing:1px;
+  color:var(--ink);text-transform:uppercase;line-height:1}
+.tb-sm .sub{position:relative;z-index:2;font-family:'Inter';font-size:8px;font-weight:800;letter-spacing:3px;
+  text-transform:uppercase;color:var(--ink2);margin-top:2px}
+
+/* HOPE METER */
+.hope-meter{background:var(--raised);border:2.5px solid var(--line);border-radius:4px;padding:14px 16px;margin-bottom:14px;
+  box-shadow:5px 5px 0 var(--sc);transition:var(--trans)}
+.hope-meter.unlocked{animation:hopePulse 1.6s ease-in-out infinite}
+.hm-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+.hm-title{font-family:'Anton';font-size:15px;color:var(--ink);letter-spacing:1.5px;text-transform:uppercase}
+.hm-nums{font-size:13px;font-weight:700;color:var(--ink2)}
+.hm-nums strong{color:var(--ink);font-weight:900}
+.hm-track{height:14px;background:var(--overlay);border:2px solid var(--line);border-radius:2px;overflow:hidden}
+.hm-fill{height:100%;background:var(--yellow);transition:width .8s cubic-bezier(.4,0,.2,1)}
+.hm-fill.done{background:repeating-linear-gradient(45deg,var(--yellow),var(--yellow) 8px,var(--yellow2) 8px,var(--yellow2) 16px)}
+.hm-label{font-size:12px;color:var(--muted);margin-top:6px;font-weight:500}
+
+/* ROUND TRACKER */
+.round-tracker{display:flex;gap:8px;margin-bottom:14px}
+.rt-pip{flex:1;height:10px;border:2px solid var(--line);border-radius:2px;background:var(--overlay);transition:var(--trans)}
+.rt-pip.done{background:var(--yellow)}
+.rt-pip.lost{background:var(--danger)}
+.rt-pip.active{background:var(--yellow);animation:glowP 1.8s ease-in-out infinite}
+
+/* CARDS */
+.card,.card-s,.card-key,.card-lb,.card-sum{background:var(--raised);border:2.5px solid var(--line);border-radius:4px;
+  padding:20px;margin-bottom:14px;box-shadow:5px 5px 0 var(--sc);animation:fadeIn .35s ease}
+.card-sum{animation:roundIn .4s ease}
+
+/* INPUTS */
+input[type=text],input[type=number]{width:100%;background:var(--bg);border:2px solid var(--line);border-radius:4px;
+  padding:11px 14px;color:var(--ink);font-size:14px;font-weight:600;font-family:'Inter';margin-bottom:10px;outline:none;transition:var(--trans)}
+input:focus{box-shadow:3px 3px 0 var(--yellow)}
+
+/* BUTTONS */
+button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight:700;transition:var(--trans)}
+.btn-p{background:var(--yellow);color:#0A0A0A;width:100%;padding:14px;font-size:15px;font-weight:900;letter-spacing:1px;
+  text-transform:uppercase;border:2.5px solid #0A0A0A;border-radius:4px;margin-top:8px;box-shadow:5px 5px 0 #0A0A0A}
+.btn-p:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 #0A0A0A}
+.btn-p:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #0A0A0A}
+.btn-p:disabled{background:var(--overlay);color:var(--muted);border-color:var(--muted);box-shadow:none;cursor:not-allowed;transform:none}
+.btn-lb,.btn-storm{background:var(--raised);border:2.5px solid var(--line);color:var(--ink);padding:13px 16px;margin:8px 0 0;
+  width:100%;text-align:left;border-radius:4px;display:flex;justify-content:space-between;align-items:center;font-weight:800;
+  text-transform:uppercase;letter-spacing:.5px;box-shadow:4px 4px 0 var(--sc)}
+.btn-lb:hover:not(:disabled),.btn-storm:hover:not(:disabled){transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--sc);background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+.btn-lb:disabled,.btn-storm:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.btn-sm{background:var(--bg);border:2px solid var(--line);color:var(--ink);padding:7px 12px;font-size:11px;font-weight:800;
+  text-transform:uppercase;letter-spacing:.5px;border-radius:4px;box-shadow:2px 2px 0 var(--sc)}
+.btn-sm:hover{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+.btn-ghost{background:transparent;border:2px dashed var(--line);color:var(--ink2);padding:11px;width:100%;border-radius:4px;
+  margin-top:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.btn-ghost:hover{border-style:solid;color:var(--ink);background:var(--overlay)}
+
+/* TAGS */
+.tag-ok,.tag-warn,.tag-lb,.tag-storm,.tag-err{display:inline-block;padding:3px 10px;border-radius:2px;font-size:11px;
+  font-weight:800;text-transform:uppercase;letter-spacing:.5px;border:2px solid}
+.tag-ok  {background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+.tag-warn{background:var(--tagink);color:var(--tagink-tx);border-color:var(--line)}
+.tag-lb  {background:var(--raised);color:var(--ink);border-color:var(--line)}
+.tag-storm{background:var(--tagink);color:var(--tagink-tx);border-color:var(--line)}
+.tag-err {background:var(--danger);color:#fff;border-color:#0A0A0A}
+
+/* KEYS */
+.key-grid{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.key-btn{width:58px;height:58px;border-radius:4px;background:var(--bg);border:2.5px solid var(--line);font-size:26px;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;box-shadow:3px 3px 0 var(--sc)}
+.key-btn:hover:not(:disabled){background:var(--yellow);transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--sc)}
+.key-btn:disabled{cursor:not-allowed;box-shadow:none}
+.key-btn.tried-bad{background:var(--danger);border-color:#0A0A0A;opacity:.5;animation:shake .4s ease}
+.key-btn.tried-good{background:var(--yellow);border-color:#0A0A0A;animation:celebrate .6s ease;box-shadow:5px 5px 0 #0A0A0A}
+
+/* KEY ATTEMPT PIPS */
+.key-pips{display:flex;gap:5px;margin-bottom:6px;justify-content:center}
+.kp{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:800;transition:var(--trans);background:var(--overlay)}
+.kp.used{background:var(--danger);color:#fff;border-color:#0A0A0A}
+.kp.current{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A;animation:glowP 1.5s ease-in-out infinite}
+
+/* BUNDLE GRID */
+.bundle-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin:14px 0}
+@media(max-width:480px){.bundle-grid{grid-template-columns:repeat(4,1fr)}}
+.bundle-btn{background:var(--bg);border:2px solid var(--line);border-radius:3px;color:var(--ink2);padding:9px 3px;
+  font-weight:700;cursor:pointer;transition:all .12s;text-align:center;font-family:'Inter';line-height:1.2}
+.bundle-btn .range{font-size:13px;font-weight:800;color:var(--ink);display:block}
+.bundle-btn .count{font-size:9px;color:var(--muted);letter-spacing:.3px}
+.bundle-btn.sel{background:var(--yellow);border-color:#0A0A0A;transform:scale(1.05);box-shadow:2px 2px 0 #0A0A0A}
+.bundle-btn.sel .range,.bundle-btn.sel .count{color:#0A0A0A}
+.bundle-btn:hover:not(.sel):not(:disabled){background:var(--overlay)}
+.bundle-btn.hit{outline:3px solid var(--danger);outline-offset:1px}
+.bundle-btn:disabled{opacity:.35;cursor:not-allowed}
+.lbcount{font-size:22px;font-weight:900;color:var(--ink)}
+
+/* TURN HEADER */
+.turn-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:8px}
+.round-pill{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--ink);
+  background:var(--overlay);border:2px solid var(--line);padding:4px 10px;border-radius:2px}
+.round-pill span{color:var(--ink)}
+.sep{border:none;border-top:2px solid var(--line);margin:12px 0}
+.storm-warn{background:var(--tagink);color:var(--tagink-tx);border:2px solid var(--line);border-radius:3px;
+  padding:10px 14px;margin-bottom:12px;font-size:13px;font-weight:700;animation:pulse 1.5s ease-in-out infinite}
+.feedline{text-align:center;font-weight:600;font-size:14px;color:var(--ink2);min-height:22px;margin:8px 0 2px}
+
+/* SUMMARY / STAT ROWS */
+.sum-row,.srow{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:2px solid var(--overlay);font-size:14px}
+.sum-row:last-child,.srow:last-child{border-bottom:none}
+.sum-label,.sl{color:var(--ink2);font-weight:600}
+.sum-val,.sv{font-weight:800;color:var(--ink)}
+.srow{font-size:13px}
+
+/* RESULT OVERLAY */
+.res-ov{position:fixed;inset:0;z-index:400;display:flex;align-items:center;justify-content:center;pointer-events:none;
+  background:rgba(10,10,10,.5);backdrop-filter:blur(4px)}
+.res-box{border-radius:6px;padding:32px 40px;text-align:center;pointer-events:none;animation:resultIn .45s ease;max-width:360px;width:90%;
+  background:var(--raised);border:3px solid var(--line);box-shadow:8px 8px 0 var(--sc)}
+.res-box.ok  {border-color:#0A0A0A;box-shadow:8px 8px 0 var(--yellow)}
+.res-box.err {border-color:var(--danger);box-shadow:8px 8px 0 var(--danger)}
+.res-box.neu {border-color:#0A0A0A;box-shadow:8px 8px 0 var(--yellow)}
+.res-box.hope{background:var(--yellow);border-color:#0A0A0A;box-shadow:8px 8px 0 #0A0A0A}
+.res-box.hope .res-title,.res-box.hope .res-sub{color:#0A0A0A}
+.res-icon{font-size:52px;display:block;margin-bottom:10px;animation:float 2s ease-in-out infinite}
+.res-title{font-family:'Anton';font-size:24px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;color:var(--ink)}
+.res-sub{font-size:13px;font-weight:600;color:var(--ink2)}
+
+/* MODAL */
+.modal-bg{position:fixed;inset:0;background:rgba(10,10,10,.65);z-index:300;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(3px)}
+.modal{background:var(--raised);border:3px solid var(--line);border-radius:6px;padding:22px;max-width:420px;width:90%;
+  animation:popIn .3s ease;box-shadow:8px 8px 0 var(--sc)}
+.modal h3{font-family:'Anton';color:var(--ink);margin-bottom:12px;font-size:20px;text-transform:uppercase;letter-spacing:1px}
+.mbr{display:flex;gap:10px;margin-top:14px}
+.mbr button{flex:1}
+
+/* CANVAS */
+#pc{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:399}
+
+/* END SCORE */
+.big-score{font-family:'Anton';font-size:64px;color:var(--ink);text-align:center;margin:8px 0;line-height:1;letter-spacing:1px}
+.score-context{font-weight:700;font-size:14px;color:var(--ink2);text-align:center;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
+.closing-q{font-family:'Anton';font-size:20px;color:var(--ink);text-align:center;letter-spacing:1px;text-transform:uppercase;margin:18px 0 2px;transform:rotate(-1.5deg)}
+</style>
+</head>
+<body>
+
+<div class="wave-bg"></div>
+<button class="theme-btn" id="tbtn" onclick="toggleTheme()">&#9788; Light</button>
+<canvas id="pc"></canvas>
+<div id="res-ov" class="res-ov" style="display:none"></div>
+<div id="modal-root"></div>
+
+<!-- SETUP -->
+<div id="sc-setup" class="screen active">
+  <div style="padding-top:36px">
+    <div class="tb">
+      <p class="sub">To Hope Is To Risk</p>
+      <h1><span>Face</span><span>Your</span><span>Hope</span></h1>
+      <p class="byline">Bhavya Kamdar</p>
+    </div>
+    <div class="card">
+      <h3 style="font-family:'Anton';font-size:16px;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:12px">Your Name</h3>
+      <input type="text" placeholder="Enter your name" id="player-name"/>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:2px solid var(--overlay);margin-top:4px">
+        <span style="font-size:13px;font-weight:700;color:var(--ink2)">Target Score <span style="color:var(--muted);font-size:11px">(over 5 rounds)</span></span>
+        <input type="number" id="score-target" value="8" min="1" max="30" style="width:72px;margin:0;text-align:center"/>
+      </div>
+      <button class="btn-p" onclick="startGame()">Begin</button>
+    </div>
+    <div id="best-score-display"></div>
+  </div>
+</div>
+
+<!-- SHIP ANIMATION (auto-plays, then advances to intro) -->
+<div id="sc-anim" class="screen anim-screen">
+  <div class="anim-stage">
+    <div class="anim-caption">
+      <div class="t">The Ship Is Sinking</div>
+      <div class="s">Can you save it?</div>
+    </div>
+    <div class="ship-anchor">
+      <div class="ship-move">
+        <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">
+          <!-- mast -->
+          <rect x="66" y="26" width="5" height="58" fill="var(--ink)"/>
+          <rect x="66" y="30" width="30" height="4" fill="var(--ink)"/>
+          <!-- funnel -->
+          <rect x="120" y="36" width="20" height="26" fill="var(--ink)"/>
+          <!-- superstructure -->
+          <rect x="96" y="54" width="60" height="30" rx="3" fill="var(--ink)"/>
+          <!-- hull -->
+          <path d="M14,84 L226,84 C226,84 214,120 190,120 L50,120 C26,120 14,84 14,84 Z" fill="var(--ink)"/>
+          <!-- portholes (knock-outs) -->
+          <circle cx="108" cy="69" r="4" fill="var(--bg)"/>
+          <circle cx="126" cy="69" r="4" fill="var(--bg)"/>
+          <circle cx="144" cy="69" r="4" fill="var(--bg)"/>
+        </svg>
+      </div>
+    </div>
+    <div class="sea-wrap">
+      <svg class="sea-svg" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C180,110 360,10 540,60 C720,110 900,10 1080,60 C1260,110 1440,30 1440,60 L1440,200 L0,200 Z" fill="var(--yellow2)"/>
+        <path d="M0,90 C180,130 360,50 540,90 C720,130 900,50 1080,90 C1260,130 1440,70 1440,90 L1440,200 L0,200 Z" fill="var(--yellow)"/>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<!-- INTRO -->
+<div id="sc-intro" class="screen">
+  <div style="padding-top:30px">
+    <div class="tb">
+      <p class="sub">To Hope Is To Risk</p>
+      <h1><span>Face</span><span>Your</span><span>Hope</span></h1>
+      <span class="ital" id="intro-welcome">Welcome</span>
+    </div>
+    <div class="card" style="font-size:13px;color:var(--ink2);line-height:1.85;font-weight:500">
+      <p style="color:var(--ink);font-weight:700">For years you built this ship. Now it's sinking, beginning to tilt toward rolling over. You have 5 rounds to save the ship.</p>
+      <br>
+      <p>You save a sinking ship by letting the <em>right</em> water in — opening the one compartment that counterbalances the ship and settles it level again. Each round you face a set of sealed compartments, and one key opens the correct one. You get <strong style="color:var(--ink)">6 attempts</strong> to find it. Find the right key and you steady the ship — worth <strong style="color:var(--ink)">+2</strong>. A wrong key simply doesn't open; it only costs you the attempt, never the ship.</p>
+      <br>
+      <p>Can't find the key in time? Take the <strong style="color:var(--ink)">lifeboat</strong> and save yourself instead — claim number bundles across 1&ndash;100 and let the sea draw. Land in a claimed bundle and you survive, worth <strong style="color:var(--ink)">+1</strong>. The <strong>earlier</strong> you bail, the more bundles you get.</p>
+      <br>
+      <p><strong style="color:var(--ink)">Increase Key Chance:</strong> once per game, in a single round, discard one wrong key &mdash; tightening your odds on the compartments that remain.</p>
+      <br>
+      <p><strong style="color:var(--ink)">Double Lifeboat:</strong> once per game, double your lifeboat bundle count for a single round.</p>
+      <br>
+      <p style="color:var(--muted)">Reach <strong style="color:var(--ink)" id="intro-target">8</strong> points across 5 rounds and you keep the ship afloat &mdash; you face your hope.</p>
+    </div>
+    <button class="btn-p" onclick="beginPlay()">Cast Off</button>
+  </div>
+</div>
+
+<!-- PLAY -->
+<div id="sc-play" class="screen">
+  <div style="padding-top:10px">
+    <div style="display:flex;gap:10px;align-items:stretch;margin-bottom:12px">
+      <div class="tb-sm">
+        <h1>Face Your Hope</h1>
+        <p class="sub">To Hope Is To Risk</p>
+      </div>
+      <button class="btn-sm" onclick="showStatus()" style="white-space:nowrap">Stats</button>
+    </div>
+
+    <div class="hope-meter" id="hope-meter">
+      <div class="hm-top">
+        <span class="hm-title">&#10022; Hope Meter</span>
+        <span class="hm-nums" id="hm-nums"><strong>0</strong> / <strong id="hm-target">8</strong></span>
+      </div>
+      <div class="hm-track"><div class="hm-fill" id="hm-fill" style="width:0%"></div></div>
+      <p class="hm-label" id="hm-label">Every point brings you closer to hope.</p>
+    </div>
+
+    <div class="round-tracker" id="round-tracker"></div>
+    <div id="turn-card"></div>
+  </div>
+</div>
+
+<!-- END -->
+<div id="sc-end" class="screen">
+  <div style="padding-top:30px">
+    <div class="tb">
+      <p class="sub" id="end-sub">The Voyage Ends</p>
+      <h1><span>Face</span><span>Your</span><span>Hope</span></h1>
+      <span class="ital" id="end-ital">The dice are cast.</span>
+    </div>
+    <div class="card" id="end-card"></div>
+    <button class="btn-p" onclick="location.reload()">Sail Again</button>
+  </div>
+</div>
+
+<script>
+
+/* ---------------- persistence (graceful) ---------------- */
+function loadBest(){ try{ const v=localStorage.getItem('fyh_best'); return v?JSON.parse(v):null; }catch(e){ return null; } }
+function saveBest(v){ try{ localStorage.setItem('fyh_best',JSON.stringify(v)); }catch(e){} }
+
+/* ---------------- theme ---------------- */
+function toggleTheme(){
+  const el=document.documentElement, cur=el.getAttribute('data-theme');
+  const next=cur==='dark'?'light':'dark';
+  el.setAttribute('data-theme',next);
+  document.getElementById('tbtn').textContent = next==='dark' ? '☀️ Light' : '🌙 Dark';
+}
+
+/* ---------------- game state ---------------- */
+const TOTAL_ROUNDS=5;
+const MAX_ATTEMPTS=6;
+const KEYS_PER_ROUND=[8,9,10,11,12];  // difficulty curve r1..r5
+const BASE_BUNDLES=12;               // bundles if lifeboat taken immediately
+const BUNDLE_SIZE=4;                 // each bundle covers 4 numbers of 1..100
+
+let G=null;   // game
+let R=null;   // current round
+
+function fresh(name,target){
+  return { name, target, round:0, score:0, results:[], secondChanceUsed:false, keyChanceUsed:false };
+}
+
+/* ---------------- screen flow ---------------- */
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function renderBest(){
+  const b=loadBest(), el=document.getElementById('best-score-display');
+  if(!b){ el.innerHTML=''; return; }
+  el.innerHTML=`<div class="card-s" style="text-align:center">
+    <div style="font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--txt3)">Best Voyage</div>
+    <div class="lbcount" style="color:var(--hopetx);margin-top:4px">${b.score} pts</div>
+    <div style="font-size:12px;color:var(--txt2)">${b.name} ${b.won?'· reached hope':''}</div>
+  </div>`;
+}
+
+function startGame(){
+  const name=(document.getElementById('player-name').value||'Voyager').trim().slice(0,24);
+  let t=parseInt(document.getElementById('score-target').value,10);
+  if(isNaN(t)||t<1) t=8; if(t>30) t=30;
+  G=fresh(name,t);
+  document.getElementById('intro-welcome').textContent=`Welcome aboard, ${name}.`;
+  document.getElementById('intro-target').textContent=t;
+  playIntroAnim();
+}
+
+function playIntroAnim(){
+  show('sc-anim');
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hold = reduced ? 1200 : 4000;   // auto-advance, no input needed
+  setTimeout(()=>{ show('sc-intro'); }, hold);
+}
+
+function beginPlay(){
+  document.getElementById('hm-target').textContent=G.target;
+  show('sc-play');
+  nextRound();
+}
+
+/* ---------------- round lifecycle ---------------- */
+function nextRound(){
+  if(G.round>=TOTAL_ROUNDS){ endGame(); return; }
+  G.round++;
+  const keyCount=KEYS_PER_ROUND[G.round-1];
+  R={
+    keyCount,
+    trueKey: Math.floor(Math.random()*keyCount),
+    removed: new Set(),        // keys taken out by Increase Key Chance
+    tried: [],                 // indices tried
+    attemptsUsed:0,
+    phase:'keys',              // keys | lifeboat | done
+    resolved:false,
+    keyChanceUsed:false,       // used in THIS round
+    secondChanceActive:false,
+    selected:new Set(),
+    drawn:null,
+    outcome:null,              // 'key' | 'lifeboat' | 'lost'
+    points:0
+  };
+  renderTracker();
+  renderTurn();
+}
+
+function renderTracker(){
+  const t=document.getElementById('round-tracker'); t.innerHTML='';
+  for(let i=0;i<TOTAL_ROUNDS;i++){
+    const pip=document.createElement('div'); pip.className='rt-pip';
+    const res=G.results[i];
+    if(res){ pip.classList.add(res.points>0?'done':'lost'); }
+    else if(i===G.round-1){ pip.classList.add('active'); }
+    t.appendChild(pip);
+  }
+}
+
+function updateHope(){
+  const pct=Math.min(100,(G.score/G.target)*100);
+  const fill=document.getElementById('hm-fill');
+  fill.style.width=pct+'%';
+  document.getElementById('hm-nums').innerHTML=`<strong>${G.score}</strong> / <strong>${G.target}</strong>`;
+  const meter=document.getElementById('hope-meter');
+  if(G.score>=G.target){ fill.classList.add('done'); meter.classList.add('unlocked');
+    document.getElementById('hm-label').textContent='Hope reached — but the voyage isn\u2019t over.'; }
+  else { fill.classList.remove('done'); meter.classList.remove('unlocked');
+    document.getElementById('hm-label').textContent=`${Math.max(0,G.target-G.score)} more to face your hope.`; }
+}
+
+/* ---------------- bundle math ---------------- */
+function bundleAllowance(){
+  let n=BASE_BUNDLES-R.attemptsUsed;              // earlier = more
+  if(n<3) n=3;
+  if(R.secondChanceActive) n=n*2;
+  const totalBundles=Math.floor(100/BUNDLE_SIZE); // 25
+  return Math.max(1,Math.min(totalBundles,n));
+}
+
+/* ---------------- render turn ---------------- */
+function renderTurn(){
+  const c=document.getElementById('turn-card');
+  updateHope();
+
+  if(R.phase==='keys')      c.innerHTML=keysHTML();
+  else if(R.phase==='lifeboat') c.innerHTML=lifeboatHTML();
+  else if(R.phase==='done') c.innerHTML=summaryHTML();
+
+  if(R.phase==='keys') bindKeys();
+  if(R.phase==='lifeboat') bindBundles();
+}
+
+function liveKeyCount(){ return R.keyCount - R.removed.size; }
+
+function keysHTML(){
+  let pips='';
+  for(let i=0;i<MAX_ATTEMPTS;i++){
+    const cls = i<R.attemptsUsed?'used':(i===R.attemptsUsed?'current':'empty');
+    pips+=`<div class="kp ${cls}">${i<R.attemptsUsed?'✕':(i===R.attemptsUsed?'?':'')}</div>`;
+  }
+  let keys='';
+  for(let i=0;i<R.keyCount;i++){
+    if(R.removed.has(i)) continue;              // key taken out of the lineup
+    const wasTried=R.tried.includes(i);
+    keys+=`<button class="key-btn ${wasTried?'tried-bad':''}" data-k="${i}" ${wasTried?'disabled':''}>🔑</button>`;
+  }
+
+  // Increase Key Chance — once per game, one round only, anytime in the round
+  const canKeyChance = !G.keyChanceUsed && !R.keyChanceUsed && liveKeyCount()>1;
+  const keyChanceBtn = G.keyChanceUsed ? '' :
+    `<button class="btn-storm" id="btn-kc" ${canKeyChance?'':'disabled'}>
+       <span>✦ Increase Key Chance</span>
+       <span class="tag-storm">remove 1 key · once per game</span></button>`;
+
+  const sc = G.secondChanceUsed ? '' :
+    `<button class="btn-storm" id="btn-sc"><span>✦ Arm Double Lifeboat</span><span class="tag-storm">×2 bundles</span></button>`;
+  const scNote = R.secondChanceActive ? `<div style="font-size:11px;color:var(--ink2);text-align:center;margin:2px 0 8px">Double Lifeboat armed — your lifeboat bundles will double.</div>`:'';
+
+  return `
+  <div class="card-key">
+    <div class="turn-header">
+      <span class="round-pill">Round <span>${G.round}</span> / ${TOTAL_ROUNDS}</span>
+      <span class="tag-warn">${liveKeyCount()} compartments · one steadies</span>
+    </div>
+    <div class="key-pips">${pips}</div>
+    <div style="text-align:center;font-size:12px;color:var(--txt3)">${MAX_ATTEMPTS-R.attemptsUsed} attempts left</div>
+    <div class="key-grid">${keys}</div>
+    <div class="feedline" id="feed">Choose a key to open a compartment. Or take the boat and save yourself.</div>
+  </div>
+  ${scNote}
+  <button class="btn-lb" onclick="openLifeboat()">
+    <span>🛟 Take the Lifeboat</span>
+    <span class="tag-lb">${bundleAllowance()} bundles · +1</span>
+  </button>
+  ${keyChanceBtn}
+  ${sc}`;
+}
+
+function bindKeys(){
+  document.querySelectorAll('.key-btn').forEach(b=>{
+    b.addEventListener('click',()=>tryKey(parseInt(b.dataset.k,10),b));
+  });
+  const sc=document.getElementById('btn-sc');
+  if(sc) sc.addEventListener('click',()=>{
+    R.secondChanceActive=!R.secondChanceActive;
+    renderTurn();
+  });
+  const kc=document.getElementById('btn-kc');
+  if(kc) kc.addEventListener('click',useKeyChance);
+}
+
+function useKeyChance(){
+  if(R.resolved) return;
+  if(G.keyChanceUsed || R.keyChanceUsed) return;
+  // remove one untried, non-true key from the live lineup
+  const candidates=[];
+  for(let i=0;i<R.keyCount;i++){
+    if(i===R.trueKey) continue;
+    if(R.removed.has(i)) continue;
+    if(R.tried.includes(i)) continue;
+    candidates.push(i);
+  }
+  if(!candidates.length) return;
+  const pick=candidates[Math.floor(Math.random()*candidates.length)];
+  R.removed.add(pick);
+  R.keyChanceUsed=true;
+  G.keyChanceUsed=true;
+  const feed=`A false key discarded. ${liveKeyCount()} remain — your odds just rose.`;
+  const c=document.getElementById('turn-card');
+  c.innerHTML=keysHTML(); bindKeys();
+  document.getElementById('feed').textContent=feed;
+}
+
+function tryKey(i,btn){
+  if(R.resolved) return;
+  if(R.tried.includes(i)) return;
+  R.tried.push(i);
+  R.attemptsUsed++;
+  if(i===R.trueKey){
+    btn.classList.remove('tried-bad'); btn.classList.add('tried-good');
+    document.getElementById('feed').textContent='The compartment opens. The ship steadies.';
+    resolve('key',2,'🔑','Compartment Opened','The ship levels. You saved it. +2');
+  } else {
+    btn.classList.add('tried-bad');
+    if(R.attemptsUsed>=MAX_ATTEMPTS){
+      document.getElementById('feed').textContent='No key left. The ship rolls over.';
+      resolve('lost',0,'🌊','The Ship Is Lost','No compartment opened, no boat taken. +0');
+    } else {
+      const left=MAX_ATTEMPTS-R.attemptsUsed;
+      document.getElementById('feed').textContent = left===1
+        ? 'That one won\u2019t open. One attempt remains.'
+        : `That one won\u2019t open. ${left} attempts remain.`;
+      // re-render key panel so lifeboat allowance shrinks
+      const c=document.getElementById('turn-card');
+      const feed=document.getElementById('feed').textContent;
+      c.innerHTML=keysHTML(); bindKeys();
+      document.getElementById('feed').textContent=feed;
+    }
+  }
+}
+
+/* ---------------- lifeboat ---------------- */
+function openLifeboat(){
+  if(R.resolved) return;
+  R.phase='lifeboat';
+  R.selected=new Set();
+  renderTurn();
+}
+
+function lifeboatHTML(){
+  const allow=bundleAllowance();
+  const totalBundles=Math.floor(100/BUNDLE_SIZE);
+  let grid='';
+  for(let i=0;i<totalBundles;i++){
+    const lo=i*BUNDLE_SIZE+1, hi=lo+BUNDLE_SIZE-1;
+    grid+=`<button class="bundle-btn" data-b="${i}">
+      <span class="range">${lo}–${hi}</span><span class="count">4 nums</span></button>`;
+  }
+  const scNote = R.secondChanceActive ? `<div style="font-size:12px;color:var(--ink2);text-align:center;margin-bottom:8px">✦ Double Lifeboat active — bundles doubled.</div>`:'';
+  return `
+  <div class="card-lb">
+    <div class="turn-header">
+      <span class="round-pill">Round <span>${G.round}</span> / ${TOTAL_ROUNDS}</span>
+      <span class="tag-lb">Lifeboat · +1 to survive</span>
+    </div>
+    ${scNote}
+    <p style="text-align:center;font-size:13px;color:var(--txt2);margin-bottom:4px">
+      Claim <strong class="lbcount" id="lb-remaining">${allow}</strong> bundles across 1–100.<br>
+      <span style="font-size:11px;color:var(--txt3)">The sea draws one number. Land in a claimed bundle and you live.</span>
+    </p>
+    <div class="bundle-grid" id="bundle-grid">${grid}</div>
+    <button class="btn-p" id="lb-confirm" disabled onclick="confirmLifeboat()">Board the Lifeboat</button>
+    ${R.attemptsUsed===0 ? `<button class="btn-ghost" onclick="backToKeys()">↩ Back to the keys</button>`:''}
+  </div>`;
+}
+
+function bindBundles(){
+  const allow=bundleAllowance();
+  document.querySelectorAll('.bundle-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const i=parseInt(b.dataset.b,10);
+      if(R.selected.has(i)){ R.selected.delete(i); b.classList.remove('sel'); }
+      else if(R.selected.size<allow){ R.selected.add(i); b.classList.add('sel'); }
+      const remaining=allow-R.selected.size;
+      document.getElementById('lb-remaining').textContent=remaining;
+      document.getElementById('lb-confirm').disabled=R.selected.size===0;
+      // disable unselected when full
+      document.querySelectorAll('.bundle-btn').forEach(bb=>{
+        const idx=parseInt(bb.dataset.b,10);
+        bb.disabled = (R.selected.size>=allow && !R.selected.has(idx));
+      });
+    });
+  });
+}
+
+function backToKeys(){ R.phase='keys'; renderTurn(); }
+
+function confirmLifeboat(){
+  if(R.resolved) return;
+  if(R.secondChanceActive) G.secondChanceUsed=true;
+  const draw=Math.floor(Math.random()*100)+1;
+  R.drawn=draw;
+  const hitBundle=Math.floor((draw-1)/BUNDLE_SIZE);
+  const survived=R.selected.has(hitBundle);
+  // reveal draw briefly
+  const el=document.querySelector(`.bundle-btn[data-b="${hitBundle}"]`);
+  if(el) el.classList.add('hit');
+  setTimeout(()=>{
+    if(survived) resolve('lifeboat',1,'🛟','The Sea Spared You',`It drew ${draw}. You claimed it. +1`);
+    else resolve('lost',0,'🌊','Swallowed by the Sea',`It drew ${draw}. Not yours. +0`);
+  },650);
+}
+
+/* ---------------- resolve + summary ---------------- */
+function resolve(outcome,pts,icon,title,sub){
+  R.resolved=true; R.outcome=outcome; R.points=pts;
+  G.score+=pts;
+  G.results[G.round-1]={ round:G.round, outcome, points:pts,
+    attemptsUsed:R.attemptsUsed, keyChance:R.keyChanceUsed, secondChance:R.secondChanceActive, drawn:R.drawn };
+  const cls = outcome==='key'?'ok':(outcome==='lifeboat'?'neu':'err');
+  flashResult(cls,icon,title,sub);
+  if(pts>0) confetti(outcome==='key'?70:45);
+  setTimeout(()=>{
+    R.phase='done';
+    renderTracker();
+    renderTurn();
+  },1500);
+}
+
+function summaryHTML(){
+  const last=G.results[G.round-1];
+  const label = last.outcome==='key'?'Key turned':(last.outcome==='lifeboat'?'Lifeboat survived':'Lost to the sea');
+  const tag = last.points>0?`<span class="tag-ok">+${last.points}</span>`:`<span class="tag-err">+0</span>`;
+  const more = G.round<TOTAL_ROUNDS;
+  return `
+  <div class="card-sum">
+    <div class="turn-header">
+      <span class="round-pill">Round <span>${G.round}</span> complete</span>
+      ${tag}
+    </div>
+    <div class="sum-row"><span class="sum-label">Outcome</span><span class="sum-val">${label}</span></div>
+    <div class="sum-row"><span class="sum-label">Keys tried</span><span class="sum-val">${last.attemptsUsed}</span></div>
+    ${last.drawn?`<div class="sum-row"><span class="sum-label">Sea drew</span><span class="sum-val">${last.drawn}</span></div>`:''}
+    ${last.keyChance?`<div class="sum-row"><span class="sum-label">Key Chance</span><span class="sum-val">✦ used</span></div>`:''}
+    ${last.secondChance?`<div class="sum-row"><span class="sum-label">Double Lifeboat</span><span class="sum-val">✦ spent</span></div>`:''}
+    <div class="sum-row"><span class="sum-label">Total hope</span><span class="sum-val" style="color:var(--hopetx)">${G.score} / ${G.target}</span></div>
+  </div>
+  <button class="btn-p" onclick="nextRound()">${more?'Next Round ⚓':'See the Voyage End'}</button>`;
+}
+
+/* ---------------- end ---------------- */
+function endGame(){
+  const won=G.score>=G.target;
+  const keyWins=G.results.filter(r=>r.outcome==='key').length;
+  const boatWins=G.results.filter(r=>r.outcome==='lifeboat').length;
+  const losses=G.results.filter(r=>r.outcome==='lost').length;
+
+  const best=loadBest();
+  const isBest=!best || G.score>best.score;
+  if(isBest) saveBest({name:G.name,score:G.score,won});
+
+  document.getElementById('end-sub').textContent = won?'HOPE, FACED':'THE SEA WON THIS TIME';
+  document.getElementById('end-ital').textContent = won
+    ? 'You risked, and hope answered.'
+    : 'To hope is to risk. Risk again.';
+
+  const card=document.getElementById('end-card');
+  card.innerHTML=`
+    <div class="score-context">${G.name}, your voyage scored</div>
+    <div class="big-score">${G.score}<span style="font-size:22px;color:var(--txt3)"> / ${G.target}</span></div>
+    <div style="text-align:center;margin-bottom:14px">
+      ${won?'<span class="tag-ok" style="font-size:13px;padding:5px 16px">Hope reached ✦</span>'
+            :'<span class="tag-err" style="font-size:13px;padding:5px 16px">Fell short</span>'}
+      ${isBest?'<span class="tag-warn" style="font-size:13px;padding:5px 16px;margin-left:6px">New best</span>':''}
+    </div>
+    <div class="srow"><span class="sl">🔑 Keys turned</span><span class="sv">${keyWins} · +${keyWins*2}</span></div>
+    <div class="srow"><span class="sl">🛟 Lifeboats survived</span><span class="sv">${boatWins} · +${boatWins}</span></div>
+    <div class="srow"><span class="sl">🌊 Rounds lost</span><span class="sv">${losses}</span></div>
+    <div class="closing-q">So, can you face your Hope?</div>
+  `;
+  if(won) confetti(140);
+  renderBest();
+  show('sc-end');
+}
+
+/* ---------------- stats modal ---------------- */
+function showStatus(){
+  const rows=G.results.map((r,i)=>{
+    const l = r.outcome==='key'?'🔑 Key':(r.outcome==='lifeboat'?'🛟 Boat':'🌊 Lost');
+    return `<div class="srow"><span class="sl">Round ${i+1}</span><span class="sv">${l} · +${r.points}</span></div>`;
+  }).join('') || '<div class="srow"><span class="sl">No rounds yet</span></div>';
+  const root=document.getElementById('modal-root');
+  root.innerHTML=`<div class="modal-bg" onclick="closeModal(event)">
+    <div class="modal" onclick="event.stopPropagation()">
+      <h3>Voyage Log — ${G.name}</h3>
+      ${rows}
+      <div class="srow" style="margin-top:6px"><span class="sl" style="color:var(--hopetx)">Hope</span>
+        <span class="sv" style="color:var(--hopetx)">${G.score} / ${G.target}</span></div>
+      <div class="srow"><span class="sl">Increase Key Chance</span><span class="sv">${G.keyChanceUsed?'spent':'available'}</span></div>
+      <div class="srow"><span class="sl">Double Lifeboat</span><span class="sv">${G.secondChanceUsed?'spent':'available'}</span></div>
+      <div class="mbr"><button class="btn-p" onclick="closeModal()">Close</button></div>
+    </div></div>`;
+}
+function closeModal(e){ if(e&&e.target.closest('.modal'))return; document.getElementById('modal-root').innerHTML=''; }
+
+/* ---------------- result overlay ---------------- */
+function flashResult(cls,icon,title,sub){
+  const ov=document.getElementById('res-ov');
+  ov.style.display='flex';
+  ov.innerHTML=`<div class="res-box ${cls}">
+    <span class="res-icon">${icon}</span>
+    <div class="res-title">${title}</div>
+    <div class="res-sub">${sub}</div>
+  </div>`;
+  setTimeout(()=>{ ov.style.display='none'; ov.innerHTML=''; },1450);
+}
+
+/* ---------------- confetti ---------------- */
+const pc=document.getElementById('pc'); const pctx=pc.getContext('2d');
+let parts=[];
+function sizeCanvas(){ pc.width=innerWidth; pc.height=innerHeight; }
+sizeCanvas(); addEventListener('resize',sizeCanvas);
+function confetti(n){
+  const colors=['#FCFF35','#0A0A0A','#111111','#FCFF35','#FCFF35'];
+  for(let i=0;i<n;i++){
+    parts.push({x:innerWidth/2+(Math.random()-0.5)*120, y:innerHeight/2-40,
+      vx:(Math.random()-0.5)*9, vy:Math.random()*-11-3,
+      s:Math.random()*6+3, c:colors[Math.floor(Math.random()*colors.length)],
+      life:70+Math.random()*40, rot:Math.random()*6, vr:(Math.random()-0.5)*0.4});
+  }
+}
+function tick(){
+  pctx.clearRect(0,0,pc.width,pc.height);
+  parts=parts.filter(p=>p.life>0);
+  parts.forEach(p=>{
+    p.vy+=0.35; p.x+=p.vx; p.y+=p.vy; p.rot+=p.vr; p.life--;
+    pctx.save(); pctx.translate(p.x,p.y); pctx.rotate(p.rot);
+    pctx.globalAlpha=Math.max(0,Math.min(1,p.life/40));
+    pctx.fillStyle=p.c; pctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6); pctx.restore();
+  });
+  requestAnimationFrame(tick);
+}
+tick();
+
+/* ---------------- init ---------------- */
+renderBest();
+document.getElementById('tbtn').textContent='\u263e Dark';
+document.getElementById('player-name').addEventListener('keydown',e=>{ if(e.key==='Enter') startGame(); });
+
+</script>
+</body>
+</html>
