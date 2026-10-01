@@ -389,6 +389,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
         <input type="number" id="score-target" value="8" min="1" max="30" style="width:72px;margin:0;text-align:center"/>
       </div>
       <button class="btn-p" onclick="startGame()">Begin</button>
+      <button class="btn-ghost" id="replay-tut" onclick="startGame(true)" style="display:none">&#9654; How to play</button>
     </div>
     <div id="best-score-display"></div>
   </div>
@@ -502,6 +503,8 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 /* ---------------- persistence (graceful) ---------------- */
 function loadBest(){ try{ const v=localStorage.getItem('fyh_best'); return v?JSON.parse(v):null; }catch(e){ return null; } }
 function saveBest(v){ try{ localStorage.setItem('fyh_best',JSON.stringify(v)); }catch(e){} }
+function hasSeenIntro(){ try{ return localStorage.getItem('fyh_seen_intro')==='1'; }catch(e){ return false; } }
+function markIntroSeen(){ try{ localStorage.setItem('fyh_seen_intro','1'); }catch(e){} }
 
 /* ---------------- theme ---------------- */
 function toggleTheme(){
@@ -598,6 +601,7 @@ function goHome(){
   const mr=document.getElementById('modal-root'); if(mr) mr.innerHTML='';
   const ov=document.getElementById('res-ov'); if(ov){ ov.style.display='none'; ov.innerHTML=''; }
   SFX.play('click');
+  if(hasSeenIntro()) document.getElementById('replay-tut').style.display='';
   show('sc-setup');
 }
 function show(id){
@@ -616,7 +620,7 @@ function renderBest(){
   </div>`;
 }
 
-function startGame(){
+function startGame(withTutorial){
   SFX.play('click');
   const name=(document.getElementById('player-name').value||'Voyager').trim().slice(0,24);
   let t=parseInt(document.getElementById('score-target').value,10);
@@ -625,7 +629,9 @@ function startGame(){
   G=fresh(name,t);
   document.getElementById('intro-welcome').textContent=`Welcome aboard, ${name}.`;
   document.getElementById('intro-target').textContent=t;
-  playIntroAnim();
+  // first voyage gets the sinking-ship intro + tutorial; returning players go straight to sea
+  if(withTutorial || !hasSeenIntro()) playIntroAnim();
+  else beginPlay(true);
 }
 
 function playIntroAnim(){
@@ -690,10 +696,11 @@ function beatKeyChance(stage,cap){
   iT(()=>document.getElementById('vb2')?.classList.add('hit'),2100);
 }
 
-function beginPlay(){
+function beginPlay(quiet){
   clearInstr();
   stopStorm();
-  SFX.play('click');
+  markIntroSeen();
+  if(!quiet) SFX.play('click');
   updateHope(); updateResource();
   show('sc-play');
   nextRound();
@@ -1111,6 +1118,7 @@ tick();
 
 /* ---------------- init ---------------- */
 renderBest();
+if(hasSeenIntro()) document.getElementById('replay-tut').style.display='';
 document.getElementById('tbtn').textContent='☾ Dark';
 document.getElementById('player-name').addEventListener('keydown',e=>{ if(e.key==='Enter') startGame(); });
 SFX.initMuted();
