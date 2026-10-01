@@ -567,18 +567,18 @@ const PRESS_NUDGE=42;                 // deg/s impulse per helm tap
 const DEADZONE=6;                     // within ±6° costs no Resource
 const CAPSIZE=46;                     // beyond ±46° held too long = capsize
 const CAPSIZE_HOLD=1100;              // ms past capsize angle before she goes down
-const DRAIN_K=0.12;                   // Resource drained per (deg off-level) per second — a sloppy helm loses ~15 a storm, so the pool lasts 3–4 rounds
-const CAPSIZE_COST=12;                // flat Resource burned when the ship capsizes
+const DRAIN_K=0.07;                   // Resource drained per (deg off-level) per second — a sloppy helm loses ~10 a storm
 const RESUPPLY_BELOW=30;              // at round end, Resource under this triggers a resupply
 const RESUPPLY_AMOUNT=40;             // Resource added by a resupply
 const RESCUE_MIN=5, RESCUE_MAX=9;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
 // storm difficulty per round: gust strength, instability, gust interval (ms)
+// starts gentle and ramps up; round 5 tops out at what used to be round 3
 const STORM=[
-  {gust:24, inst:0.9,  iv:1500},
-  {gust:31, inst:1.15, iv:1250},
-  {gust:39, inst:1.45, iv:1050},
-  {gust:48, inst:1.75, iv:880},
-  {gust:58, inst:2.10, iv:740}
+  {gust:16, inst:0.6,  iv:1900},
+  {gust:22, inst:0.8,  iv:1650},
+  {gust:28, inst:1.0,  iv:1400},
+  {gust:33, inst:1.2,  iv:1200},
+  {gust:39, inst:1.45, iv:1050}
 ];
 
 let G=null;   // game
@@ -848,9 +848,8 @@ function onDrift(){
 }
 function stormWin(){ stopStorm(); if(R.resolved)return; resolve('storm',2,'⛵','Through The Storm','You held her level. +2'); }
 function stormLose(){
-  // Capsize no longer ends the round outright — it burns Resource and drops you into a stingy rescue lifeboat.
+  // Capsize no longer ends the round outright — it drops you into a stingy rescue lifeboat (no Resource cost).
   stopStorm(); if(R.resolved) return;
-  G.resource = Math.max(0, G.resource - CAPSIZE_COST);
   R.rescue = true;
   SFX.play('lose');
   flashResult('err','🌊','Capsized!','Scramble for the lifeboat — the sea is close.');
