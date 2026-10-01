@@ -109,18 +109,28 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overfl
 .tb-sm .sub{position:relative;z-index:2;font-family:'Inter';font-size:8px;font-weight:800;letter-spacing:3px;
   text-transform:uppercase;color:var(--ink2);margin-top:2px}
 
-/* HOPE METER */
-.hope-meter{background:var(--raised);border:2.5px solid var(--line);border-radius:4px;padding:14px 16px;margin-bottom:14px;
-  box-shadow:5px 5px 0 var(--sc);transition:var(--trans)}
-.hope-meter.unlocked{animation:hopePulse 1.6s ease-in-out infinite}
-.hm-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
-.hm-title{font-family:'Anton';font-size:15px;color:var(--ink);letter-spacing:1.5px;text-transform:uppercase}
-.hm-nums{font-size:13px;font-weight:700;color:var(--ink2)}
-.hm-nums strong{color:var(--ink);font-weight:900}
-.hm-track{height:14px;background:var(--overlay);border:2px solid var(--line);border-radius:2px;overflow:hidden}
-.hm-fill{height:100%;background:var(--yellow);transition:width .8s cubic-bezier(.4,0,.2,1)}
-.hm-fill.done{background:repeating-linear-gradient(45deg,var(--yellow),var(--yellow) 8px,var(--yellow2) 8px,var(--yellow2) 16px)}
-.hm-label{font-size:12px;color:var(--muted);margin-top:6px;font-weight:500}
+/* SCORE CHIP */
+.score-chip{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:74px;padding:4px 10px;
+  background:var(--yellow);color:#0A0A0A;border:2px solid #0A0A0A;border-radius:4px;box-shadow:2px 2px 0 var(--sc);margin-bottom:12px}
+.score-chip .sc-l{font-size:8px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
+.score-chip .sc-v{font-family:'Anton';font-size:22px;line-height:1}
+.score-chip .sc-v small{font-size:12px;opacity:.7}
+.score-chip.won{animation:hopePulse 1.6s ease-in-out infinite}
+@keyframes hopePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+
+/* ROUND-1 COUNTDOWN */
+.cd-ov{position:fixed;inset:0;z-index:450;display:flex;align-items:center;justify-content:center;
+  background:rgba(10,10,10,.55);backdrop-filter:blur(3px)}
+.cd-wrap{text-align:center}
+.cd-cap{font-family:'Anton';font-size:18px;letter-spacing:2px;text-transform:uppercase;color:#FBFBF0;margin-bottom:18px}
+.cd-num{display:inline-block;font-family:'Anton';font-size:min(40vw,190px);line-height:1;color:#0A0A0A;background:var(--yellow);
+  border:4px solid #0A0A0A;border-radius:8px;box-shadow:10px 10px 0 #0A0A0A;padding:.08em .32em;animation:cdPop .9s ease both}
+.cd-num.go{font-size:min(16vw,80px);padding:.12em .45em}
+@keyframes cdPop{0%{transform:scale(.3) rotate(-12deg);opacity:0}25%{transform:scale(1.1) rotate(3deg);opacity:1}
+  45%{transform:scale(1) rotate(0)}80%{opacity:1;transform:scale(1)}100%{transform:scale(1.35);opacity:0}}
+
+/* LIFEBOAT ARRIVAL */
+.arrive-stage svg{position:absolute;inset:0;width:100%;height:100%;display:block}
 
 /* ROUND TRACKER */
 .round-tracker{display:flex;gap:8px;margin-bottom:14px}
@@ -371,6 +381,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 <button class="home-btn" id="hbtn" onclick="goHome()" title="Home">&#127968;</button>
 <canvas id="pc"></canvas>
 <div id="res-ov" class="res-ov" style="display:none"></div>
+<div id="cd-ov" class="cd-ov" style="display:none"></div>
 <div id="modal-root"></div>
 
 <!-- SETUP -->
@@ -384,10 +395,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
     <div class="card">
       <h3 style="font-family:'Anton';font-size:16px;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:12px">Your Name</h3>
       <input type="text" placeholder="Enter your name" id="player-name"/>
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:2px solid var(--overlay);margin-top:4px">
-        <span style="font-size:13px;font-weight:700;color:var(--ink2)">Target Score <span style="color:var(--muted);font-size:11px">(over 5 rounds)</span></span>
-        <input type="number" id="score-target" value="8" min="1" max="30" style="width:72px;margin:0;text-align:center"/>
-      </div>
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin:2px 0 4px">Score <strong style="color:var(--ink)">8 or more</strong> out of 10 across 5 rounds to win.</p>
       <button class="btn-p" onclick="startGame()">Begin</button>
       <button class="btn-ghost" id="replay-tut" onclick="startGame(true)" style="display:none">&#9654; How to play</button>
     </div>
@@ -443,7 +451,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
       <div class="instr-stage" id="instr-stage"></div>
       <div class="instr-cap" id="instr-cap"></div>
       <div class="instr-dots" id="instr-dots"></div>
-      <div class="instr-target">Reach <strong id="intro-target">8</strong> points across 5 rounds to keep the ship afloat — and face your hope.</div>
+      <div class="instr-target">Score <strong>8 or more</strong> out of 10 across 5 rounds to keep the ship afloat — and face your hope.</div>
     </div>
     <div class="instr-nav">
       <button class="btn-ghost" id="instr-restart" onclick="playInstructions()">&#8635; Restart</button>
@@ -456,22 +464,14 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 
 <!-- PLAY -->
 <div id="sc-play" class="screen">
-  <div style="padding-top:10px">
+  <div style="padding-top:44px">
     <div style="display:flex;gap:10px;align-items:stretch;margin-bottom:12px">
       <div class="tb-sm">
         <h1>Face Your Hope</h1>
         <p class="sub">To Hope Is To Risk</p>
       </div>
-      <button class="btn-sm" onclick="showStatus()" style="white-space:nowrap">Stats</button>
-    </div>
-
-    <div class="hope-meter" id="hope-meter">
-      <div class="hm-top">
-        <span class="hm-title">&#10022; Hope Meter</span>
-        <span class="hm-nums" id="hm-nums"><strong>0</strong> / <strong id="hm-target">8</strong></span>
-      </div>
-      <div class="hm-track"><div class="hm-fill" id="hm-fill" style="width:0%"></div></div>
-      <p class="hm-label" id="hm-label">Every point brings you closer to hope.</p>
+      <div class="score-chip" id="score-chip"><span class="sc-l">Score</span><span class="sc-v" id="score-val">0<small>/10</small></span></div>
+      <button class="btn-sm" onclick="showStatus()" style="white-space:nowrap;margin-bottom:12px">Stats</button>
     </div>
 
     <div class="res-meter" id="res-meter">
@@ -541,6 +541,9 @@ const SFX=(()=>{
     select:()=>beep({freq:680,dur:0.06,type:'sine',gain:0.06,slideTo:900}),
     wrong:()=>beep({freq:190,dur:0.2,type:'sawtooth',gain:0.1,slideTo:90}),
     right:()=>{ beep({freq:520,dur:0.12,type:'triangle',gain:0.12,slideTo:820}); beep({freq:820,dur:0.2,type:'sine',gain:0.09,delay:0.1}); },
+    count:()=>beep({freq:440,dur:0.14,type:'square',gain:0.07}),
+    go:()=>{ beep({freq:660,dur:0.1,type:'square',gain:0.07}); beep({freq:990,dur:0.26,type:'triangle',gain:0.1,delay:0.08}); },
+    throw:()=>beep({freq:900,dur:0.45,type:'sine',gain:0.05,slideTo:300}),
     draw:()=>beep({freq:300,dur:0.5,type:'sine',gain:0.09,slideTo:620}),
     win:()=>[523,659,784].forEach((f,i)=>beep({freq:f,dur:0.16,type:'triangle',gain:0.11,delay:i*0.09})),
     lose:()=>[300,230,170].forEach((f,i)=>beep({freq:f,dur:0.26,type:'sawtooth',gain:0.09,delay:i*0.12})),
@@ -562,6 +565,8 @@ function toggleSound(){
 
 /* ---------------- game state ---------------- */
 const TOTAL_ROUNDS=5;
+const MAX_SCORE=TOTAL_ROUNDS*2;        // a storm held = +2
+const WIN_SCORE=8;                    // 8, 9 or 10 is a victory
 const ROUND_MS=20000;                 // 20 seconds per storm
 const RESOURCE_MAX=100;               // shared pool across the whole voyage
 const BUNDLE_SIZE=4;                  // each bundle = 4 numbers of 1..100
@@ -575,13 +580,13 @@ const RESUPPLY_BELOW=30;              // at round end, Resource under this trigg
 const RESUPPLY_AMOUNT=40;             // Resource added by a resupply
 const RESCUE_MIN=5, RESCUE_MAX=9;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
 // storm difficulty per round: gust strength, instability, gust interval (ms)
-// starts gentle and ramps up; round 5 tops out at what used to be round 3
+// starts gentle and ramps up; round 5 is the challenging finale
 const STORM=[
   {gust:16, inst:0.6,  iv:1900},
   {gust:22, inst:0.8,  iv:1650},
   {gust:28, inst:1.0,  iv:1400},
   {gust:33, inst:1.2,  iv:1200},
-  {gust:39, inst:1.45, iv:1050}
+  {gust:46, inst:1.72, iv:910}
 ];
 
 let G=null;   // game
@@ -596,8 +601,9 @@ function fresh(name,target){
 
 /* ---------------- screen flow ---------------- */
 function goHome(){
-  stopStorm(); stormPaused=false;
+  stopStorm(); stopArrive(); stormPaused=false;
   clearInstr(); clearGameTimers();
+  const cd=document.getElementById('cd-ov'); if(cd){ cd.style.display='none'; cd.innerHTML=''; }
   const mr=document.getElementById('modal-root'); if(mr) mr.innerHTML='';
   const ov=document.getElementById('res-ov'); if(ov){ ov.style.display='none'; ov.innerHTML=''; }
   SFX.play('click');
@@ -623,12 +629,9 @@ function renderBest(){
 function startGame(withTutorial){
   SFX.play('click');
   const name=(document.getElementById('player-name').value||'Voyager').trim().slice(0,24);
-  let t=parseInt(document.getElementById('score-target').value,10);
-  if(isNaN(t)||t<1) t=8; if(t>30) t=30;
-  clearGameTimers(); stopStorm(); stormPaused=false;
-  G=fresh(name,t);
+  clearGameTimers(); stopStorm(); stopArrive(); stormPaused=false;
+  G=fresh(name,WIN_SCORE);
   document.getElementById('intro-welcome').textContent=`Welcome aboard, ${name}.`;
-  document.getElementById('intro-target').textContent=t;
   // first voyage gets the sinking-ship intro + tutorial; returning players go straight to sea
   if(withTutorial || !hasSeenIntro()) playIntroAnim();
   else beginPlay(true);
@@ -713,7 +716,7 @@ function nextRound(){
   R={
     storm: STORM[G.round-1],
     angle:0, vel:0, elapsed:0,
-    phase:'storm',             // storm | lifeboat | done
+    phase:'storm',             // storm | arrive | lifeboat | done
     resolved:false, drifting:false, revealing:false,
     selected:new Set(), drawn:null,
     outcome:null, points:0
@@ -734,15 +737,8 @@ function renderTracker(){
 }
 
 function updateHope(){
-  const pct=Math.min(100,(G.score/G.target)*100);
-  const fill=document.getElementById('hm-fill');
-  fill.style.width=pct+'%';
-  document.getElementById('hm-nums').innerHTML=`<strong>${G.score}</strong> / <strong>${G.target}</strong>`;
-  const meter=document.getElementById('hope-meter');
-  if(G.score>=G.target){ fill.classList.add('done'); meter.classList.add('unlocked');
-    document.getElementById('hm-label').textContent='Hope reached — but the voyage isn’t over.'; }
-  else { fill.classList.remove('done'); meter.classList.remove('unlocked');
-    document.getElementById('hm-label').textContent=`${Math.max(0,G.target-G.score)} more to face your hope.`; }
+  document.getElementById('score-val').innerHTML=`${G.score}<small>/${MAX_SCORE}</small>`;
+  document.getElementById('score-chip').classList.toggle('won',G.score>=WIN_SCORE);
 }
 
 /* ---------------- bundle math ---------------- */
@@ -753,7 +749,12 @@ function renderTurn(){
   const c=document.getElementById('turn-card');
   updateHope(); updateResource();
 
-  if(R.phase==='storm'){ c.innerHTML=stormHTML(); bindStorm(); startStorm(); }
+  if(R.phase==='storm'){
+    c.innerHTML=stormHTML(); bindStorm();
+    if(G.round===1) runCountdown(startStorm);   // 3·2·1 before the first storm only
+    else startStorm();
+  }
+  else if(R.phase==='arrive'){ c.innerHTML=arriveHTML(); playArrive(); }
   else if(R.phase==='lifeboat'){ c.innerHTML=lifeboatHTML(); bindBundles(); }
   else if(R.phase==='done'){ c.innerHTML=summaryHTML(); }
 }
@@ -765,6 +766,22 @@ function updateResource(){
   f.style.width=pct+'%';
   f.classList.toggle('low',pct<25);
   const n=document.getElementById('rm-nums'); if(n) n.textContent=Math.round(pct);
+}
+
+/* ---------------- round-1 countdown ---------------- */
+function runCountdown(done){
+  const ov=document.getElementById('cd-ov');
+  const seq=['3','2','1','Sail!'];
+  R.counting=true;
+  const step=(i)=>{
+    if(i>=seq.length){ ov.style.display='none'; ov.innerHTML=''; R.counting=false; done(); return; }
+    ov.style.display='flex';
+    ov.innerHTML=`<div class="cd-wrap"><div class="cd-cap">Round 1 · Get ready</div>
+      <div class="cd-num${i===seq.length-1?' go':''}">${seq[i]}</div></div>`;
+    SFX.play(i===seq.length-1?'go':'count');
+    later(()=>step(i+1), i===seq.length-1?650:900);
+  };
+  step(0);
 }
 
 /* ---------------- STORM round ---------------- */
@@ -803,7 +820,7 @@ function bindStorm(){
   if(Rb) Rb.addEventListener('click',()=>pressHelm(1));
 }
 function pressHelm(dir){            // dir -1 = port (corrects right tilt), +1 = starboard
-  if(R.phase!=='storm'||R.resolved||R.drifting) return;
+  if(R.phase!=='storm'||R.resolved||R.drifting||R.counting) return;
   R.vel += dir*PRESS_NUDGE;
   SFX.play('tap');
 }
@@ -860,7 +877,7 @@ function stormLose(){
   R.rescue = true;
   SFX.play('lose');
   flashResult('err','🌊','Capsized!','Scramble for the lifeboat — the sea is close.');
-  later(()=>{ R.phase='lifeboat'; R.selected=new Set(); renderTurn(); }, 1500);
+  later(()=>{ R.phase='arrive'; renderTurn(); }, 1500);
 }
 
 function bundleAllowance(){
@@ -873,12 +890,86 @@ function bundleAllowance(){
 
 /* ---------------- lifeboat ---------------- */
 function openLifeboat(){
-  if(R.resolved) return;
+  if(R.resolved || R.phase!=='storm' || R.counting) return;
   stopStorm();
-  R.phase='lifeboat';
-  R.selected=new Set();
+  R.phase='arrive';
   SFX.play('click');
   renderTurn();
+}
+
+/* ---------------- lifeboat arrival: hook thrown, boat hauled in ---------------- */
+let arriveRAF=null;
+function stopArrive(){ if(arriveRAF){ cancelAnimationFrame(arriveRAF); arriveRAF=null; } }
+function arriveHTML(){
+  return `
+  <div class="card-key storm-card">
+    <div class="turn-header">
+      <span class="round-pill">Round <span>${G.round}</span> / ${TOTAL_ROUNDS}</span>
+      <span class="${R.rescue?'tag-err':'tag-lb'}">${R.rescue?'Rescue line':'Lifeboat incoming'}</span>
+    </div>
+    <div class="storm-stage arrive-stage">
+      <svg viewBox="0 0 400 232" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+        <line x1="0" y1="128" x2="400" y2="128" stroke="var(--ink)" stroke-width="1" opacity=".25"/>
+        <path d="M0,130 C60,124 120,136 200,130 C280,124 340,136 400,130 L400,232 L0,232 Z" fill="var(--yellow2)"/>
+        <g id="arr-boat" transform="translate(330,132) scale(.32)">
+          <path d="M-32,-14 L-32,-30 Q0,-46 32,-30 L32,-14 Z" fill="var(--bg)" stroke="var(--ink)" stroke-width="3"/>
+          <circle cx="-14" cy="-25" r="4" fill="var(--ink)"/><circle cx="0" cy="-28" r="4" fill="var(--ink)"/><circle cx="14" cy="-25" r="4" fill="var(--ink)"/>
+          <path d="M-50,-14 L50,-14 L38,8 L-38,8 Z" fill="var(--ink)"/>
+          <rect x="-44" y="-9" width="88" height="4" fill="var(--yellow)"/>
+        </g>
+        <path d="M-10,214 C60,204 130,222 200,212 C270,202 340,220 410,210 L410,240 L-10,240 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3"/>
+        <polyline id="arr-rope" points="" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <g id="arr-hook" transform="translate(52,206)">
+          <path d="M0,0 L0,10 Q0,18 7,18 Q13,18 13,11 L10,13" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
+        </g>
+        <path d="M0,232 L0,198 L46,198 L58,206 L58,232 Z" fill="var(--ink)"/>
+      </svg>
+    </div>
+    <div class="feedline" id="arr-feed">Throwing a line…</div>
+  </div>`;
+}
+function playArrive(){
+  stopArrive();
+  const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const speed = reduced ? 2.5 : 1;
+  const boat=document.getElementById('arr-boat'), rope=document.getElementById('arr-rope'),
+        hook=document.getElementById('arr-hook'), feed=document.getElementById('arr-feed');
+  const P0={x:52,y:200};                               // our deck, where the line is thrown from
+  const FAR={x:330,y:132,s:.32}, NEAR={x:205,y:196,s:1};
+  const bow=(b)=>({x:b.x-46*b.s, y:b.y-14*b.s});     // hook catches the lifeboat's bow
+  const quad=(a,c,b,u)=>({x:(1-u)*(1-u)*a.x+2*(1-u)*u*c.x+u*u*b.x, y:(1-u)*(1-u)*a.y+2*(1-u)*u*c.y+u*u*b.y});
+  const curve=(a,c,b,u)=>{ const pts=[]; for(let i=0;i<=24;i++) pts.push(quad(a,c,b,u*i/24)); return pts.map(p=>p.x.toFixed(1)+','+p.y.toFixed(1)).join(' '); };
+  const ease=(k)=>k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+  const T_THROW=750, T_CATCH=1050, T_PULL=2450, T_END=2900;
+  let stage=0; const t0=performance.now();
+  SFX.play('throw');
+  const frame=(now)=>{
+    const t=(now-t0)*speed;
+    let b={...FAR}, rot=0;
+    if(t<T_THROW){                                       // the hook flies out on an arc
+      const u=t/T_THROW, tgt=bow(FAR), ctrl={x:170,y:10};
+      b.y+=Math.sin(t/260)*1.5;
+      rope.setAttribute('points',curve(P0,ctrl,tgt,u));
+      const h=quad(P0,ctrl,tgt,u); hook.setAttribute('transform',`translate(${h.x.toFixed(1)},${h.y.toFixed(1)})`);
+    } else if(t<T_CATCH){                                // hooked — the boat jolts
+      if(stage<1){ stage=1; SFX.play('right'); if(feed) feed.innerHTML='<strong>Hooked!</strong> Hauling her in…'; }
+      rot=Math.sin((t-T_THROW)/25)*6*(1-(t-T_THROW)/(T_CATCH-T_THROW));
+    } else {                                             // haul the boat from the horizon to the foreground
+      const k=ease(Math.min(1,(t-T_CATCH)/(T_PULL-T_CATCH)));
+      b={x:FAR.x+(NEAR.x-FAR.x)*k, y:FAR.y+(NEAR.y-FAR.y)*k, s:FAR.s+(NEAR.s-FAR.s)*k};
+      rot=Math.sin(t/180)*3*(1-k*0.5);
+      if(t>=T_PULL && stage<2){ stage=2; if(feed) feed.innerHTML='Climb aboard — <strong>claim your numbers.</strong>'; }
+    }
+    if(t>=T_THROW){                                      // line pulls taut as she comes in
+      const a=bow(b), sag=t<T_CATCH?40:40*(1-Math.min(1,(t-T_CATCH)/(T_PULL-T_CATCH)))+6;
+      rope.setAttribute('points',curve(P0,{x:(P0.x+a.x)/2,y:(P0.y+a.y)/2+sag},a,1));
+      hook.setAttribute('transform',`translate(${a.x.toFixed(1)},${a.y.toFixed(1)})`);
+    }
+    boat.setAttribute('transform',`translate(${b.x.toFixed(1)},${b.y.toFixed(1)}) rotate(${rot.toFixed(2)}) scale(${b.s.toFixed(3)})`);
+    if(t>=T_END){ arriveRAF=null; R.phase='lifeboat'; R.selected=new Set(); renderTurn(); return; }
+    arriveRAF=requestAnimationFrame(frame);
+  };
+  arriveRAF=requestAnimationFrame(frame);
 }
 
 function lifeboatHTML(){
@@ -994,14 +1085,14 @@ function summaryHTML(){
     <div class="sum-row"><span class="sum-label">Resource left</span><span class="sum-val">${last.resourceLeft}</span></div>
     ${last.resupply?`<div class="sum-row"><span class="sum-label">⚓ Resupplied</span><span class="sum-val">+${last.resupply}</span></div>`:''}
     ${last.drawn?`<div class="sum-row"><span class="sum-label">Sea drew</span><span class="sum-val">${last.drawn}</span></div>`:''}
-    <div class="sum-row"><span class="sum-label">Total hope</span><span class="sum-val" style="color:var(--hopetx)">${G.score} / ${G.target}</span></div>
+    <div class="sum-row"><span class="sum-label">Total score</span><span class="sum-val" style="color:var(--hopetx)">${G.score} / ${MAX_SCORE} <span style="font-size:11px;color:var(--muted)">(${WIN_SCORE} to win)</span></span></div>
   </div>
   <button class="btn-p" onclick="nextRound()">${more?'Next Round ⚓':'See the Voyage End'}</button>`;
 }
 
 /* ---------------- end ---------------- */
 function endGame(){
-  const won=G.score>=G.target;
+  const won=G.score>=WIN_SCORE;
   SFX.play(won?'hope':'lose');
   const stormWins=G.results.filter(r=>r.outcome==='storm').length;
   const boatWins=G.results.filter(r=>r.outcome==='lifeboat').length;
@@ -1019,9 +1110,10 @@ function endGame(){
   const card=document.getElementById('end-card');
   card.innerHTML=`
     <div class="score-context">${G.name}, your voyage scored</div>
-    <div class="big-score">${G.score}<span style="font-size:22px;color:var(--txt3)"> / ${G.target}</span></div>
+    <div class="big-score">${G.score}<span style="font-size:22px;color:var(--muted)"> / ${MAX_SCORE}</span></div>
+    <div style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:8px">${WIN_SCORE} or more wins</div>
     <div style="text-align:center;margin-bottom:14px">
-      ${won?'<span class="tag-ok" style="font-size:13px;padding:5px 16px">Hope reached ✦</span>'
+      ${won?'<span class="tag-ok" style="font-size:13px;padding:5px 16px">Victory · Hope reached ✦</span>'
             :'<span class="tag-err" style="font-size:13px;padding:5px 16px">Fell short</span>'}
       ${isBest?'<span class="tag-warn" style="font-size:13px;padding:5px 16px;margin-left:6px">New best</span>':''}
     </div>
@@ -1049,8 +1141,8 @@ function showStatus(){
     <div class="modal" onclick="event.stopPropagation()">
       <h3>Voyage Log — ${G.name}</h3>
       ${rows}
-      <div class="srow" style="margin-top:6px"><span class="sl" style="color:var(--hopetx)">Hope</span>
-        <span class="sv" style="color:var(--hopetx)">${G.score} / ${G.target}</span></div>
+      <div class="srow" style="margin-top:6px"><span class="sl" style="color:var(--hopetx)">Score</span>
+        <span class="sv" style="color:var(--hopetx)">${G.score} / ${MAX_SCORE}</span></div>
       <div class="srow"><span class="sl">⚓ Resource left</span><span class="sv">${Math.round(G.resource)}</span></div>
       <div class="mbr"><button class="btn-p" onclick="closeModal()">Close</button></div>
     </div></div>`;
