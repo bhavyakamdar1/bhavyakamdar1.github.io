@@ -58,7 +58,8 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overfl
 .anim-caption .t{font-family:'Anton','Inter',sans-serif;font-weight:800;font-size:clamp(26px,8vw,40px);text-transform:uppercase;letter-spacing:1px;color:var(--ink);line-height:1;transform:rotate(-2deg)}
 .anim-caption .s{font-family:'Inter';font-weight:800;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--ink2);margin-top:10px}
 .sea-wrap{position:absolute;left:0;right:0;bottom:0;height:52%;overflow:hidden;z-index:2;animation:seaRise 3.4s ease-out both}
-.sea-svg{position:absolute;bottom:0;left:0;width:200%;height:100%;animation:waveScroll 7s linear infinite}
+.sea-svg{position:absolute;bottom:0;left:0;width:225%;height:100%;animation:seaLoop 5.25s linear infinite}
+@keyframes seaLoop{from{transform:translateX(0)}to{transform:translateX(-33.3333%)}}
 .ship-anchor{position:absolute;left:50%;top:26%;width:60%;max-width:280px;transform:translateX(-50%);z-index:1}
 .ship-move{transform-origin:50% 88%;animation:shipSink 3.4s cubic-bezier(.45,.05,.55,.95) both}
 .ship-move svg{width:100%;display:block;overflow:visible}
@@ -355,16 +356,10 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 /* ===== STORM STAGE ===== */
 .storm-card{overflow:hidden}
 .storm-stage{position:relative;height:232px;margin:8px 0 2px;border:2.5px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg)}
-.storm-sea{position:absolute;left:0;right:0;bottom:0;pointer-events:none}
-.storm-sea svg{position:absolute;left:0;bottom:0;width:200%;height:100%;display:block}
-.sea-back{height:58%;z-index:1;animation:swell 4.2s ease-in-out infinite}
-.sea-back svg{animation:seaScroll 9s linear infinite}
-.sea-front{height:46%;bottom:-6px !important;z-index:3;animation:swell 3.1s ease-in-out infinite reverse}
-.sea-front svg{animation:seaScroll 4.6s linear infinite}
-@keyframes seaScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes swell{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
-@keyframes waveScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media (prefers-reduced-motion: reduce){.sea-back,.sea-front,.storm-sea svg{animation-duration:20s}}
+.storm-sea{position:absolute;left:0;right:0;bottom:0;height:52%;pointer-events:none}
+.sea-back{z-index:1}
+.sea-front{z-index:3}
+@media (prefers-reduced-motion: reduce){.sea-svg{animation-duration:20s}}
 .storm-ship{position:absolute;left:50%;top:43%;width:120px;margin-left:-60px;transform-origin:50% 92%;z-index:2;will-change:transform}
 .storm-ship svg{width:120px;display:block}
 .storm-card.danger .storm-stage{box-shadow:inset 0 0 0 3px var(--danger)}
@@ -439,9 +434,9 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
       </div>
     </div>
     <div class="sea-wrap">
-      <svg class="sea-svg" viewBox="0 0 1440 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,60 C180,110 360,10 540,60 C720,110 900,10 1080,60 C1260,110 1440,30 1440,60 L1440,200 L0,200 Z" fill="var(--yellow2)"/>
-        <path d="M0,90 C180,130 360,50 540,90 C720,130 900,50 1080,90 C1260,130 1440,70 1440,90 L1440,200 L0,200 Z" fill="var(--yellow)"/>
+      <svg class="sea-svg" viewBox="0 0 1620 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0,60 C180,110 360,10 540,60 C720,110 900,10 1080,60 C1260,110 1440,10 1620,60 L1620,200 L0,200 Z" fill="var(--yellow2)"/>
+        <path d="M0,90 C180,130 360,50 540,90 C720,130 900,50 1080,90 C1260,130 1440,50 1620,90 L1620,200 L0,200 Z" fill="var(--yellow)"/>
       </svg>
     </div>
   </div>
@@ -817,10 +812,8 @@ function stormHTML(){
     <div class="storm-stage" id="storm-stage">
       <div class="tilt-dial"><div class="tilt-needle" id="tilt-needle"></div></div>
       <div class="storm-ship" id="storm-ship">${INSTR_SHIP}</div>
-      <div class="storm-sea sea-back"><svg viewBox="0 0 800 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,50 Q50,10 100,50 T200,50 T300,50 T400,50 T500,50 T600,50 T700,50 T800,50 L800,120 L0,120 Z" fill="var(--yellow2)"/></svg></div>
-      <div class="storm-sea sea-front"><svg viewBox="0 0 800 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0,50 Q50,-20 100,50 T200,50 T300,50 T400,50 T500,50 T600,50 T700,50 T800,50 L800,130 L0,130 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" vector-effect="non-scaling-stroke"/></svg></div>
+      <div class="storm-sea sea-back"><svg class="sea-svg" viewBox="0 0 1620 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,60 C180,110 360,10 540,60 C720,110 900,10 1080,60 C1260,110 1440,10 1620,60 L1620,200 L0,200 Z" fill="var(--yellow2)"/></svg></div>
+      <div class="storm-sea sea-front"><svg class="sea-svg" viewBox="0 0 1620 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,90 C180,130 360,50 540,90 C720,130 900,50 1080,90 C1260,130 1440,50 1620,90 L1620,200 L0,200 Z" fill="var(--yellow)"/></svg></div>
     </div>
     <div class="feedline" id="feed">Keep the ship level. Tap the arrow <strong>opposite</strong> the tilt.</div>
     <div class="helm">
