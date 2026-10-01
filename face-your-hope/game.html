@@ -20,6 +20,7 @@
   --danger:#E23B2E; --danger-tx:#B71E12;
   --tagink:#0A0A0A; --tagink-tx:#FCFF35;
   --hopetx:#0A0A0A;
+  --win:#159A5B;
 }
 [data-theme="dark"]{
   --bg:#0A0A0A; --surface:#151515; --raised:#171717; --overlay:#202020;
@@ -28,6 +29,7 @@
   --danger:#FF574A; --danger-tx:#FF574A;
   --tagink:#FCFF35; --tagink-tx:#0A0A0A;
   --hopetx:#FCFF35;
+  --win:#35D68A;
 }
 
 @keyframes fadeIn   {from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
@@ -82,6 +84,10 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overfl
   padding:6px 12px;cursor:pointer;font-size:12px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:6px;
   border-radius:4px;box-shadow:3px 3px 0 var(--sc)}
 .theme-btn:hover{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+.mute-btn{position:fixed;top:12px;left:12px;z-index:500;background:var(--bg);border:2px solid var(--line);
+  padding:6px 11px;cursor:pointer;font-size:14px;color:var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--sc)}
+.mute-btn:hover{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+
 
 /* TITLE PLATE (mirrors the cover) */
 .tb{position:relative;text-align:center;padding:26px 14px 22px;margin-bottom:24px;overflow:hidden}
@@ -237,12 +243,132 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 .big-score{font-family:'Anton';font-size:64px;color:var(--ink);text-align:center;margin:8px 0;line-height:1;letter-spacing:1px}
 .score-context{font-weight:700;font-size:14px;color:var(--ink2);text-align:center;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px}
 .closing-q{font-family:'Anton';font-size:20px;color:var(--ink);text-align:center;letter-spacing:1px;text-transform:uppercase;margin:18px 0 2px;transform:rotate(-1.5deg)}
+
+/* ===== ANIMATED INSTRUCTIONS ===== */
+.instr-card{padding:16px 16px 14px}
+.instr-stage{position:relative;height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.instr-cap{text-align:center;font-size:13px;font-weight:600;color:var(--ink2);min-height:40px;margin-top:6px;line-height:1.5}
+.instr-cap strong{color:var(--ink)}
+.instr-dots{display:flex;gap:8px;justify-content:center;margin-top:6px}
+.instr-dots .d{width:8px;height:8px;border-radius:50%;background:var(--overlay);border:2px solid var(--line);transition:var(--trans)}
+.instr-dots .d.on{background:var(--yellow)}
+.instr-target{text-align:center;font-size:12px;color:var(--muted);margin-top:12px;border-top:2px solid var(--overlay);padding-top:12px}
+.instr-target strong{color:var(--ink);font-weight:800}
+/* vignette bits */
+.v-keys{display:flex;flex-direction:column;align-items:center;gap:16px}
+.v-ship{transform:rotate(-13deg);transition:transform .7s cubic-bezier(.34,1.56,.64,1)}
+.v-ship.steady{transform:rotate(0)}
+.v-ship svg{width:74px;display:block}
+.v-keyrow{display:flex;gap:10px}
+.v-key{width:44px;height:44px;border-radius:9px;border:2.5px solid var(--line);background:var(--bg);
+  display:flex;align-items:center;justify-content:center;font-size:20px;position:relative;transition:all .25s}
+.v-key.shut{background:var(--danger);opacity:.5;animation:shake .4s ease}
+.v-key.open{background:var(--yellow);border-color:#0A0A0A;animation:celebrate .55s ease}
+.v-key.vanish{animation:vanishKey .5s cubic-bezier(.5,0,.75,0) forwards}
+.v-key.tapping::after{content:"";position:absolute;inset:-7px;border:3px solid var(--ink);border-radius:13px;animation:tapPulse .5s ease}
+@keyframes tapPulse{0%{transform:scale(.7);opacity:.85}100%{transform:scale(1.3);opacity:0}}
+@keyframes vanishKey{to{transform:scale(0) rotate(20deg);opacity:0;width:0;margin-left:-10px}}
+.v-lb{display:flex;flex-direction:column;align-items:center;gap:14px}
+.v-ring{font-size:32px;position:relative;animation:float 2.2s ease-in-out infinite}
+.v-ring .v-x2{position:absolute;top:-6px;right:-22px;font-family:'Anton';font-size:16px;color:var(--ink);
+  background:var(--yellow);border:2px solid #0A0A0A;border-radius:10px;padding:0 5px;animation:popIn .4s .4s both}
+.v-chiprow{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;max-width:300px}
+.v-chip{padding:5px 9px;border:2px solid var(--line);border-radius:5px;font-size:11px;font-weight:800;background:var(--bg);transition:all .25s}
+.v-chip.claimed{background:var(--yellow);border-color:#0A0A0A;color:#0A0A0A}
+.v-chip.hit{outline:3px solid var(--danger);outline-offset:2px;animation:celebrate .5s ease}
+.v-draw{font-family:'Anton';font-size:22px;color:var(--ink);opacity:0;transition:opacity .35s;letter-spacing:1px}
+.v-draw.show{opacity:1}
+
+/* ===== RESHAPED GAMEPLAY CONTROLS ===== */
+/* Lifeboat — hull-shaped, the escape object */
+.boat-btn{position:relative;width:100%;background:var(--yellow);color:#0A0A0A;border:3px solid #0A0A0A;
+  border-radius:16px 16px 44px 44px / 14px 14px 90px 90px;
+  padding:15px 20px 22px;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:14px;
+  box-shadow:5px 6px 0 #0A0A0A;cursor:pointer}
+.boat-btn:hover{transform:translateY(-2px);box-shadow:5px 8px 0 #0A0A0A}
+.boat-btn:active{transform:translateY(2px);box-shadow:5px 3px 0 #0A0A0A}
+.boat-btn .ring{font-size:30px;line-height:1}
+.boat-btn .bl-main{font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;display:block}
+.boat-btn .bl-sub{display:block;font-size:10px;font-weight:700;opacity:.85;margin-top:2px}
+.boat-btn .bl-tag{position:absolute;top:-11px;right:16px;background:#0A0A0A;color:var(--yellow);
+  font-family:'Anton';font-size:13px;letter-spacing:1px;padding:2px 10px;border-radius:10px}
+
+/* Lifelines — badge/shield tokens, a matched pair */
+.lifelines{display:flex;gap:12px;margin-top:14px}
+.ll-token{flex:1;position:relative;background:var(--raised);border:2.5px solid var(--line);
+  border-radius:48% 48% 46% 46% / 62% 62% 40% 40%;
+  padding:14px 8px 12px;text-align:center;box-shadow:4px 4px 0 var(--sc);cursor:pointer;color:var(--ink);transition:all .2s}
+.ll-token:hover:not(:disabled){transform:translateY(-2px);background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A;box-shadow:4px 6px 0 var(--sc)}
+.ll-token .ll-ico{font-size:26px;display:block;line-height:1}
+.ll-token .ll-name{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.3px;margin-top:5px;display:block}
+.ll-token .ll-once{font-size:8px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;display:block}
+.ll-token .ll-badge{position:absolute;top:-9px;right:-6px;background:var(--tagink);color:var(--tagink-tx);
+  border:2px solid var(--line);border-radius:12px;font-family:'Anton';font-size:12px;padding:1px 8px}
+.ll-token:disabled{cursor:not-allowed}
+.ll-token.armed{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+.ll-token.armed .ll-once{color:#0A0A0A;font-weight:800}
+.ll-token.used{opacity:.5;filter:grayscale(1);cursor:not-allowed}
+.ll-token.used::after{content:"USED";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Anton';font-size:17px;color:var(--danger);transform:rotate(-11deg);letter-spacing:2px}
+
+/* instruction nav (Next / Restart / Cast Off) */
+.instr-heading{font-family:'Anton';font-size:22px;letter-spacing:2px;text-transform:uppercase;color:var(--ink);text-align:center;margin:2px 0 10px}
+.instr-skip{margin-top:10px;font-size:12px;opacity:.85}
+.home-btn{position:fixed;top:12px;left:62px;z-index:500;background:var(--bg);border:2px solid var(--line);
+  padding:6px 11px;cursor:pointer;font-size:14px;color:var(--ink);border-radius:4px;box-shadow:3px 3px 0 var(--sc)}
+.home-btn:hover{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+.instr-nav{display:flex;gap:10px;margin-top:10px}
+.instr-nav>button{margin-top:0;width:auto}
+#instr-restart{flex:0 0 auto}
+#instr-next,#instr-cast{flex:1}
+
+/* lifeboat draw reveal (held 1.5s before result) */
+.lb-reveal{text-align:center;font-family:'Anton';font-size:18px;letter-spacing:.5px;min-height:24px;margin:6px 0 2px;opacity:0;transition:opacity .3s}
+.lb-reveal.show{opacity:1}
+.lb-reveal.win{color:var(--win)}
+.lb-reveal.lose{color:var(--danger)}
+.bundle-btn.win{background:var(--win);border-color:#0A0A0A;color:#fff;animation:celebrate .5s ease}
+.bundle-btn.win .range,.bundle-btn.win .count{color:#fff}
+.bundle-btn.lose{background:var(--danger);border-color:#0A0A0A;color:#fff;animation:shake .4s ease}
+.bundle-btn.lose .range,.bundle-btn.lose .count{color:#fff}
+
+/* ===== RESOURCE METER ===== */
+.res-meter{background:var(--raised);border:2.5px solid var(--line);border-radius:4px;padding:12px 16px;margin-bottom:14px;box-shadow:5px 5px 0 var(--sc)}
+.rm-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.rm-title{font-family:'Anton';font-size:14px;color:var(--ink);letter-spacing:1.5px;text-transform:uppercase}
+.rm-nums{font-size:14px;font-weight:800;color:var(--ink)}
+.rm-track{height:14px;background:var(--overlay);border:2px solid var(--line);border-radius:2px;overflow:hidden}
+.rm-fill{height:100%;background:var(--ink);transition:width .2s linear}
+.rm-fill.low{background:var(--danger)}
+.rm-label{font-size:11px;color:var(--muted);margin-top:6px;font-weight:500}
+
+/* ===== STORM STAGE ===== */
+.storm-card{overflow:hidden}
+.storm-stage{position:relative;height:232px;margin:8px 0 2px;border:2.5px solid var(--line);border-radius:6px;overflow:hidden;background:var(--bg)}
+.storm-sea{position:absolute;left:-12%;right:-12%;bottom:-26px;height:42%;background:var(--yellow);border-top:3px solid #0A0A0A;border-radius:48% 48% 0 0/36px 36px 0 0}
+.storm-ship{position:absolute;left:50%;top:38%;width:120px;margin-left:-60px;transform-origin:50% 92%;z-index:2;will-change:transform}
+.storm-ship svg{width:120px;display:block}
+.storm-card.danger .storm-stage{box-shadow:inset 0 0 0 3px var(--danger)}
+.tilt-dial{position:absolute;top:10px;left:50%;width:140px;height:70px;margin-left:-70px;z-index:3;overflow:hidden;opacity:.55}
+.tilt-dial::after{content:"";position:absolute;bottom:0;left:50%;width:1px;height:58px;margin-left:-.5px;background:var(--b2,rgba(128,128,128,.4))}
+.tilt-needle{position:absolute;bottom:0;left:50%;width:4px;height:56px;margin-left:-2px;background:var(--ink);transform-origin:50% 100%;border-radius:2px}
+.helm{display:flex;gap:12px;margin-top:10px}
+.helm-btn{flex:1;background:var(--raised);border:3px solid var(--line);border-radius:12px;padding:20px 8px;font-family:'Anton';font-size:18px;letter-spacing:1px;color:var(--ink);box-shadow:4px 5px 0 var(--sc);cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.helm-btn:hover:not(:disabled){background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+.helm-btn:active:not(:disabled){transform:translateY(3px);box-shadow:4px 2px 0 var(--sc);background:var(--yellow);color:#0A0A0A}
+.helm-btn:disabled{opacity:.4;cursor:not-allowed}
+/* instruction helm chips */
+.v-helm{flex:1;text-align:center;border:2.5px solid var(--line);border-radius:10px;padding:12px 6px;font-family:'Anton';font-size:14px;letter-spacing:.5px;color:var(--ink);background:var(--bg);position:relative}
+.v-helm.lit{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
+.v-helm.tapping::after{content:"";position:absolute;inset:-6px;border:3px solid var(--ink);border-radius:13px;animation:tapPulse .5s ease}
 </style>
 </head>
 <body>
 
 <div class="wave-bg"></div>
 <button class="theme-btn" id="tbtn" onclick="toggleTheme()">&#9788; Light</button>
+<button class="mute-btn" id="mbtn" onclick="toggleSound()">&#128266;</button>
+<button class="home-btn" id="hbtn" onclick="goHome()" title="Home">&#127968;</button>
 <canvas id="pc"></canvas>
 <div id="res-ov" class="res-ov" style="display:none"></div>
 <div id="modal-root"></div>
@@ -311,20 +437,19 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
       <h1><span>Face</span><span>Your</span><span>Hope</span></h1>
       <span class="ital" id="intro-welcome">Welcome</span>
     </div>
-    <div class="card" style="font-size:13px;color:var(--ink2);line-height:1.85;font-weight:500">
-      <p style="color:var(--ink);font-weight:700">For years you built this ship. Now it's sinking, beginning to tilt toward rolling over. You have 5 rounds to save the ship.</p>
-      <br>
-      <p>You save a sinking ship by letting the <em>right</em> water in — opening the one compartment that counterbalances the ship and settles it level again. Each round you face a set of sealed compartments, and one key opens the correct one. You get <strong style="color:var(--ink)">6 attempts</strong> to find it. Find the right key and you steady the ship — worth <strong style="color:var(--ink)">+2</strong>. A wrong key simply doesn't open; it only costs you the attempt, never the ship.</p>
-      <br>
-      <p>Can't find the key in time? Take the <strong style="color:var(--ink)">lifeboat</strong> and save yourself instead — claim number bundles across 1&ndash;100 and let the sea draw. Land in a claimed bundle and you survive, worth <strong style="color:var(--ink)">+1</strong>. The <strong>earlier</strong> you bail, the more bundles you get.</p>
-      <br>
-      <p><strong style="color:var(--ink)">Increase Key Chance:</strong> once per game, in a single round, discard one wrong key &mdash; tightening your odds on the compartments that remain.</p>
-      <br>
-      <p><strong style="color:var(--ink)">Double Lifeboat:</strong> once per game, double your lifeboat bundle count for a single round.</p>
-      <br>
-      <p style="color:var(--muted)">Reach <strong style="color:var(--ink)" id="intro-target">8</strong> points across 5 rounds and you keep the ship afloat &mdash; you face your hope.</p>
+    <div class="instr-heading">How To Play</div>
+    <div class="card instr-card">
+      <div class="instr-stage" id="instr-stage"></div>
+      <div class="instr-cap" id="instr-cap"></div>
+      <div class="instr-dots" id="instr-dots"></div>
+      <div class="instr-target">Reach <strong id="intro-target">8</strong> points across 5 rounds to keep the ship afloat — and face your hope.</div>
     </div>
-    <button class="btn-p" onclick="beginPlay()">Cast Off</button>
+    <div class="instr-nav">
+      <button class="btn-ghost" id="instr-restart" onclick="playInstructions()">&#8635; Restart</button>
+      <button class="btn-p" id="instr-next" onclick="instrNext()">Next &rarr;</button>
+      <button class="btn-p" id="instr-cast" onclick="beginPlay()" style="display:none">Cast Off</button>
+    </div>
+    <button class="btn-ghost instr-skip" onclick="beginPlay()">Skip instructions &rarr;</button>
   </div>
 </div>
 
@@ -346,6 +471,12 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
       </div>
       <div class="hm-track"><div class="hm-fill" id="hm-fill" style="width:0%"></div></div>
       <p class="hm-label" id="hm-label">Every point brings you closer to hope.</p>
+    </div>
+
+    <div class="res-meter" id="res-meter">
+      <div class="rm-top"><span class="rm-title">&#9875; Resource</span><span class="rm-nums" id="rm-nums">100</span></div>
+      <div class="rm-track"><div class="rm-fill" id="rm-fill" style="width:100%"></div></div>
+      <p class="rm-label" id="rm-label">Your strength against the storm — shared across all 5 rounds.</p>
     </div>
 
     <div class="round-tracker" id="round-tracker"></div>
@@ -378,23 +509,92 @@ function toggleTheme(){
   const next=cur==='dark'?'light':'dark';
   el.setAttribute('data-theme',next);
   document.getElementById('tbtn').textContent = next==='dark' ? '☀️ Light' : '🌙 Dark';
+  SFX.play('click');
+}
+
+/* ---------------- procedural sound (Web Audio) ---------------- */
+const SFX=(()=>{
+  let ctx=null, muted=false;
+  function ensure(){
+    if(!ctx){ try{ ctx=new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ ctx=null; } }
+    if(ctx && ctx.state==='suspended'){ ctx.resume(); }
+  }
+  function arm(){ ensure(); }                 // call on first user gesture to unlock audio
+  function beep({freq=440,dur=0.12,type='sine',gain=0.14,slideTo=null,delay=0}){
+    if(muted || !ctx) return;
+    const t0=ctx.currentTime+delay;
+    const o=ctx.createOscillator(), g=ctx.createGain();
+    o.type=type; o.frequency.setValueAtTime(freq,t0);
+    if(slideTo) o.frequency.exponentialRampToValueAtTime(slideTo,t0+dur);
+    g.gain.setValueAtTime(0.0001,t0);
+    g.gain.exponentialRampToValueAtTime(gain,t0+0.012);
+    g.gain.exponentialRampToValueAtTime(0.0001,t0+dur);
+    o.connect(g).connect(ctx.destination);
+    o.start(t0); o.stop(t0+dur+0.03);
+  }
+  const lib={
+    click:()=>beep({freq:600,dur:0.06,type:'triangle',gain:0.07}),
+    tap:()=>beep({freq:520,dur:0.05,type:'square',gain:0.05}),
+    select:()=>beep({freq:680,dur:0.06,type:'sine',gain:0.06,slideTo:900}),
+    wrong:()=>beep({freq:190,dur:0.2,type:'sawtooth',gain:0.1,slideTo:90}),
+    right:()=>{ beep({freq:520,dur:0.12,type:'triangle',gain:0.12,slideTo:820}); beep({freq:820,dur:0.2,type:'sine',gain:0.09,delay:0.1}); },
+    draw:()=>beep({freq:300,dur:0.5,type:'sine',gain:0.09,slideTo:620}),
+    win:()=>[523,659,784].forEach((f,i)=>beep({freq:f,dur:0.16,type:'triangle',gain:0.11,delay:i*0.09})),
+    lose:()=>[300,230,170].forEach((f,i)=>beep({freq:f,dur:0.26,type:'sawtooth',gain:0.09,delay:i*0.12})),
+    hope:()=>[659,784,988,1319].forEach((f,i)=>beep({freq:f,dur:0.22,type:'triangle',gain:0.12,delay:i*0.1}))
+  };
+  return {
+    arm,
+    play:(n)=>{ ensure(); (lib[n]||(()=>{}))(); },
+    toggleMute:()=>{ muted=!muted; try{localStorage.setItem('fyh_muted',muted?'1':'0');}catch(e){} return muted; },
+    isMuted:()=>muted,
+    initMuted:()=>{ try{ muted=localStorage.getItem('fyh_muted')==='1'; }catch(e){} }
+  };
+})();
+function toggleSound(){
+  const m=SFX.toggleMute();
+  document.getElementById('mbtn').innerHTML = m ? '&#128263;' : '&#128266;';
+  if(!m) SFX.play('click');
 }
 
 /* ---------------- game state ---------------- */
 const TOTAL_ROUNDS=5;
-const MAX_ATTEMPTS=6;
-const KEYS_PER_ROUND=[8,9,10,11,12];  // difficulty curve r1..r5
-const BASE_BUNDLES=12;               // bundles if lifeboat taken immediately
-const BUNDLE_SIZE=4;                 // each bundle covers 4 numbers of 1..100
+const ROUND_MS=20000;                 // 20 seconds per storm
+const RESOURCE_MAX=100;               // shared pool across the whole voyage
+const BUNDLE_SIZE=4;                  // each bundle = 4 numbers of 1..100
+const LB_MIN=4, LB_MAX=16;            // lifeboat bundle range (scales with Resource left)
+const PRESS_NUDGE=42;                 // deg/s impulse per helm tap
+const DEADZONE=6;                     // within ±6° costs no Resource
+const CAPSIZE=46;                     // beyond ±46° held too long = capsize
+const CAPSIZE_HOLD=1100;              // ms past capsize angle before she goes down
+const DRAIN_K=0.32;                   // Resource drained per (deg off-level) per second — careful play clears ~3 storms; neglect empties the pool mid-storm
+const CAPSIZE_COST=20;                // flat Resource burned when the ship capsizes (1/5 of the pool)
+const RESCUE_MIN=5, RESCUE_MAX=9;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
+// storm difficulty per round: gust strength, instability, gust interval (ms)
+const STORM=[
+  {gust:24, inst:0.9,  iv:1500},
+  {gust:31, inst:1.15, iv:1250},
+  {gust:39, inst:1.45, iv:1050},
+  {gust:48, inst:1.75, iv:880},
+  {gust:58, inst:2.10, iv:740}
+];
 
 let G=null;   // game
 let R=null;   // current round
 
 function fresh(name,target){
-  return { name, target, round:0, score:0, results:[], secondChanceUsed:false, keyChanceUsed:false };
+  return { name, target, round:0, score:0, results:[], resource:RESOURCE_MAX };
 }
 
 /* ---------------- screen flow ---------------- */
+function goHome(){
+  if(typeof stopStorm==='function') stopStorm();
+  if(typeof clearInstr==='function') clearInstr();
+  const mr=document.getElementById('modal-root'); if(mr) mr.innerHTML='';
+  const ov=document.getElementById('res-ov'); if(ov){ ov.style.display='none'; ov.innerHTML=''; }
+  SFX.play('click');
+  show('sc-setup');
+}
 function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
@@ -412,6 +612,7 @@ function renderBest(){
 }
 
 function startGame(){
+  SFX.play('click');
   const name=(document.getElementById('player-name').value||'Voyager').trim().slice(0,24);
   let t=parseInt(document.getElementById('score-target').value,10);
   if(isNaN(t)||t<1) t=8; if(t>30) t=30;
@@ -425,10 +626,68 @@ function playIntroAnim(){
   show('sc-anim');
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hold = reduced ? 1200 : 4000;   // auto-advance, no input needed
-  setTimeout(()=>{ show('sc-intro'); }, hold);
+  setTimeout(()=>{ show('sc-intro'); playInstructions(); }, hold);
+}
+
+/* ---------- animated instruction player ---------- */
+const INSTR_SHIP='<svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg">'+
+  '<rect x="66" y="26" width="5" height="58" fill="var(--ink)"/><rect x="66" y="30" width="30" height="4" fill="var(--ink)"/>'+
+  '<rect x="120" y="36" width="20" height="26" fill="var(--ink)"/><rect x="96" y="54" width="60" height="30" rx="3" fill="var(--ink)"/>'+
+  '<path d="M14,84 L226,84 C226,84 214,120 190,120 L50,120 C26,120 14,84 14,84 Z" fill="var(--ink)"/>'+
+  '<circle cx="108" cy="69" r="4" fill="var(--bg)"/><circle cx="126" cy="69" r="4" fill="var(--bg)"/><circle cx="144" cy="69" r="4" fill="var(--bg)"/></svg>';
+let instrTimers=[];
+function clearInstr(){ instrTimers.forEach(clearTimeout); instrTimers=[]; }
+function iT(fn,ms){ instrTimers.push(setTimeout(fn,ms)); }
+function iTap(id,cls){ const e=document.getElementById(id); if(!e)return; e.classList.add('tapping'); iT(()=>{const x=document.getElementById(id); if(x){x.classList.remove('tapping');x.classList.add(cls);}},450); }
+
+let instrPage=0;
+const INSTR_BEATS=[beatKeys, beatLifeboat, beatKeyChance];
+function playInstructions(){ instrPage=0; renderInstrPage(); }
+function instrNext(){ if(instrPage < INSTR_BEATS.length-1){ instrPage++; renderInstrPage(); SFX.play('tap'); } }
+function renderInstrPage(){
+  clearInstr();
+  const stage=document.getElementById('instr-stage');
+  const cap=document.getElementById('instr-cap');
+  const dots=document.getElementById('instr-dots');
+  if(!stage) return;
+  dots.innerHTML=INSTR_BEATS.map(()=>'<div class="d"></div>').join('');
+  document.querySelectorAll('#instr-dots .d').forEach((d,j)=>d.classList.toggle('on',j===instrPage));
+  INSTR_BEATS[instrPage](stage,cap);
+  const last = instrPage===INSTR_BEATS.length-1;
+  const nextB=document.getElementById('instr-next');
+  const castB=document.getElementById('instr-cast');
+  if(nextB) nextB.style.display = last?'none':'';
+  if(castB) castB.style.display = last?'':'none';
+}
+function beatKeys(stage,cap){
+  cap.innerHTML='A storm tilts the ship. Tap the <strong>opposite side</strong> to right her — hold level for 20 seconds. <strong>+2</strong>';
+  stage.innerHTML='<div class="v-keys"><div class="v-ship" id="vk-ship" style="transition:transform .7s cubic-bezier(.34,1.56,.64,1);transform:rotate(16deg)">'+INSTR_SHIP+'</div>'+
+    '<div class="helm" style="margin-top:14px;max-width:260px"><div class="v-helm" id="vhL">◀ PORT</div><div class="v-helm" id="vhR">STARBOARD ▶</div></div></div>';
+  iT(()=>document.getElementById('vhL')?.classList.add('tapping'),800);
+  iT(()=>{ const s=document.getElementById('vk-ship'); if(s) s.style.transform='rotate(0deg)'; const l=document.getElementById('vhL'); if(l){l.classList.remove('tapping');l.classList.add('lit');} },1400);
+}
+function beatLifeboat(stage,cap){
+  cap.innerHTML='Every moment off-level drains your <strong>Resource</strong> — the sloppier you steer, the faster it empties. It is shared across all 5 rounds.';
+  stage.innerHTML='<div class="v-lb" style="gap:20px"><div class="rm-track" style="width:72%"><div class="rm-fill" id="vdrain" style="width:100%"></div></div>'+
+    '<div class="v-ship" style="transform:rotate(15deg)">'+INSTR_SHIP+'</div></div>';
+  iT(()=>{ const e=document.getElementById('vdrain'); if(e){ e.style.transition='width 2.2s linear'; e.style.width='38%'; } },500);
+}
+function beatKeyChance(stage,cap){
+  cap.innerHTML='Can’t hold her? Take the <strong>lifeboat</strong>: claim bundles of numbers, the sea draws one, match it to survive. <strong>+1</strong> — more Resource left means more bundles.';
+  const rows=['1–20','21–40','41–60','61–80','81–100'];
+  stage.innerHTML='<div class="v-lb"><div class="v-ring">🛟</div><div class="v-chiprow">'+
+    rows.map((r,i)=>'<div class="v-chip" id="vb'+i+'">'+r+'</div>').join('')+
+    '</div><div class="v-draw" id="vbd">Sea draws · 47</div></div>';
+  iT(()=>document.getElementById('vb1')?.classList.add('claimed'),450);
+  iT(()=>document.getElementById('vb2')?.classList.add('claimed'),750);
+  iT(()=>document.getElementById('vbd')?.classList.add('show'),1500);
+  iT(()=>document.getElementById('vb2')?.classList.add('hit'),2100);
 }
 
 function beginPlay(){
+  clearInstr();
+  if(typeof stopStorm==='function') stopStorm();
+  SFX.play('click');
   document.getElementById('hm-target').textContent=G.target;
   show('sc-play');
   nextRound();
@@ -438,21 +697,13 @@ function beginPlay(){
 function nextRound(){
   if(G.round>=TOTAL_ROUNDS){ endGame(); return; }
   G.round++;
-  const keyCount=KEYS_PER_ROUND[G.round-1];
   R={
-    keyCount,
-    trueKey: Math.floor(Math.random()*keyCount),
-    removed: new Set(),        // keys taken out by Increase Key Chance
-    tried: [],                 // indices tried
-    attemptsUsed:0,
-    phase:'keys',              // keys | lifeboat | done
-    resolved:false,
-    keyChanceUsed:false,       // used in THIS round
-    secondChanceActive:false,
-    selected:new Set(),
-    drawn:null,
-    outcome:null,              // 'key' | 'lifeboat' | 'lost'
-    points:0
+    storm: STORM[G.round-1],
+    angle:0, vel:0, elapsed:0,
+    phase:'storm',             // storm | lifeboat | done
+    resolved:false, drifting:false, revealing:false,
+    selected:new Set(), drawn:null,
+    outcome:null, points:0
   };
   renderTracker();
   renderTurn();
@@ -476,147 +727,145 @@ function updateHope(){
   document.getElementById('hm-nums').innerHTML=`<strong>${G.score}</strong> / <strong>${G.target}</strong>`;
   const meter=document.getElementById('hope-meter');
   if(G.score>=G.target){ fill.classList.add('done'); meter.classList.add('unlocked');
-    document.getElementById('hm-label').textContent='Hope reached — but the voyage isn\u2019t over.'; }
+    document.getElementById('hm-label').textContent='Hope reached — but the voyage isn’t over.'; }
   else { fill.classList.remove('done'); meter.classList.remove('unlocked');
     document.getElementById('hm-label').textContent=`${Math.max(0,G.target-G.score)} more to face your hope.`; }
 }
 
 /* ---------------- bundle math ---------------- */
-function bundleAllowance(){
-  let n=BASE_BUNDLES-R.attemptsUsed;              // earlier = more
-  if(n<3) n=3;
-  if(R.secondChanceActive) n=n*2;
-  const totalBundles=Math.floor(100/BUNDLE_SIZE); // 25
-  return Math.max(1,Math.min(totalBundles,n));
-}
+
 
 /* ---------------- render turn ---------------- */
 function renderTurn(){
   const c=document.getElementById('turn-card');
-  updateHope();
+  updateHope(); updateResource();
 
-  if(R.phase==='keys')      c.innerHTML=keysHTML();
-  else if(R.phase==='lifeboat') c.innerHTML=lifeboatHTML();
-  else if(R.phase==='done') c.innerHTML=summaryHTML();
-
-  if(R.phase==='keys') bindKeys();
-  if(R.phase==='lifeboat') bindBundles();
+  if(R.phase==='storm'){ c.innerHTML=stormHTML(); bindStorm(); startStorm(); }
+  else if(R.phase==='lifeboat'){ c.innerHTML=lifeboatHTML(); bindBundles(); }
+  else if(R.phase==='done'){ c.innerHTML=summaryHTML(); }
 }
 
-function liveKeyCount(){ return R.keyCount - R.removed.size; }
+/* ---------------- Resource meter ---------------- */
+function updateResource(){
+  const f=document.getElementById('rm-fill'); if(!f) return;
+  const pct=Math.max(0,Math.min(100,G.resource));
+  f.style.width=pct+'%';
+  f.classList.toggle('low',pct<25);
+  const n=document.getElementById('rm-nums'); if(n) n.textContent=Math.round(pct);
+}
 
-function keysHTML(){
-  let pips='';
-  for(let i=0;i<MAX_ATTEMPTS;i++){
-    const cls = i<R.attemptsUsed?'used':(i===R.attemptsUsed?'current':'empty');
-    pips+=`<div class="kp ${cls}">${i<R.attemptsUsed?'✕':(i===R.attemptsUsed?'?':'')}</div>`;
-  }
-  let keys='';
-  for(let i=0;i<R.keyCount;i++){
-    if(R.removed.has(i)) continue;              // key taken out of the lineup
-    const wasTried=R.tried.includes(i);
-    keys+=`<button class="key-btn ${wasTried?'tried-bad':''}" data-k="${i}" ${wasTried?'disabled':''}>🔑</button>`;
-  }
+/* ---------------- STORM round ---------------- */
+let stormRAF=null, stormLast=0, stormGust=0, capsizeT=0, stormPaused=false;
 
-  // Increase Key Chance — once per game, one round only, anytime in the round
-  const canKeyChance = !G.keyChanceUsed && !R.keyChanceUsed && liveKeyCount()>1;
-  const keyChanceBtn = G.keyChanceUsed ? '' :
-    `<button class="btn-storm" id="btn-kc" ${canKeyChance?'':'disabled'}>
-       <span>✦ Increase Key Chance</span>
-       <span class="tag-storm">remove 1 key · once per game</span></button>`;
-
-  const sc = G.secondChanceUsed ? '' :
-    `<button class="btn-storm" id="btn-sc"><span>✦ Arm Double Lifeboat</span><span class="tag-storm">×2 bundles</span></button>`;
-  const scNote = R.secondChanceActive ? `<div style="font-size:11px;color:var(--ink2);text-align:center;margin:2px 0 8px">Double Lifeboat armed — your lifeboat bundles will double.</div>`:'';
-
+function stormHTML(){
   return `
-  <div class="card-key">
+  <div class="card-key storm-card" id="storm-card">
     <div class="turn-header">
       <span class="round-pill">Round <span>${G.round}</span> / ${TOTAL_ROUNDS}</span>
-      <span class="tag-warn">${liveKeyCount()} compartments · one steadies</span>
+      <span class="tag-warn" id="storm-timer">0:20</span>
     </div>
-    <div class="key-pips">${pips}</div>
-    <div style="text-align:center;font-size:12px;color:var(--txt3)">${MAX_ATTEMPTS-R.attemptsUsed} attempts left</div>
-    <div class="key-grid">${keys}</div>
-    <div class="feedline" id="feed">Choose a key to open a compartment. Or take the boat and save yourself.</div>
+    <div class="storm-stage" id="storm-stage">
+      <div class="tilt-dial"><div class="tilt-needle" id="tilt-needle"></div></div>
+      <div class="storm-ship" id="storm-ship">${INSTR_SHIP}</div>
+      <div class="storm-sea"></div>
+    </div>
+    <div class="feedline" id="feed">Keep the ship level. Tap the side <strong>opposite</strong> the tilt.</div>
+    <div class="helm">
+      <button class="helm-btn" id="helm-l">◀ PORT</button>
+      <button class="helm-btn" id="helm-r">STARBOARD ▶</button>
+    </div>
   </div>
-  ${scNote}
-  <button class="btn-lb" onclick="openLifeboat()">
-    <span>🛟 Take the Lifeboat</span>
-    <span class="tag-lb">${bundleAllowance()} bundles · +1</span>
+  <button class="boat-btn" onclick="openLifeboat()">
+    <span class="ring">🛟</span>
+    <span><span class="bl-main">Abandon Ship · Lifeboat</span>
+      <span class="bl-sub">${bundleAllowance()} bundles of numbers · save yourself</span></span>
+    <span class="bl-tag">+1</span>
   </button>
-  ${keyChanceBtn}
-  ${sc}`;
+  `;
 }
 
-function bindKeys(){
-  document.querySelectorAll('.key-btn').forEach(b=>{
-    b.addEventListener('click',()=>tryKey(parseInt(b.dataset.k,10),b));
-  });
-  const sc=document.getElementById('btn-sc');
-  if(sc) sc.addEventListener('click',()=>{
-    R.secondChanceActive=!R.secondChanceActive;
-    renderTurn();
-  });
-  const kc=document.getElementById('btn-kc');
-  if(kc) kc.addEventListener('click',useKeyChance);
+function bindStorm(){
+  const L=document.getElementById('helm-l'), Rb=document.getElementById('helm-r');
+  if(L) L.addEventListener('click',()=>pressHelm(-1));
+  if(Rb) Rb.addEventListener('click',()=>pressHelm(1));
+}
+function pressHelm(dir){            // dir -1 = port (corrects right tilt), +1 = starboard
+  if(R.phase!=='storm'||R.resolved||R.drifting) return;
+  R.vel += dir*PRESS_NUDGE;
+  SFX.play('tap');
 }
 
-function useKeyChance(){
-  if(R.resolved) return;
-  if(G.keyChanceUsed || R.keyChanceUsed) return;
-  // remove one untried, non-true key from the live lineup
-  const candidates=[];
-  for(let i=0;i<R.keyCount;i++){
-    if(i===R.trueKey) continue;
-    if(R.removed.has(i)) continue;
-    if(R.tried.includes(i)) continue;
-    candidates.push(i);
-  }
-  if(!candidates.length) return;
-  const pick=candidates[Math.floor(Math.random()*candidates.length)];
-  R.removed.add(pick);
-  R.keyChanceUsed=true;
-  G.keyChanceUsed=true;
-  const feed=`A false key discarded. ${liveKeyCount()} remain — your odds just rose.`;
-  const c=document.getElementById('turn-card');
-  c.innerHTML=keysHTML(); bindKeys();
-  document.getElementById('feed').textContent=feed;
+function startStorm(){
+  stopStorm();
+  stormLast=performance.now(); stormGust=0; capsizeT=0;
+  R.gustDir = Math.random()<0.5?-1:1;
+  const step=(now)=>{
+    if(R.phase!=='storm'||R.resolved||stormPaused){ return; }
+    let dt=(now-stormLast)/1000; stormLast=now; if(dt>0.05) dt=0.05;
+    const s=R.storm;
+    // gusts
+    stormGust+=dt*1000;
+    if(stormGust>=s.iv){ stormGust=0; R.gustDir=Math.random()<0.5?-1:1;
+      R.vel += R.gustDir*s.gust*(0.6+Math.random()*0.8); }
+    // instability: the more she leans, the faster she falls (unstable — must be actively corrected)
+    R.vel += Math.sign(R.angle)*Math.min(Math.abs(R.angle),60)*s.inst*dt;
+    R.vel *= 0.985;
+    R.angle += R.vel*dt;
+    if(R.angle>75)R.angle=75; if(R.angle<-75)R.angle=-75;
+    // Resource drain from being off-level (sloppier = faster)
+    const off=Math.max(0,Math.abs(R.angle)-DEADZONE);
+    if(!R.drifting && off>0){ G.resource -= off*DRAIN_K*dt; if(G.resource<0)G.resource=0; }
+    if(G.resource<=0 && !R.drifting){ R.drifting=true; onDrift(); }
+    // timers
+    R.elapsed += dt*1000;
+    if(Math.abs(R.angle)>=CAPSIZE){ capsizeT+=dt*1000; if(capsizeT>=CAPSIZE_HOLD){ return stormLose(); } }
+    else capsizeT=Math.max(0,capsizeT-dt*1000*1.5);
+    if(R.elapsed>=ROUND_MS){ return stormWin(); }
+    renderStormFrame();
+    stormRAF=requestAnimationFrame(step);
+  };
+  stormRAF=requestAnimationFrame(step);
+}
+function stopStorm(){ if(stormRAF){ cancelAnimationFrame(stormRAF); stormRAF=null; } }
+
+function renderStormFrame(){
+  const ship=document.getElementById('storm-ship'); if(ship) ship.style.transform=`rotate(${R.angle.toFixed(2)}deg)`;
+  const nd=document.getElementById('tilt-needle'); if(nd) nd.style.transform=`rotate(${Math.max(-60,Math.min(60,R.angle)).toFixed(2)}deg)`;
+  const t=document.getElementById('storm-timer'); if(t){ const left=Math.max(0,Math.ceil((ROUND_MS-R.elapsed)/1000)); t.textContent='0:'+String(left).padStart(2,'0'); }
+  const card=document.getElementById('storm-card'); if(card) card.classList.toggle('danger',Math.abs(R.angle)>=CAPSIZE-8);
+  updateResource();
+}
+function onDrift(){
+  const f=document.getElementById('feed'); if(f){ f.innerHTML='Out of Resource — you can’t steer. <strong>Take the lifeboat, now.</strong>'; }
+  document.querySelectorAll('.helm-btn').forEach(b=>b.disabled=true);
+  SFX.play('lose');
+}
+function stormWin(){ stopStorm(); if(R.resolved)return; resolve('storm',2,'⛵','Through The Storm','You held her level. +2'); }
+function stormLose(){
+  // Capsize no longer ends the round outright — it burns Resource and drops you into a stingy rescue lifeboat.
+  stopStorm(); if(R.resolved) return;
+  G.resource = Math.max(0, G.resource - CAPSIZE_COST);
+  R.rescue = true;
+  SFX.play('lose');
+  flashResult('err','🌊','Capsized!','Scramble for the lifeboat — the sea is close.');
+  setTimeout(()=>{ R.phase='lifeboat'; R.selected=new Set(); renderTurn(); }, 1500);
 }
 
-function tryKey(i,btn){
-  if(R.resolved) return;
-  if(R.tried.includes(i)) return;
-  R.tried.push(i);
-  R.attemptsUsed++;
-  if(i===R.trueKey){
-    btn.classList.remove('tried-bad'); btn.classList.add('tried-good');
-    document.getElementById('feed').textContent='The compartment opens. The ship steadies.';
-    resolve('key',2,'🔑','Compartment Opened','The ship levels. You saved it. +2');
-  } else {
-    btn.classList.add('tried-bad');
-    if(R.attemptsUsed>=MAX_ATTEMPTS){
-      document.getElementById('feed').textContent='No key left. The ship rolls over.';
-      resolve('lost',0,'🌊','The Ship Is Lost','No compartment opened, no boat taken. +0');
-    } else {
-      const left=MAX_ATTEMPTS-R.attemptsUsed;
-      document.getElementById('feed').textContent = left===1
-        ? 'That one won\u2019t open. One attempt remains.'
-        : `That one won\u2019t open. ${left} attempts remain.`;
-      // re-render key panel so lifeboat allowance shrinks
-      const c=document.getElementById('turn-card');
-      const feed=document.getElementById('feed').textContent;
-      c.innerHTML=keysHTML(); bindKeys();
-      document.getElementById('feed').textContent=feed;
-    }
-  }
+function bundleAllowance(){
+  const frac=Math.max(0,Math.min(1,G.resource/RESOURCE_MAX));
+  let n;
+  if(R.rescue){ n=Math.round(RESCUE_MIN+frac*(RESCUE_MAX-RESCUE_MIN)); }   // capsized → stingier, floored
+  else { n=Math.round(LB_MIN+frac*(LB_MAX-LB_MIN)); }                      // chosen bail → generous
+  return Math.max(1,Math.min(Math.floor(100/BUNDLE_SIZE),n));
 }
 
 /* ---------------- lifeboat ---------------- */
 function openLifeboat(){
   if(R.resolved) return;
+  stopStorm();
   R.phase='lifeboat';
   R.selected=new Set();
+  SFX.play('click');
   renderTurn();
 }
 
@@ -629,21 +878,23 @@ function lifeboatHTML(){
     grid+=`<button class="bundle-btn" data-b="${i}">
       <span class="range">${lo}–${hi}</span><span class="count">4 nums</span></button>`;
   }
-  const scNote = R.secondChanceActive ? `<div style="font-size:12px;color:var(--ink2);text-align:center;margin-bottom:8px">✦ Double Lifeboat active — bundles doubled.</div>`:'';
+  const scNote = '';
+  const rescueNote = R.rescue ? `<div class="storm-warn" style="margin-bottom:10px">🌊 Capsized — this is a rescue. Fewer bundles than if you’d bailed in time.</div>`:'';
   return `
   <div class="card-lb">
     <div class="turn-header">
       <span class="round-pill">Round <span>${G.round}</span> / ${TOTAL_ROUNDS}</span>
-      <span class="tag-lb">Lifeboat · +1 to survive</span>
+      <span class="${R.rescue?'tag-err':'tag-lb'}">${R.rescue?'Rescue lifeboat':'Lifeboat'} · +1 to survive</span>
     </div>
-    ${scNote}
+    ${rescueNote}${scNote}
     <p style="text-align:center;font-size:13px;color:var(--txt2);margin-bottom:4px">
-      Claim <strong class="lbcount" id="lb-remaining">${allow}</strong> bundles across 1–100.<br>
-      <span style="font-size:11px;color:var(--txt3)">The sea draws one number. Land in a claimed bundle and you live.</span>
+      Claim <strong class="lbcount" id="lb-remaining">${allow}</strong> bundles of numbers from 1–100.<br>
+      <span style="font-size:11px;color:var(--txt3)">The sea draws one number. Land in a claimed bundle of numbers and you live.</span>
     </p>
+    <div class="lb-reveal" id="lb-reveal"></div>
     <div class="bundle-grid" id="bundle-grid">${grid}</div>
     <button class="btn-p" id="lb-confirm" disabled onclick="confirmLifeboat()">Board the Lifeboat</button>
-    ${R.attemptsUsed===0 ? `<button class="btn-ghost" onclick="backToKeys()">↩ Back to the keys</button>`:''}
+
   </div>`;
 }
 
@@ -651,9 +902,10 @@ function bindBundles(){
   const allow=bundleAllowance();
   document.querySelectorAll('.bundle-btn').forEach(b=>{
     b.addEventListener('click',()=>{
+      if(R.revealing || R.resolved) return;
       const i=parseInt(b.dataset.b,10);
       if(R.selected.has(i)){ R.selected.delete(i); b.classList.remove('sel'); }
-      else if(R.selected.size<allow){ R.selected.add(i); b.classList.add('sel'); }
+      else if(R.selected.size<allow){ R.selected.add(i); b.classList.add('sel'); SFX.play('select'); }
       const remaining=allow-R.selected.size;
       document.getElementById('lb-remaining').textContent=remaining;
       document.getElementById('lb-confirm').disabled=R.selected.size===0;
@@ -666,33 +918,44 @@ function bindBundles(){
   });
 }
 
-function backToKeys(){ R.phase='keys'; renderTurn(); }
+
 
 function confirmLifeboat(){
-  if(R.resolved) return;
-  if(R.secondChanceActive) G.secondChanceUsed=true;
+  if(R.resolved || R.revealing) return;
+
   const draw=Math.floor(Math.random()*100)+1;
   R.drawn=draw;
   const hitBundle=Math.floor((draw-1)/BUNDLE_SIZE);
   const survived=R.selected.has(hitBundle);
-  // reveal draw briefly
+  R.revealing=true;                                   // lock input during the held reveal
+  SFX.play('draw');
+  // disable the confirm button so it can't fire again
+  const cb=document.getElementById('lb-confirm'); if(cb){ cb.disabled=true; }
+  // light the drawn bundle green (in range) or red (not), and show the number
   const el=document.querySelector(`.bundle-btn[data-b="${hitBundle}"]`);
-  if(el) el.classList.add('hit');
+  if(el){ el.classList.add('hit', survived?'win':'lose'); el.scrollIntoView({block:'center',behavior:'smooth'}); }
+  const rev=document.getElementById('lb-reveal');
+  if(rev){
+    rev.textContent = survived ? `The sea drew ${draw} — in your bundle ✓` : `The sea drew ${draw} — not yours ✗`;
+    rev.classList.add('show', survived?'win':'lose');
+  }
   setTimeout(()=>{
+    R.revealing=false;
     if(survived) resolve('lifeboat',1,'🛟','The Sea Spared You',`It drew ${draw}. You claimed it. +1`);
     else resolve('lost',0,'🌊','Swallowed by the Sea',`It drew ${draw}. Not yours. +0`);
-  },650);
+  },1500);
 }
 
 /* ---------------- resolve + summary ---------------- */
 function resolve(outcome,pts,icon,title,sub){
   R.resolved=true; R.outcome=outcome; R.points=pts;
+  SFX.play(pts>0?'win':'lose');
   G.score+=pts;
   G.results[G.round-1]={ round:G.round, outcome, points:pts,
-    attemptsUsed:R.attemptsUsed, keyChance:R.keyChanceUsed, secondChance:R.secondChanceActive, drawn:R.drawn };
-  const cls = outcome==='key'?'ok':(outcome==='lifeboat'?'neu':'err');
+    resourceLeft:Math.round(G.resource), drawn:R.drawn, drifting:R.drifting };
+  const cls = outcome==='lost'?'err':(outcome==='lifeboat'?'neu':'ok');
   flashResult(cls,icon,title,sub);
-  if(pts>0) confetti(outcome==='key'?70:45);
+  if(pts>0) confetti(outcome==='storm'?70:45);
   setTimeout(()=>{
     R.phase='done';
     renderTracker();
@@ -702,7 +965,7 @@ function resolve(outcome,pts,icon,title,sub){
 
 function summaryHTML(){
   const last=G.results[G.round-1];
-  const label = last.outcome==='key'?'Key turned':(last.outcome==='lifeboat'?'Lifeboat survived':'Lost to the sea');
+  const label = last.outcome==='storm'?'Held the storm':(last.outcome==='lifeboat'?'Lifeboat survived':'Capsized');
   const tag = last.points>0?`<span class="tag-ok">+${last.points}</span>`:`<span class="tag-err">+0</span>`;
   const more = G.round<TOTAL_ROUNDS;
   return `
@@ -712,10 +975,8 @@ function summaryHTML(){
       ${tag}
     </div>
     <div class="sum-row"><span class="sum-label">Outcome</span><span class="sum-val">${label}</span></div>
-    <div class="sum-row"><span class="sum-label">Keys tried</span><span class="sum-val">${last.attemptsUsed}</span></div>
+    <div class="sum-row"><span class="sum-label">Resource left</span><span class="sum-val">${last.resourceLeft}</span></div>
     ${last.drawn?`<div class="sum-row"><span class="sum-label">Sea drew</span><span class="sum-val">${last.drawn}</span></div>`:''}
-    ${last.keyChance?`<div class="sum-row"><span class="sum-label">Key Chance</span><span class="sum-val">✦ used</span></div>`:''}
-    ${last.secondChance?`<div class="sum-row"><span class="sum-label">Double Lifeboat</span><span class="sum-val">✦ spent</span></div>`:''}
     <div class="sum-row"><span class="sum-label">Total hope</span><span class="sum-val" style="color:var(--hopetx)">${G.score} / ${G.target}</span></div>
   </div>
   <button class="btn-p" onclick="nextRound()">${more?'Next Round ⚓':'See the Voyage End'}</button>`;
@@ -724,7 +985,8 @@ function summaryHTML(){
 /* ---------------- end ---------------- */
 function endGame(){
   const won=G.score>=G.target;
-  const keyWins=G.results.filter(r=>r.outcome==='key').length;
+  SFX.play(won?'hope':'lose');
+  const stormWins=G.results.filter(r=>r.outcome==='storm').length;
   const boatWins=G.results.filter(r=>r.outcome==='lifeboat').length;
   const losses=G.results.filter(r=>r.outcome==='lost').length;
 
@@ -746,9 +1008,9 @@ function endGame(){
             :'<span class="tag-err" style="font-size:13px;padding:5px 16px">Fell short</span>'}
       ${isBest?'<span class="tag-warn" style="font-size:13px;padding:5px 16px;margin-left:6px">New best</span>':''}
     </div>
-    <div class="srow"><span class="sl">🔑 Keys turned</span><span class="sv">${keyWins} · +${keyWins*2}</span></div>
+    <div class="srow"><span class="sl">⛵ Storms weathered</span><span class="sv">${stormWins} · +${stormWins*2}</span></div>
     <div class="srow"><span class="sl">🛟 Lifeboats survived</span><span class="sv">${boatWins} · +${boatWins}</span></div>
-    <div class="srow"><span class="sl">🌊 Rounds lost</span><span class="sv">${losses}</span></div>
+    <div class="srow"><span class="sl">🌊 Ships lost</span><span class="sv">${losses}</span></div>
     <div class="closing-q">So, can you face your Hope?</div>
   `;
   if(won) confetti(140);
@@ -758,8 +1020,11 @@ function endGame(){
 
 /* ---------------- stats modal ---------------- */
 function showStatus(){
+  // pause an active storm while the log is open (so the timer/drain don't run)
+  stormPaused = !!(R && R.phase==='storm' && !R.resolved);
+  if(stormPaused) stopStorm();
   const rows=G.results.map((r,i)=>{
-    const l = r.outcome==='key'?'🔑 Key':(r.outcome==='lifeboat'?'🛟 Boat':'🌊 Lost');
+    const l = r.outcome==='storm'?'⛵ Held':(r.outcome==='lifeboat'?'🛟 Boat':'🌊 Lost');
     return `<div class="srow"><span class="sl">Round ${i+1}</span><span class="sv">${l} · +${r.points}</span></div>`;
   }).join('') || '<div class="srow"><span class="sl">No rounds yet</span></div>';
   const root=document.getElementById('modal-root');
@@ -769,12 +1034,15 @@ function showStatus(){
       ${rows}
       <div class="srow" style="margin-top:6px"><span class="sl" style="color:var(--hopetx)">Hope</span>
         <span class="sv" style="color:var(--hopetx)">${G.score} / ${G.target}</span></div>
-      <div class="srow"><span class="sl">Increase Key Chance</span><span class="sv">${G.keyChanceUsed?'spent':'available'}</span></div>
-      <div class="srow"><span class="sl">Double Lifeboat</span><span class="sv">${G.secondChanceUsed?'spent':'available'}</span></div>
+      <div class="srow"><span class="sl">⚓ Resource left</span><span class="sv">${Math.round(G.resource)}</span></div>
       <div class="mbr"><button class="btn-p" onclick="closeModal()">Close</button></div>
     </div></div>`;
 }
-function closeModal(e){ if(e&&e.target.closest('.modal'))return; document.getElementById('modal-root').innerHTML=''; }
+function closeModal(e){
+  if(e&&e.target.closest('.modal'))return;
+  document.getElementById('modal-root').innerHTML='';
+  if(stormPaused){ stormPaused=false; if(R && R.phase==='storm' && !R.resolved){ stormLast=performance.now(); startStorm(); } }
+}
 
 /* ---------------- result overlay ---------------- */
 function flashResult(cls,icon,title,sub){
@@ -817,8 +1085,11 @@ tick();
 
 /* ---------------- init ---------------- */
 renderBest();
-document.getElementById('tbtn').textContent='\u263e Dark';
+document.getElementById('tbtn').textContent='☾ Dark';
 document.getElementById('player-name').addEventListener('keydown',e=>{ if(e.key==='Enter') startGame(); });
+SFX.initMuted();
+document.getElementById('mbtn').innerHTML = SFX.isMuted() ? '&#128263;' : '&#128266;';
+document.addEventListener('pointerdown', function armOnce(){ SFX.arm(); }, {once:true});
 
 </script>
 </body>
