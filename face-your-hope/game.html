@@ -372,7 +372,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 .tilt-dial::after{content:"";position:absolute;bottom:0;left:50%;width:1px;height:58px;margin-left:-.5px;background:var(--b2,rgba(128,128,128,.4))}
 .tilt-needle{position:absolute;bottom:0;left:50%;width:4px;height:56px;margin-left:-2px;background:var(--ink);transform-origin:50% 100%;border-radius:2px}
 .helm{display:flex;gap:12px;margin-top:10px}
-.helm-btn{flex:1;background:var(--raised);border:3px solid var(--line);border-radius:12px;padding:20px 8px;font-family:'Anton';font-size:18px;letter-spacing:1px;color:var(--ink);box-shadow:4px 5px 0 var(--sc);cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+.helm-btn{flex:1;background:var(--raised);border:3px solid var(--line);border-radius:12px;padding:14px 8px;font-family:'Anton';font-size:18px;letter-spacing:1px;color:var(--ink);box-shadow:4px 5px 0 var(--sc);cursor:pointer;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
 .helm-btn:hover:not(:disabled){background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
 .helm-btn:active:not(:disabled){transform:translateY(3px);box-shadow:4px 2px 0 var(--sc);background:var(--yellow);color:#0A0A0A}
 .helm-btn:disabled{opacity:.4;cursor:not-allowed}
@@ -654,6 +654,11 @@ function playIntroAnim(){
 }
 
 /* ---------- animated instruction player ---------- */
+function arrow(dir,px){                 // dir 'l' | 'r'
+  const d = dir==='l' ? 'M15,4 L7,12 L15,20' : 'M9,4 L17,12 L9,20';
+  return `<svg width="${px}" height="${px}" viewBox="0 0 24 24" style="display:block;margin:0 auto" aria-hidden="true">
+    <path d="${d}" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
 function buoy(px){
   return `<svg class="buoy" width="${px}" height="${px}" viewBox="-12 -12 24 24" style="display:inline-block;vertical-align:middle" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <circle r="7.5" fill="none" stroke="#FFFFFF" stroke-width="5"/>
@@ -690,9 +695,9 @@ function renderInstrPage(){
   if(castB) castB.style.display = last?'':'none';
 }
 function beatKeys(stage,cap){
-  cap.innerHTML='A storm tilts the ship. Tap the <strong>opposite side</strong> to right her — hold level for 20 seconds. <strong>+2</strong>';
+  cap.innerHTML='A storm tilts the ship. Tap the arrow on the <strong>opposite side</strong> to right her — hold level for 20 seconds. <strong>+2</strong>';
   stage.innerHTML='<div class="v-keys"><div class="v-ship" id="vk-ship" style="transition:transform .7s cubic-bezier(.34,1.56,.64,1);transform:rotate(16deg)">'+INSTR_SHIP+'</div>'+
-    '<div class="helm" style="margin-top:14px;max-width:260px"><div class="v-helm" id="vhL">◀ PORT</div><div class="v-helm" id="vhR">STARBOARD ▶</div></div></div>';
+    '<div class="helm" style="margin-top:14px;max-width:260px"><div class="v-helm" id="vhL">'+arrow('l',26)+'</div><div class="v-helm" id="vhR">'+arrow('r',26)+'</div></div></div>';
   iT(()=>document.getElementById('vhL')?.classList.add('tapping'),800);
   iT(()=>{ const s=document.getElementById('vk-ship'); if(s) s.style.transform='rotate(0deg)'; const l=document.getElementById('vhL'); if(l){l.classList.remove('tapping');l.classList.add('lit');} },1400);
 }
@@ -817,10 +822,10 @@ function stormHTML(){
       <div class="storm-sea sea-front"><svg viewBox="0 0 800 120" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M0,50 Q50,-20 100,50 T200,50 T300,50 T400,50 T500,50 T600,50 T700,50 T800,50 L800,130 L0,130 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" vector-effect="non-scaling-stroke"/></svg></div>
     </div>
-    <div class="feedline" id="feed">Keep the ship level. Tap the side <strong>opposite</strong> the tilt.</div>
+    <div class="feedline" id="feed">Keep the ship level. Tap the arrow <strong>opposite</strong> the tilt.</div>
     <div class="helm">
-      <button class="helm-btn" id="helm-l">◀ PORT</button>
-      <button class="helm-btn" id="helm-r">STARBOARD ▶</button>
+      <button class="helm-btn" id="helm-l" aria-label="Steer left">${arrow('l',44)}</button>
+      <button class="helm-btn" id="helm-r" aria-label="Steer right">${arrow('r',44)}</button>
     </div>
   </div>
   <button class="boat-btn" onclick="openLifeboat()">
