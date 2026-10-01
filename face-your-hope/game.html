@@ -567,8 +567,10 @@ const PRESS_NUDGE=42;                 // deg/s impulse per helm tap
 const DEADZONE=6;                     // within ±6° costs no Resource
 const CAPSIZE=46;                     // beyond ±46° held too long = capsize
 const CAPSIZE_HOLD=1100;              // ms past capsize angle before she goes down
-const DRAIN_K=0.32;                   // Resource drained per (deg off-level) per second — careful play clears ~3 storms; neglect empties the pool mid-storm
-const CAPSIZE_COST=20;                // flat Resource burned when the ship capsizes (1/5 of the pool)
+const DRAIN_K=0.12;                   // Resource drained per (deg off-level) per second — a sloppy helm loses ~15 a storm, so the pool lasts 3–4 rounds
+const CAPSIZE_COST=12;                // flat Resource burned when the ship capsizes
+const RESUPPLY_BELOW=30;              // at round end, Resource under this triggers a resupply
+const RESUPPLY_AMOUNT=40;             // Resource added by a resupply
 const RESCUE_MIN=5, RESCUE_MAX=9;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
 // storm difficulty per round: gust strength, instability, gust interval (ms)
 const STORM=[
@@ -581,6 +583,9 @@ const STORM=[
 
 let G=null;   // game
 let R=null;   // current round
+let gameTimers=[];
+function later(fn,ms){ gameTimers.push(setTimeout(fn,ms)); }
+function clearGameTimers(){ gameTimers.forEach(clearTimeout); gameTimers=[]; }
 
 function fresh(name,target){
   return { name, target, round:0, score:0, results:[], resource:RESOURCE_MAX };
@@ -588,8 +593,8 @@ function fresh(name,target){
 
 /* ---------------- screen flow ---------------- */
 function goHome(){
-  if(typeof stopStorm==='function') stopStorm();
-  if(typeof clearInstr==='function') clearInstr();
+  stopStorm(); stormPaused=false;
+  clearInstr(); clearGameTimers();
   const mr=document.getElementById('modal-root'); if(mr) mr.innerHTML='';
   const ov=document.getElementById('res-ov'); if(ov){ ov.style.display='none'; ov.innerHTML=''; }
   SFX.play('click');
@@ -616,6 +621,7 @@ function startGame(){
   const name=(document.getElementById('player-name').value||'Voyager').trim().slice(0,24);
   let t=parseInt(document.getElementById('score-target').value,10);
   if(isNaN(t)||t<1) t=8; if(t>30) t=30;
+  clearGameTimers(); stopStorm(); stormPaused=false;
   G=fresh(name,t);
   document.getElementById('intro-welcome').textContent=`Welcome aboard, ${name}.`;
   document.getElementById('intro-target').textContent=t;
@@ -626,7 +632,7 @@ function playIntroAnim(){
   show('sc-anim');
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hold = reduced ? 1200 : 4000;   // auto-advance, no input needed
-  setTimeout(()=>{ show('sc-intro'); playInstructions(); }, hold);
+  later(()=>{ show('sc-intro'); playInstructions(); }, hold);
 }
 
 /* ---------- animated instruction player ---------- */
@@ -667,7 +673,7 @@ function beatKeys(stage,cap){
   iT(()=>{ const s=document.getElementById('vk-ship'); if(s) s.style.transform='rotate(0deg)'; const l=document.getElementById('vhL'); if(l){l.classList.remove('tapping');l.classList.add('lit');} },1400);
 }
 function beatLifeboat(stage,cap){
-  cap.innerHTML='Every moment off-level drains your <strong>Resource</strong> — the sloppier you steer, the faster it empties. It is shared across all 5 rounds.';
+  cap.innerHTML='Every moment off-level drains your <strong>Resource</strong> — the sloppier you steer, the faster it empties. It is shared across all 5 rounds — drop below 30 and you’ll be resupplied when the round ends.';
   stage.innerHTML='<div class="v-lb" style="gap:20px"><div class="rm-track" style="width:72%"><div class="rm-fill" id="vdrain" style="width:100%"></div></div>'+
     '<div class="v-ship" style="transform:rotate(15deg)">'+INSTR_SHIP+'</div></div>';
   iT(()=>{ const e=document.getElementById('vdrain'); if(e){ e.style.transition='width 2.2s linear'; e.style.width='38%'; } },500);
@@ -686,9 +692,9 @@ function beatKeyChance(stage,cap){
 
 function beginPlay(){
   clearInstr();
-  if(typeof stopStorm==='function') stopStorm();
+  stopStorm();
   SFX.play('click');
-  document.getElementById('hm-target').textContent=G.target;
+  updateHope(); updateResource();
   show('sc-play');
   nextRound();
 }
@@ -848,7 +854,7 @@ function stormLose(){
   R.rescue = true;
   SFX.play('lose');
   flashResult('err','🌊','Capsized!','Scramble for the lifeboat — the sea is close.');
-  setTimeout(()=>{ R.phase='lifeboat'; R.selected=new Set(); renderTurn(); }, 1500);
+  later(()=>{ R.phase='lifeboat'; R.selected=new Set(); renderTurn(); }, 1500);
 }
 
 function bundleAllowance(){
@@ -939,7 +945,7 @@ function confirmLifeboat(){
     rev.textContent = survived ? `The sea drew ${draw} — in your bundle ✓` : `The sea drew ${draw} — not yours ✗`;
     rev.classList.add('show', survived?'win':'lose');
   }
-  setTimeout(()=>{
+  later(()=>{
     R.revealing=false;
     if(survived) resolve('lifeboat',1,'🛟','The Sea Spared You',`It drew ${draw}. You claimed it. +1`);
     else resolve('lost',0,'🌊','Swallowed by the Sea',`It drew ${draw}. Not yours. +0`);
@@ -951,15 +957,19 @@ function resolve(outcome,pts,icon,title,sub){
   R.resolved=true; R.outcome=outcome; R.points=pts;
   SFX.play(pts>0?'win':'lose');
   G.score+=pts;
+  const before=G.resource, resupplied=before<RESUPPLY_BELOW && G.round<TOTAL_ROUNDS;
+  if(resupplied) G.resource=Math.min(RESOURCE_MAX,G.resource+RESUPPLY_AMOUNT);
   G.results[G.round-1]={ round:G.round, outcome, points:pts,
-    resourceLeft:Math.round(G.resource), drawn:R.drawn, drifting:R.drifting };
+    resourceLeft:Math.round(G.resource), resupply:resupplied?Math.round(G.resource-before):0,
+    drawn:R.drawn, drifting:R.drifting };
   const cls = outcome==='lost'?'err':(outcome==='lifeboat'?'neu':'ok');
   flashResult(cls,icon,title,sub);
   if(pts>0) confetti(outcome==='storm'?70:45);
-  setTimeout(()=>{
+  later(()=>{
     R.phase='done';
     renderTracker();
     renderTurn();
+    if(resupplied) showResupply(before);
   },1500);
 }
 
@@ -976,6 +986,7 @@ function summaryHTML(){
     </div>
     <div class="sum-row"><span class="sum-label">Outcome</span><span class="sum-val">${label}</span></div>
     <div class="sum-row"><span class="sum-label">Resource left</span><span class="sum-val">${last.resourceLeft}</span></div>
+    ${last.resupply?`<div class="sum-row"><span class="sum-label">⚓ Resupplied</span><span class="sum-val">+${last.resupply}</span></div>`:''}
     ${last.drawn?`<div class="sum-row"><span class="sum-label">Sea drew</span><span class="sum-val">${last.drawn}</span></div>`:''}
     <div class="sum-row"><span class="sum-label">Total hope</span><span class="sum-val" style="color:var(--hopetx)">${G.score} / ${G.target}</span></div>
   </div>
@@ -1042,6 +1053,22 @@ function closeModal(e){
   if(e&&e.target.closest('.modal'))return;
   document.getElementById('modal-root').innerHTML='';
   if(stormPaused){ stormPaused=false; if(R && R.phase==='storm' && !R.resolved){ stormLast=performance.now(); startStorm(); } }
+}
+
+/* ---------------- resupply popup (only between rounds) ---------------- */
+function showResupply(before){
+  SFX.play('hope');
+  confetti(40);
+  document.getElementById('modal-root').innerHTML=`<div class="modal-bg">
+    <div class="modal" style="text-align:center">
+      <span class="res-icon">⚓</span>
+      <h3>Resources Added!</h3>
+      <p style="font-size:14px;font-weight:600;color:var(--ink2);line-height:1.5">
+        You were running low at <strong style="color:var(--danger)">${Math.round(before)}</strong>.<br>
+        The crew rallied — <strong style="color:var(--ink)">+${Math.round(G.resource-before)} Resource</strong>. You now have <strong style="color:var(--ink)">${Math.round(G.resource)}</strong>.</p>
+      <p style="font-family:'Anton';font-size:16px;letter-spacing:1px;text-transform:uppercase;margin-top:12px;color:var(--ink)">Hope is still alive. Keep sailing.</p>
+      <div class="mbr"><button class="btn-p" onclick="closeModal()">Keep Sailing ⚓</button></div>
+    </div></div>`;
 }
 
 /* ---------------- result overlay ---------------- */
