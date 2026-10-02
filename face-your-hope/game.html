@@ -678,11 +678,11 @@ const RESUPPLY_BELOW=30;              // at round end, Resource under this trigg
 const RESUPPLY_AMOUNT=40;             // Resource added by a resupply
 const RESCUE_MIN=5, RESCUE_MAX=9;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
 // storm difficulty per round: gust strength, instability, gust interval (ms)
-// round 1 is the warm-up; each storm then jumps a big step, round 4 is the hardest finale
+// the 5-round curve minus its warm-up: round 1 = old round 2 … round 4 = old round-5 finale
 const STORM=[
-  {gust:22, inst:0.8,  iv:1650},
   {gust:33, inst:1.2,  iv:1200},
-  {gust:45, inst:1.68, iv:950},
+  {gust:40, inst:1.45, iv:1050},
+  {gust:50, inst:1.9,  iv:850},
   {gust:60, inst:2.3,  iv:720}
 ];
 
