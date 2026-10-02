@@ -810,10 +810,10 @@ function beatKeyChance(stage,cap){
 }
 
 function beatRescue(stage,cap){
-  cap.innerHTML='Lose control and the ship <strong>capsizes</strong>? You still get a <strong>rescue lifeboat</strong> — but with <strong>fewer bundles</strong> than if you had taken the lifeboat yourself.';
+  cap.innerHTML='Lose control and the ship <strong>sinks</strong>? You still get a <strong>rescue lifeboat</strong> — but with <strong>fewer bundles</strong> than if you had taken the lifeboat yourself.';
   stage.innerHTML='<div class="v-lb" style="gap:18px"><div class="v-ship" id="vr-ship" style="transition:transform 1s cubic-bezier(.5,0,.75,0);transform:rotate(8deg)">'+INSTR_SHIP+'</div>'+
     '<div class="v-cmp"><div class="v-chip claimed">You take the lifeboat · more bundles</div>'+
-    '<div class="v-chip rescue" id="vr-b">Capsized · rescue · fewer bundles</div></div></div>';
+    '<div class="v-chip rescue" id="vr-b">Sunk · rescue · fewer bundles</div></div></div>';
   iT(()=>{ const sh=document.getElementById('vr-ship'); if(sh) sh.style.transform='rotate(68deg) translateY(10px)'; },400);
   iT(()=>{ SFX.play('wrong'); document.getElementById('vr-b')?.classList.add('show'); },1500);
 }
@@ -996,7 +996,7 @@ function stormLose(){
   stopStorm(); if(R.resolved) return;
   R.rescue = true;
   SFX.play('lose');
-  flashResult('err','🌊','Capsized!','Scramble for the lifeboat — the sea is close.');
+  flashResult('err','🌊','Sunk!','Scramble for the lifeboat — the sea is close.');
   later(()=>{ R.phase='arrive'; renderTurn(); }, 1500);
 }
 
@@ -1110,7 +1110,7 @@ function lifeboatHTML(){
       <span class="range">${lo}–${hi}</span><span class="count">4 nums</span></button>`;
   }
   const scNote = '';
-  const rescueNote = R.rescue ? `<div class="storm-warn">🌊 Capsized — fewer bundles than bailing in time.</div>`:'';
+  const rescueNote = R.rescue ? `<div class="storm-warn">🌊 The ship sank — fewer bundles this time.</div>`:'';
   return `
   <div class="card-lb">
     <div class="turn-header">
