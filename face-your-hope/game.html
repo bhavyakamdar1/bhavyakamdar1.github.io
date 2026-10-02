@@ -437,6 +437,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 #turn-card .turn-header{margin-bottom:8px}
 .turn-header .round-pill,.turn-header .tag-ok,.turn-header .tag-err,.turn-header .tag-lb,.turn-header .tag-warn{white-space:nowrap}
 #turn-card .storm-stage{flex:1;height:auto;min-height:130px;max-height:480px;margin:0}
+#turn-card .storm-stage.arrive-stage{max-height:none}
 .storm-ship{top:calc(69% - 60px)}
 #turn-card .feedline{font-size:13px;min-height:0;margin:6px 0 0;line-height:1.3}
 #turn-card .helm{margin-top:8px}
@@ -503,7 +504,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
     <svg class="bolt bolt-a" viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg>
     <svg class="bolt bolt-b" viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg>
     <div class="anim-caption">
-      <div class="t">Caught in a Thunderstorm</div>
+      <div class="t">Thunderstorm's Coming</div>
       <div class="s">Can you save the ship?</div>
     </div>
     <div class="ship-anchor">
@@ -1015,21 +1016,18 @@ function arriveHTML(){
       <span class="${R.rescue?'tag-err':'tag-lb'}">${R.rescue?'Rescue line':'Lifeboat incoming'}</span>
     </div>
     <div class="storm-stage arrive-stage">
-      <svg viewBox="0 0 400 232" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-        <line x1="0" y1="128" x2="400" y2="128" stroke="var(--ink)" stroke-width="1" opacity=".25"/>
-        <path d="M0,130 C60,124 120,136 200,130 C280,124 340,136 400,130 L400,232 L0,232 Z" fill="var(--yellow2)"/>
-        <g id="arr-boat" transform="translate(330,132) scale(.32)">
+      <svg id="arr-svg" viewBox="0 0 400 232" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <path id="arr-back" fill="var(--yellow2)"/>
+        <g id="arr-boat">
           <path d="M-32,-14 L-32,-30 Q0,-46 32,-30 L32,-14 Z" fill="var(--bg)" stroke="var(--ink)" stroke-width="3"/>
           <circle cx="-14" cy="-25" r="4" fill="var(--ink)"/><circle cx="0" cy="-28" r="4" fill="var(--ink)"/><circle cx="14" cy="-25" r="4" fill="var(--ink)"/>
           <path d="M-50,-14 L50,-14 L38,8 L-38,8 Z" fill="var(--ink)"/>
           <rect x="-44" y="-9" width="88" height="4" fill="var(--yellow)"/>
         </g>
-        <path d="M-10,214 C60,204 130,222 200,212 C270,202 340,220 410,210 L410,240 L-10,240 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3"/>
+        <path id="arr-front" fill="var(--yellow)"/>
         <polyline id="arr-rope" points="" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-        <g id="arr-hook" transform="translate(52,206)">
-          <path d="M0,0 L0,10 Q0,18 7,18 Q13,18 13,11 L10,13" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/>
-        </g>
-        <path d="M0,232 L0,198 L46,198 L58,206 L58,232 Z" fill="var(--ink)"/>
+        <g id="arr-hook"><path d="M0,0 L0,10 Q0,18 7,18 Q13,18 13,11 L10,13" fill="none" stroke="var(--ink)" stroke-width="3" stroke-linecap="round"/></g>
+        <path id="arr-deck" fill="var(--ink)"/>
       </svg>
     </div>
     <div class="feedline" id="arr-feed">Throwing a line…</div>
@@ -1039,10 +1037,20 @@ function playArrive(){
   stopArrive();
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const speed = reduced ? 2.5 : 1;
+  // lay the scene out for the stage's real shape: full width always visible, taller stages get a deeper sea and a bigger boat
+  const svg=document.getElementById('arr-svg');
+  let H=232;
+  if(svg){ const r=svg.getBoundingClientRect(); if(r.width>0) H=Math.max(180,400*r.height/r.width); svg.setAttribute('viewBox',`0 0 400 ${H.toFixed(1)}`); }
+  const yH=H*0.40, yF=H*0.86;                          // horizon, front swell
+  const wave=(y,a,x0,x1)=>`M${x0},${y} C60,${y-a} 130,${y+a} 200,${y} C270,${y-a} 340,${y+a} ${x1},${y} L${x1},${H+10} L${x0},${H+10} Z`;
+  const set=(id,d)=>{ const e=document.getElementById(id); if(e) e.setAttribute('d',d); };
+  set('arr-back',wave(yH,5,0,400));
+  set('arr-front',wave(yF,10,-10,410));
+  set('arr-deck',`M0,${H} L0,${H-36} L48,${H-36} L60,${H-28} L60,${H} Z`);
   const boat=document.getElementById('arr-boat'), rope=document.getElementById('arr-rope'),
         hook=document.getElementById('arr-hook'), feed=document.getElementById('arr-feed');
-  const P0={x:52,y:200};                               // our deck, where the line is thrown from
-  const FAR={x:330,y:132,s:.32}, NEAR={x:205,y:196,s:1};
+  const P0={x:54,y:H-34};                              // our deck, where the line is thrown from
+  const FAR={x:326,y:yH+4,s:.45}, NEAR={x:220,y:H*0.85,s:Math.max(1,Math.min(2,H/232*1.15))};
   const bow=(b)=>({x:b.x-46*b.s, y:b.y-14*b.s});     // hook catches the lifeboat's bow
   const quad=(a,c,b,u)=>({x:(1-u)*(1-u)*a.x+2*(1-u)*u*c.x+u*u*b.x, y:(1-u)*(1-u)*a.y+2*(1-u)*u*c.y+u*u*b.y});
   const curve=(a,c,b,u)=>{ const pts=[]; for(let i=0;i<=24;i++) pts.push(quad(a,c,b,u*i/24)); return pts.map(p=>p.x.toFixed(1)+','+p.y.toFixed(1)).join(' '); };
@@ -1054,7 +1062,7 @@ function playArrive(){
     const t=(now-t0)*speed;
     let b={...FAR}, rot=0;
     if(t<T_THROW){                                       // the hook flies out on an arc
-      const u=t/T_THROW, tgt=bow(FAR), ctrl={x:170,y:10};
+      const u=t/T_THROW, tgt=bow(FAR), ctrl={x:170,y:yH-H*0.3};
       b.y+=Math.sin(t/260)*1.5;
       rope.setAttribute('points',curve(P0,ctrl,tgt,u));
       const h=quad(P0,ctrl,tgt,u); hook.setAttribute('transform',`translate(${h.x.toFixed(1)},${h.y.toFixed(1)})`);
