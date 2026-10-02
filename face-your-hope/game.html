@@ -53,27 +53,37 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);overfl
 /* INTRO SHIP ANIMATION */
 .anim-screen{padding:0}
 .anim-screen.active{display:flex !important;align-items:center;justify-content:center;min-height:100vh;animation:fadeIn .4s ease}
-.anim-stage{position:relative;width:100%;max-width:520px;height:62vh;max-height:540px;overflow:hidden}
-.anim-caption{position:absolute;top:7%;left:0;right:0;text-align:center;z-index:3;animation:capIn 3.4s ease both}
+.anim-stage{position:relative;z-index:1;width:100%;height:100vh;height:100dvh;overflow:hidden}
+.anim-caption{position:absolute;top:14%;left:0;right:0;text-align:center;z-index:3;animation:capIn 3.4s ease both}
 .anim-caption .t{font-family:'Anton','Inter',sans-serif;font-weight:800;font-size:clamp(26px,8vw,40px);text-transform:uppercase;letter-spacing:1px;color:var(--ink);line-height:1;transform:rotate(-2deg)}
 .anim-caption .s{font-family:'Inter';font-weight:800;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--ink2);margin-top:10px}
-.sea-wrap{position:absolute;left:0;right:0;bottom:0;height:52%;overflow:hidden;z-index:2;animation:seaRise 3.4s ease-out both}
+.sea-wrap{position:absolute;left:0;right:0;bottom:0;height:48%;overflow:hidden;z-index:2;animation:seaRise 3.4s ease-out both}
 .sea-svg{position:absolute;bottom:0;left:0;width:225%;height:100%;animation:seaLoop 5.25s linear infinite}
 @keyframes seaLoop{from{transform:translateX(0)}to{transform:translateX(-33.3333%)}}
-.ship-anchor{position:absolute;left:50%;top:26%;width:60%;max-width:280px;transform:translateX(-50%);z-index:1}
-.ship-move{transform-origin:50% 88%;animation:shipSink 3.4s cubic-bezier(.45,.05,.55,.95) both}
+.ship-anchor{position:absolute;left:50%;top:calc(68% - min(30vw,140px));width:60%;max-width:280px;transform:translateX(-50%);z-index:1}
+.ship-move{transform-origin:50% 88%;animation:shipRock 3.6s ease-in-out both}
 .ship-move svg{width:100%;display:block;overflow:visible}
-@keyframes shipSink{
-  0%{transform:translateY(-6px) rotate(0deg)}
-  20%{transform:translateY(-10px) rotate(-3deg)}
-  45%{transform:translateY(-2px) rotate(-9deg)}
-  70%{transform:translateY(24px) rotate(-18deg)}
-  100%{transform:translateY(58px) rotate(-25deg)}
+@keyframes shipRock{          /* tossed by the storm, but still afloat */
+  0%{transform:translateY(0) rotate(0deg)}
+  18%{transform:translateY(-10px) rotate(-12deg)}
+  38%{transform:translateY(6px) rotate(10deg)}
+  58%{transform:translateY(-8px) rotate(-15deg)}
+  78%{transform:translateY(4px) rotate(9deg)}
+  100%{transform:translateY(-2px) rotate(-4deg)}
 }
+.anim-flash{position:absolute;inset:0;background:var(--yellow);opacity:0;z-index:0;pointer-events:none;animation:stormFlash 3.6s linear both}
+.bolt{position:absolute;width:clamp(34px,10vw,52px);opacity:0;z-index:1;pointer-events:none}
+.bolt-a{top:30%;right:12%;transform:rotate(8deg);animation:boltA 3.6s linear both}
+.bolt-b{top:24%;left:10%;transform:rotate(-10deg) scale(.8);animation:boltB 3.6s linear both}
+@keyframes boltA{0%,22%{opacity:0}23%,27%{opacity:1}29%,31%{opacity:0}32%,36%{opacity:1}40%,100%{opacity:0}}
+@keyframes boltB{0%,62%{opacity:0}63%,68%{opacity:1}70%,72%{opacity:0}73%,77%{opacity:1}81%,100%{opacity:0}}
+@keyframes stormFlash{0%,22%{opacity:0}23%{opacity:.45}27%{opacity:0}32%{opacity:.3}36%,62%{opacity:0}63%{opacity:.4}68%{opacity:0}73%{opacity:.25}77%,100%{opacity:0}}
+
 @keyframes seaRise{0%{transform:translateY(46px)}100%{transform:translateY(0)}}
 @keyframes capIn{0%,25%{opacity:0}55%,100%{opacity:1}}
 @media (prefers-reduced-motion: reduce){
   .ship-move{animation-duration:1s} .sea-wrap{animation-duration:1s} .anim-caption{animation-duration:1s}
+  .anim-flash{animation:none} .bolt{animation:none;opacity:1}
 }
 
 /* AMBIENT SPLATTER */
@@ -488,10 +498,13 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 
 <!-- SHIP ANIMATION (auto-plays, then advances to intro) -->
 <div id="sc-anim" class="screen anim-screen">
+  <div class="anim-flash"></div>
   <div class="anim-stage">
+    <svg class="bolt bolt-a" viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg>
+    <svg class="bolt bolt-b" viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg>
     <div class="anim-caption">
-      <div class="t">The Ship Is Sinking</div>
-      <div class="s">Can you save it?</div>
+      <div class="t">Caught in a Thunderstorm</div>
+      <div class="s">Can you save the ship?</div>
     </div>
     <div class="ship-anchor">
       <div class="ship-move">
@@ -624,6 +637,7 @@ const SFX=(()=>{
     count:()=>beep({freq:440,dur:0.14,type:'square',gain:0.07}),
     go:()=>{ beep({freq:660,dur:0.1,type:'square',gain:0.07}); beep({freq:990,dur:0.26,type:'triangle',gain:0.1,delay:0.08}); },
     throw:()=>beep({freq:900,dur:0.45,type:'sine',gain:0.05,slideTo:300}),
+    thunder:()=>{ beep({freq:95,dur:0.9,type:'sawtooth',gain:0.09,slideTo:38}); beep({freq:140,dur:0.5,type:'square',gain:0.04,slideTo:60,delay:0.05}); },
     draw:()=>beep({freq:300,dur:0.5,type:'sine',gain:0.09,slideTo:620}),
     win:()=>[523,659,784].forEach((f,i)=>beep({freq:f,dur:0.16,type:'triangle',gain:0.11,delay:i*0.09})),
     lose:()=>[300,230,170].forEach((f,i)=>beep({freq:f,dur:0.26,type:'sawtooth',gain:0.09,delay:i*0.12})),
@@ -721,6 +735,7 @@ function playIntroAnim(){
   show('sc-anim');
   const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const hold = reduced ? 1200 : 4000;   // auto-advance, no input needed
+  if(!reduced){ later(()=>SFX.play('thunder'), 830); later(()=>SFX.play('thunder'), 2270); }
   later(()=>{ show('sc-intro'); playInstructions(); }, hold);
 }
 
