@@ -375,6 +375,65 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 .v-helm{flex:1;text-align:center;border:2.5px solid var(--line);border-radius:10px;padding:12px 6px;font-family:'Anton';font-size:14px;letter-spacing:.5px;color:var(--ink);background:var(--bg);position:relative}
 .v-helm.lit{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
 .v-helm.tapping::after{content:"";position:absolute;inset:-6px;border:3px solid var(--ink);border-radius:13px;animation:tapPulse .5s ease}
+
+/* ===== ONE-SCREEN PHONE LAYOUT ===== */
+#sc-play.active{display:flex;flex-direction:column;height:100vh;height:100dvh;min-height:0;padding:10px 12px 10px}
+.play-wrap{flex:1;display:flex;flex-direction:column;min-height:0}
+.play-head{display:flex;gap:6px;justify-content:center;align-items:stretch;height:36px;margin:0 96px 10px 112px}
+.play-head .score-chip{flex-direction:row;gap:6px;min-width:0;padding:0 10px;margin:0}
+.play-head .score-chip .sc-v{font-size:20px}
+.play-head .btn-sm{margin:0;padding:0 10px;white-space:nowrap}
+.res-meter{display:flex;align-items:center;gap:10px;padding:7px 12px;margin-bottom:8px;box-shadow:3px 3px 0 var(--sc)}
+.res-meter .rm-title{font-size:13px;white-space:nowrap}
+.res-meter .rm-track{flex:1;height:12px}
+.res-meter .rm-nums{min-width:28px;text-align:right}
+.round-tracker{margin-bottom:8px}
+.rt-pip{height:8px}
+#turn-card{flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto}
+#turn-card .card-key,#turn-card .card-lb,#turn-card .card-sum{padding:10px 12px;margin-bottom:8px;box-shadow:4px 4px 0 var(--sc)}
+#turn-card .turn-header{margin-bottom:8px}
+#turn-card .storm-card{flex:1;display:flex;flex-direction:column;min-height:0}
+#turn-card .storm-stage{flex:1;height:auto;min-height:130px;max-height:480px;margin:0}
+.storm-ship{top:calc(69% - 60px)}
+#turn-card .feedline{font-size:13px;min-height:0;margin:6px 0 0;line-height:1.3}
+#turn-card .helm{margin-top:8px}
+#turn-card .helm-btn{padding:6px 8px}
+#turn-card .helm-btn svg{width:38px;height:38px}
+#turn-card .boat-btn{flex:none;margin-top:0;padding:8px 16px 12px;gap:10px}
+#turn-card .boat-btn .ring svg{width:28px;height:28px}
+#turn-card .bundle-grid{grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}
+#turn-card .bundle-btn{padding:7px 2px}
+#turn-card .bundle-btn .count{display:none}
+#turn-card .bundle-btn .range{font-size:12px}
+#turn-card .lb-reveal{margin:2px 0;min-height:20px;font-size:16px}
+#turn-card .storm-warn{padding:6px 10px;font-size:12px}
+#turn-card .btn-p{margin-top:4px;padding:12px}
+/* title plates shrink on shorter screens so setup / intro / end fit too */
+@media (max-height:860px){
+  #sc-setup>div,#sc-intro>div,#sc-end>div{padding-top:34px !important}
+  .tb{padding:12px 10px 10px;margin-bottom:12px}
+  .tb h1{font-size:clamp(40px,12vw,66px)}
+  .instr-stage{height:170px}
+  .instr-heading{margin:0 0 8px}
+  #sc-end .big-score{font-size:52px}
+  .closing-q{margin:12px 0 0}
+}
+@media (max-height:700px){
+  #sc-setup>div,#sc-intro>div,#sc-end>div{padding-top:30px !important}
+  .screen{padding:12px 14px}
+  .tb{padding:6px 10px;margin-bottom:8px}
+  .tb h1{font-size:clamp(30px,9vw,46px);margin:4px 0}
+  .tb .sub{font-size:10px;letter-spacing:4px}
+  .tb .byline,.tb .ital{margin-top:4px}
+  .instr-heading{font-size:18px;margin:0 0 6px}
+  .instr-stage{height:130px}
+  .instr-cap{min-height:0}
+  .instr-target{margin-top:8px;padding-top:8px}
+  .card{padding:12px;margin-bottom:10px}
+  #sc-end .big-score{font-size:44px;margin:4px 0}
+  #sc-end .srow{padding:6px 0}
+  .closing-q{font-size:17px;margin:8px 0 0}
+}
 </style>
 </head>
 <body>
@@ -399,7 +458,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
     <div class="card">
       <h3 style="font-family:'Anton';font-size:16px;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:12px">Your Name</h3>
       <input type="text" placeholder="Enter your name" id="player-name"/>
-      <p style="font-size:12px;font-weight:600;color:var(--muted);margin:2px 0 4px">Score <strong style="color:var(--ink)">8 or more</strong> out of 10 across 5 rounds to win.</p>
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin:2px 0 4px">Score <strong style="color:var(--ink)">9 or more</strong> out of 10 across 5 rounds to win.</p>
       <button class="btn-p" onclick="startGame()">Begin</button>
       <button class="btn-ghost" id="replay-tut" onclick="startGame(true)" style="display:none">&#9654; How to play</button>
     </div>
@@ -455,7 +514,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
       <div class="instr-stage" id="instr-stage"></div>
       <div class="instr-cap" id="instr-cap"></div>
       <div class="instr-dots" id="instr-dots"></div>
-      <div class="instr-target">Score <strong>8 or more</strong> out of 10 across 5 rounds to keep the ship afloat — and face your hope.</div>
+      <div class="instr-target">Score <strong>9 or more</strong> out of 10 across 5 rounds to keep the ship afloat — and face your hope.</div>
     </div>
     <div class="instr-nav">
       <button class="btn-ghost" id="instr-restart" onclick="playInstructions()">&#8635; Restart</button>
@@ -468,20 +527,17 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 
 <!-- PLAY -->
 <div id="sc-play" class="screen">
-  <div style="padding-top:44px">
-    <div style="display:flex;gap:10px;align-items:stretch;margin-bottom:12px">
-      <div class="tb-sm">
-        <h1>Face Your Hope</h1>
-        <p class="sub">To Hope Is To Risk</p>
-      </div>
+  <div class="play-wrap">
+    <!-- sits in the same band as the fixed corner buttons -->
+    <div class="play-head">
       <div class="score-chip" id="score-chip"><span class="sc-l">Score</span><span class="sc-v" id="score-val">0<small>/10</small></span></div>
-      <button class="btn-sm" onclick="showStatus()" style="white-space:nowrap;margin-bottom:12px">Stats</button>
+      <button class="btn-sm" onclick="showStatus()">Stats</button>
     </div>
 
-    <div class="res-meter" id="res-meter">
-      <div class="rm-top"><span class="rm-title">&#9875; Resource</span><span class="rm-nums" id="rm-nums">100</span></div>
+    <div class="res-meter" id="res-meter" title="Your strength against the storm — shared across all 5 rounds">
+      <span class="rm-title">&#9875; Resource</span>
       <div class="rm-track"><div class="rm-fill" id="rm-fill" style="width:100%"></div></div>
-      <p class="rm-label" id="rm-label">Your strength against the storm — shared across all 5 rounds.</p>
+      <span class="rm-nums" id="rm-nums">100</span>
     </div>
 
     <div class="round-tracker" id="round-tracker"></div>
@@ -570,7 +626,7 @@ function toggleSound(){
 /* ---------------- game state ---------------- */
 const TOTAL_ROUNDS=5;
 const MAX_SCORE=TOTAL_ROUNDS*2;        // a storm held = +2
-const WIN_SCORE=8;                    // 8, 9 or 10 is a victory
+const WIN_SCORE=9;                    // only 9 or 10 is a victory
 const ROUND_MS=20000;                 // 20 seconds per storm
 const RESOURCE_MAX=100;               // shared pool across the whole voyage
 const BUNDLE_SIZE=4;                  // each bundle = 4 numbers of 1..100
@@ -579,18 +635,18 @@ const PRESS_NUDGE=42;                 // deg/s impulse per helm tap
 const DEADZONE=6;                     // within ±6° costs no Resource
 const CAPSIZE=46;                     // beyond ±46° held too long = capsize
 const CAPSIZE_HOLD=1100;              // ms past capsize angle before she goes down
-const DRAIN_K=0.07;                   // Resource drained per (deg off-level) per second — a sloppy helm loses ~10 a storm
+const DRAIN_K=0.16;                   // Resource drained per (deg off-level) per second — most helms dip below 30 by round 3–4 and get resupplied
 const RESUPPLY_BELOW=30;              // at round end, Resource under this triggers a resupply
 const RESUPPLY_AMOUNT=40;             // Resource added by a resupply
 const RESCUE_MIN=5, RESCUE_MAX=9;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
 // storm difficulty per round: gust strength, instability, gust interval (ms)
-// starts gentle and ramps up; round 5 is the challenging finale
+// round 1 starts where round 2 used to be; each round steps up, round 5 is the hardest finale
 const STORM=[
-  {gust:16, inst:0.6,  iv:1900},
   {gust:22, inst:0.8,  iv:1650},
   {gust:28, inst:1.0,  iv:1400},
   {gust:33, inst:1.2,  iv:1200},
-  {gust:46, inst:1.72, iv:910}
+  {gust:40, inst:1.45, iv:1050},
+  {gust:50, inst:1.9,  iv:850}
 ];
 
 let G=null;   // game
