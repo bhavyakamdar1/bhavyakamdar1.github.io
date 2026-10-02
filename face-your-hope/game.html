@@ -376,13 +376,44 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 .v-helm.lit{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
 .v-helm.tapping::after{content:"";position:absolute;inset:-6px;border:3px solid var(--ink);border-radius:13px;animation:tapPulse .5s ease}
 
-/* ===== ONE-SCREEN PHONE LAYOUT ===== */
-#sc-play.active{display:flex;flex-direction:column;height:100vh;height:100dvh;min-height:0;padding:10px 12px 10px}
+/* ===== ONE-SCREEN LAYOUT: every screen is exactly the height of the viewport ===== */
+.screen.active{display:flex;flex-direction:column;height:100vh;height:100dvh;min-height:0;padding:10px 12px 12px;overflow:hidden}
+.anim-screen.active{padding:0}
+.page{flex:1;display:flex;flex-direction:column;min-height:0;padding-top:48px}      /* clears the corner buttons */
+.page>*{flex:none}
+.page .btn-p,.page .btn-ghost{margin-top:0}
+/* the title plate soaks up the spare height and centres itself */
+.page>.tb{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;justify-content:center;margin:0 0 10px;padding:4px 8px}
+.tb h1{font-size:clamp(32px,min(15vw,8.5dvh),88px)}
+.page .card{margin-bottom:10px}
+/* setup */
+#sc-setup .card .btn-ghost{margin-top:8px}
+#best-score-display .card-s{padding:8px 12px;margin:0;box-shadow:3px 3px 0 var(--sc)}
+/* intro: one-line title, the tutorial card stretches */
+#sc-intro .page>.tb{flex:0 0 auto;padding:0 8px 2px;margin-bottom:6px}
+#sc-intro .tb h1{font-size:clamp(26px,min(9vw,5.2dvh),48px);margin:4px 0}
+#sc-intro .tb h1 span{display:inline;margin:0 .1em}
+#sc-intro .instr-heading{margin:0 0 6px}
+#sc-intro .instr-card{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding:12px}
+#sc-intro .instr-stage{flex:1;height:auto;min-height:110px}
+#sc-intro .instr-cap{min-height:0}
+#sc-intro .instr-target{margin-top:8px;padding-top:8px}
+#sc-intro .instr-nav{margin-top:0}
+#sc-intro .instr-skip{margin-top:8px}
+/* end */
+#sc-end .card{padding:14px}
+#sc-end .big-score{font-size:clamp(40px,7dvh,64px);margin:4px 0}
+#sc-end .srow{padding:6px 0}
+#sc-end .closing-q{margin:10px 0 0}
+
+/* play screen */
 .play-wrap{flex:1;display:flex;flex-direction:column;min-height:0}
 .play-head{display:flex;gap:6px;justify-content:center;align-items:stretch;height:36px;margin:0 96px 10px 112px}
-.play-head .score-chip{flex-direction:row;gap:6px;min-width:0;padding:0 10px;margin:0}
-.play-head .score-chip .sc-v{font-size:20px}
-.play-head .btn-sm{margin:0;padding:0 10px;white-space:nowrap}
+.play-head .score-chip{flex:none;flex-direction:column;justify-content:center;gap:0;min-width:0;padding:0 10px;margin:0;white-space:nowrap}
+.play-head .score-chip .sc-l{font-size:7px;letter-spacing:1.5px;line-height:1}
+.play-head .score-chip .sc-v{font-size:18px;line-height:1.05}
+.play-head .score-chip .sc-v small{font-size:11px}
+.play-head .btn-sm{flex:none;margin:0;padding:0 10px;white-space:nowrap}
 .res-meter{display:flex;align-items:center;gap:10px;padding:7px 12px;margin-bottom:8px;box-shadow:3px 3px 0 var(--sc)}
 .res-meter .rm-title{font-size:13px;white-space:nowrap}
 .res-meter .rm-track{flex:1;height:12px}
@@ -390,50 +421,39 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 .round-tracker{margin-bottom:8px}
 .rt-pip{height:8px}
 #turn-card{flex:1;display:flex;flex-direction:column;min-height:0;overflow-y:auto}
+#turn-card>*{flex:none}
 #turn-card .card-key,#turn-card .card-lb,#turn-card .card-sum{padding:10px 12px;margin-bottom:8px;box-shadow:4px 4px 0 var(--sc)}
+#turn-card>.storm-card,#turn-card>.card-lb,#turn-card>.card-sum{flex:1 1 auto;display:flex;flex-direction:column;min-height:0}
 #turn-card .turn-header{margin-bottom:8px}
-#turn-card .storm-card{flex:1;display:flex;flex-direction:column;min-height:0}
+.turn-header .round-pill,.turn-header .tag-ok,.turn-header .tag-err,.turn-header .tag-lb,.turn-header .tag-warn{white-space:nowrap}
 #turn-card .storm-stage{flex:1;height:auto;min-height:130px;max-height:480px;margin:0}
 .storm-ship{top:calc(69% - 60px)}
 #turn-card .feedline{font-size:13px;min-height:0;margin:6px 0 0;line-height:1.3}
 #turn-card .helm{margin-top:8px}
 #turn-card .helm-btn{padding:6px 8px}
 #turn-card .helm-btn svg{width:38px;height:38px}
-#turn-card .boat-btn{flex:none;margin-top:0;padding:8px 16px 12px;gap:10px}
+#turn-card .boat-btn{margin-top:0;padding:8px 16px 12px;gap:10px}
 #turn-card .boat-btn .ring svg{width:28px;height:28px}
-#turn-card .bundle-grid{grid-template-columns:repeat(5,1fr);gap:6px;margin:8px 0}
-#turn-card .bundle-btn{padding:7px 2px}
+/* lifeboat: the number grid stretches to fill the card */
+.lb-text{text-align:center;font-size:13px;color:var(--ink2);margin-bottom:2px;line-height:1.35}
+.lb-text span{font-size:11px;color:var(--muted)}
+#turn-card .bundle-grid{flex:1;min-height:0;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,minmax(30px,1fr));gap:6px;margin:6px 0 8px}
+#turn-card .bundle-btn{padding:2px}
 #turn-card .bundle-btn .count{display:none}
-#turn-card .bundle-btn .range{font-size:12px}
-#turn-card .lb-reveal{margin:2px 0;min-height:20px;font-size:16px}
-#turn-card .storm-warn{padding:6px 10px;font-size:12px}
-#turn-card .btn-p{margin-top:4px;padding:12px}
-/* title plates shrink on shorter screens so setup / intro / end fit too */
-@media (max-height:860px){
-  #sc-setup>div,#sc-intro>div,#sc-end>div{padding-top:34px !important}
-  .tb{padding:12px 10px 10px;margin-bottom:12px}
-  .tb h1{font-size:clamp(40px,12vw,66px)}
-  .instr-stage{height:170px}
-  .instr-heading{margin:0 0 8px}
-  #sc-end .big-score{font-size:52px}
-  .closing-q{margin:12px 0 0}
-}
-@media (max-height:700px){
-  #sc-setup>div,#sc-intro>div,#sc-end>div{padding-top:30px !important}
-  .screen{padding:12px 14px}
-  .tb{padding:6px 10px;margin-bottom:8px}
-  .tb h1{font-size:clamp(30px,9vw,46px);margin:4px 0}
-  .tb .sub{font-size:10px;letter-spacing:4px}
-  .tb .byline,.tb .ital{margin-top:4px}
-  .instr-heading{font-size:18px;margin:0 0 6px}
-  .instr-stage{height:130px}
-  .instr-cap{min-height:0}
-  .instr-target{margin-top:8px;padding-top:8px}
-  .card{padding:12px;margin-bottom:10px}
-  #sc-end .big-score{font-size:44px;margin:4px 0}
-  #sc-end .srow{padding:6px 0}
-  .closing-q{font-size:17px;margin:8px 0 0}
-}
+#turn-card .bundle-btn .range{font-size:clamp(11px,min(3.6vw,2.1dvh),17px);white-space:nowrap}
+#turn-card .lb-reveal{margin:2px 0 0;min-height:20px;font-size:16px}
+#turn-card .storm-warn{padding:6px 10px;font-size:12px;margin-bottom:6px !important}
+#turn-card .btn-p{margin-top:0;padding:12px}
+/* round summary: a big result banner fills the stretched card */
+.sum-hero{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+.sum-hero .sh-ico{font-size:clamp(40px,8dvh,72px);line-height:1}
+.sum-hero .sh-ico svg{width:clamp(44px,8dvh,76px);height:clamp(44px,8dvh,76px)}
+.sum-hero .sh-big{font-family:'Anton';font-size:clamp(24px,4.6dvh,40px);text-transform:uppercase;letter-spacing:1px;color:var(--ink);line-height:1.05}
+.sum-hero .sh-pts{font-family:'Anton';font-size:clamp(20px,3.4dvh,30px);color:var(--ink2)}
+/* bigger tutorial art when there is room */
+#sc-intro .v-ship svg{width:clamp(74px,min(24vw,14dvh),140px)}
+#sc-intro .v-helm{padding:clamp(10px,2dvh,18px) 6px}
+.tb h1{font-size:clamp(32px,min(17vw,9.5dvh),96px)}
 </style>
 </head>
 <body>
@@ -449,7 +469,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 
 <!-- SETUP -->
 <div id="sc-setup" class="screen active">
-  <div style="padding-top:36px">
+  <div class="page">
     <div class="tb">
       <p class="sub">To Hope Is To Risk</p>
       <h1><span>Face</span><span>Your</span><span>Hope</span></h1>
@@ -503,7 +523,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 
 <!-- INTRO -->
 <div id="sc-intro" class="screen">
-  <div style="padding-top:30px">
+  <div class="page">
     <div class="tb">
       <p class="sub">To Hope Is To Risk</p>
       <h1><span>Face</span><span>Your</span><span>Hope</span></h1>
@@ -547,7 +567,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 
 <!-- END -->
 <div id="sc-end" class="screen">
-  <div style="padding-top:30px">
+  <div class="page">
     <div class="tb">
       <p class="sub" id="end-sub">The Voyage Ends</p>
       <h1><span>Face</span><span>Your</span><span>Hope</span></h1>
@@ -1054,18 +1074,16 @@ function lifeboatHTML(){
       <span class="range">${lo}–${hi}</span><span class="count">4 nums</span></button>`;
   }
   const scNote = '';
-  const rescueNote = R.rescue ? `<div class="storm-warn" style="margin-bottom:10px">🌊 Capsized — this is a rescue. Fewer bundles than if you’d bailed in time.</div>`:'';
+  const rescueNote = R.rescue ? `<div class="storm-warn">🌊 Capsized — fewer bundles than bailing in time.</div>`:'';
   return `
   <div class="card-lb">
     <div class="turn-header">
       <span class="round-pill">Round <span>${G.round}</span> / ${TOTAL_ROUNDS}</span>
-      <span class="${R.rescue?'tag-err':'tag-lb'}">${R.rescue?'Rescue lifeboat':'Lifeboat'} · +1 to survive</span>
+      <span class="${R.rescue?'tag-err':'tag-lb'}">${R.rescue?'Rescue':'Lifeboat'} · +1</span>
     </div>
     ${rescueNote}${scNote}
-    <p style="text-align:center;font-size:13px;color:var(--txt2);margin-bottom:4px">
-      Claim <strong class="lbcount" id="lb-remaining">${allow}</strong> bundles of numbers from 1–100.<br>
-      <span style="font-size:11px;color:var(--txt3)">The sea draws one number. Land in a claimed bundle of numbers and you live.</span>
-    </p>
+    <p class="lb-text">Claim <strong class="lbcount" id="lb-remaining">${allow}</strong> bundles of numbers.<br>
+      <span>The sea draws one number from 1–100. Land in a claimed bundle and you live.</span></p>
     <div class="lb-reveal" id="lb-reveal"></div>
     <div class="bundle-grid" id="bundle-grid">${grid}</div>
     <button class="btn-p" id="lb-confirm" disabled onclick="confirmLifeboat()">Board the Lifeboat</button>
@@ -1144,7 +1162,8 @@ function resolve(outcome,pts,icon,title,sub){
 
 function summaryHTML(){
   const last=G.results[G.round-1];
-  const label = last.outcome==='storm'?'Held the storm':(last.outcome==='lifeboat'?'Lifeboat survived':'Capsized');
+  const label = last.outcome==='storm'?'Held the storm':(last.outcome==='lifeboat'?'Lifeboat survived':'Lost to the sea');
+  const icon  = last.outcome==='storm'?'⛵':(last.outcome==='lifeboat'?buoy(64):'🌊');
   const tag = last.points>0?`<span class="tag-ok">+${last.points}</span>`:`<span class="tag-err">+0</span>`;
   const more = G.round<TOTAL_ROUNDS;
   return `
@@ -1153,7 +1172,8 @@ function summaryHTML(){
       <span class="round-pill">Round <span>${G.round}</span> complete</span>
       ${tag}
     </div>
-    <div class="sum-row"><span class="sum-label">Outcome</span><span class="sum-val">${label}</span></div>
+    <div class="sum-hero"><div class="sh-ico">${icon}</div><div class="sh-big">${label}</div>
+      <div class="sh-pts">+${last.points} point${last.points===1?'':'s'}</div></div>
     <div class="sum-row"><span class="sum-label">Resource left</span><span class="sum-val">${last.resourceLeft}</span></div>
     ${last.resupply?`<div class="sum-row"><span class="sum-label">⚓ Resupplied</span><span class="sum-val">+${last.resupply}</span></div>`:''}
     ${last.drawn?`<div class="sum-row"><span class="sum-label">Sea drew</span><span class="sum-val">${last.drawn}</span></div>`:''}
