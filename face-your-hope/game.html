@@ -492,7 +492,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
     <div class="card">
       <h3 style="font-family:'Anton';font-size:16px;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:12px">Your Name</h3>
       <input type="text" placeholder="Enter your name" id="player-name"/>
-      <p style="font-size:12px;font-weight:600;color:var(--muted);margin:2px 0 4px">Score <strong style="color:var(--ink)">9 or more</strong> out of 10 across 5 rounds to win.</p>
+      <p style="font-size:12px;font-weight:600;color:var(--muted);margin:2px 0 4px">Score <strong style="color:var(--ink)">7 or more</strong> out of 8 across 4 rounds to win.</p>
       <button class="btn-p" onclick="startGame()">Begin</button>
       <button class="btn-ghost" id="replay-tut" onclick="startGame(true)" style="display:none">&#9654; How to play</button>
     </div>
@@ -551,7 +551,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
       <div class="instr-stage" id="instr-stage"></div>
       <div class="instr-cap" id="instr-cap"></div>
       <div class="instr-dots" id="instr-dots"></div>
-      <div class="instr-target">Score <strong>9 or more</strong> out of 10 across 5 rounds to keep the ship afloat — and face your hope.</div>
+      <div class="instr-target">Score <strong>7 or more</strong> out of 8 across 4 rounds to keep the ship afloat — and face your hope.</div>
     </div>
     <div class="instr-nav">
       <button class="btn-ghost" id="instr-restart" onclick="playInstructions()">&#8635; Restart</button>
@@ -567,11 +567,11 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
   <div class="play-wrap">
     <!-- sits in the same band as the fixed corner buttons -->
     <div class="play-head">
-      <div class="score-chip" id="score-chip"><span class="sc-l">Score</span><span class="sc-v" id="score-val">0<small>/10</small></span></div>
+      <div class="score-chip" id="score-chip"><span class="sc-l">Score</span><span class="sc-v" id="score-val">0<small>/8</small></span></div>
       <button class="btn-sm" onclick="showStatus()">Stats</button>
     </div>
 
-    <div class="res-meter" id="res-meter" title="Your strength against the storm — shared across all 5 rounds">
+    <div class="res-meter" id="res-meter" title="Your strength against the storm — shared across all 4 rounds">
       <span class="rm-title">&#9875; Resource</span>
       <div class="rm-track"><div class="rm-fill" id="rm-fill" style="width:100%"></div></div>
       <span class="rm-nums" id="rm-nums">100</span>
@@ -598,8 +598,8 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 <script>
 
 /* ---------------- persistence (graceful) ---------------- */
-function loadBest(){ try{ const v=localStorage.getItem('fyh_best'); return v?JSON.parse(v):null; }catch(e){ return null; } }
-function saveBest(v){ try{ localStorage.setItem('fyh_best',JSON.stringify(v)); }catch(e){} }
+function loadBest(){ try{ const v=localStorage.getItem('fyh_best_r4'); return v?JSON.parse(v):null; }catch(e){ return null; } }
+function saveBest(v){ try{ localStorage.setItem('fyh_best_r4',JSON.stringify(v)); }catch(e){} }
 function hasSeenIntro(){ try{ return localStorage.getItem('fyh_seen_intro')==='1'; }catch(e){ return false; } }
 function markIntroSeen(){ try{ localStorage.setItem('fyh_seen_intro','1'); }catch(e){} }
 
@@ -662,9 +662,9 @@ function toggleSound(){
 }
 
 /* ---------------- game state ---------------- */
-const TOTAL_ROUNDS=5;
+const TOTAL_ROUNDS=4;
 const MAX_SCORE=TOTAL_ROUNDS*2;        // a storm held = +2
-const WIN_SCORE=9;                    // only 9 or 10 is a victory
+const WIN_SCORE=7;                    // only 7 or 8 is a victory (3 storms held + 1 lifeboat at worst)
 const ROUND_MS=20000;                 // 20 seconds per storm
 const RESOURCE_MAX=100;               // shared pool across the whole voyage
 const BUNDLE_SIZE=4;                  // each bundle = 4 numbers of 1..100
@@ -678,12 +678,11 @@ const RESUPPLY_BELOW=30;              // at round end, Resource under this trigg
 const RESUPPLY_AMOUNT=40;             // Resource added by a resupply
 const RESCUE_MIN=5, RESCUE_MAX=9;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
 // storm difficulty per round: gust strength, instability, gust interval (ms)
-// round 1 is the warm-up; from round 2 each storm jumps a full step, round 5 is the hardest finale
+// round 1 is the warm-up; each storm then jumps a big step, round 4 is the hardest finale
 const STORM=[
   {gust:22, inst:0.8,  iv:1650},
   {gust:33, inst:1.2,  iv:1200},
-  {gust:40, inst:1.45, iv:1050},
-  {gust:50, inst:1.9,  iv:850},
+  {gust:45, inst:1.68, iv:950},
   {gust:60, inst:2.3,  iv:720}
 ];
 
@@ -792,7 +791,7 @@ function beatKeys(stage,cap){
   iT(()=>{ const s=document.getElementById('vk-ship'); if(s) s.style.transform='rotate(0deg)'; const l=document.getElementById('vhL'); if(l){l.classList.remove('tapping');l.classList.add('lit');} },1400);
 }
 function beatLifeboat(stage,cap){
-  cap.innerHTML='Every moment off-level drains your <strong>Resource</strong> — the sloppier you steer, the faster it empties. It is shared across all 5 rounds, so spend it wisely.';
+  cap.innerHTML='Every moment off-level drains your <strong>Resource</strong> — the sloppier you steer, the faster it empties. It is shared across all 4 rounds, so spend it wisely.';
   stage.innerHTML='<div class="v-lb" style="gap:20px"><div class="rm-track" style="width:72%"><div class="rm-fill" id="vdrain" style="width:100%"></div></div>'+
     '<div class="v-ship" style="transform:rotate(15deg)">'+INSTR_SHIP+'</div></div>';
   iT(()=>{ const e=document.getElementById('vdrain'); if(e){ e.style.transition='width 2.2s linear'; e.style.width='38%'; } },500);
