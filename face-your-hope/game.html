@@ -297,6 +297,9 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 .v-chip{padding:5px 9px;border:2px solid var(--line);border-radius:5px;font-size:11px;font-weight:800;background:var(--bg);transition:all .25s}
 .v-chip.claimed{background:var(--yellow);border-color:#0A0A0A;color:#0A0A0A}
 .v-chip.hit{outline:3px solid var(--danger);outline-offset:2px;animation:celebrate .5s ease}
+.v-cmp{display:flex;flex-direction:column;gap:8px;align-items:center}
+.v-chip.rescue{background:var(--danger);color:#fff;border-color:#0A0A0A;opacity:0;transform:scale(.7);transition:all .35s cubic-bezier(.34,1.56,.64,1)}
+.v-chip.rescue.show{opacity:1;transform:scale(1)}
 .v-draw{font-family:'Anton';font-size:22px;color:var(--ink);opacity:0;transition:opacity .35s;letter-spacing:1px}
 .v-draw.show{opacity:1}
 
@@ -669,7 +672,7 @@ const LB_MIN=4, LB_MAX=16;            // lifeboat bundle range (scales with Reso
 const PRESS_NUDGE=42;                 // deg/s impulse per helm tap
 const DEADZONE=6;                     // within ±6° costs no Resource
 const CAPSIZE=46;                     // beyond ±46° held too long = capsize
-const CAPSIZE_HOLD=1100;              // ms past capsize angle before she goes down
+const CAPSIZE_HOLD=1100;              // ms past capsize angle before it goes down
 const DRAIN_K=0.16;                   // Resource drained per (deg off-level) per second — most helms dip below 30 by round 3–4 and get resupplied
 const RESUPPLY_BELOW=30;              // at round end, Resource under this triggers a resupply
 const RESUPPLY_AMOUNT=40;             // Resource added by a resupply
@@ -763,7 +766,7 @@ function iT(fn,ms){ instrTimers.push(setTimeout(fn,ms)); }
 function iTap(id,cls){ const e=document.getElementById(id); if(!e)return; e.classList.add('tapping'); iT(()=>{const x=document.getElementById(id); if(x){x.classList.remove('tapping');x.classList.add(cls);}},450); }
 
 let instrPage=0;
-const INSTR_BEATS=[beatKeys, beatLifeboat, beatKeyChance];
+const INSTR_BEATS=[beatKeys, beatLifeboat, beatKeyChance, beatRescue];
 function playInstructions(){ instrPage=0; renderInstrPage(); }
 function instrNext(){ if(instrPage < INSTR_BEATS.length-1){ instrPage++; renderInstrPage(); SFX.play('tap'); } }
 function renderInstrPage(){
@@ -782,20 +785,20 @@ function renderInstrPage(){
   if(castB) castB.style.display = last?'':'none';
 }
 function beatKeys(stage,cap){
-  cap.innerHTML='A storm tilts the ship. Tap the arrow on the <strong>opposite side</strong> to right her — hold level for 20 seconds. <strong>+2</strong>';
+  cap.innerHTML='A storm tilts the ship. Tap the arrow on the <strong>opposite side</strong> to right it — hold it level for 20 seconds. <strong>+2</strong>';
   stage.innerHTML='<div class="v-keys"><div class="v-ship" id="vk-ship" style="transition:transform .7s cubic-bezier(.34,1.56,.64,1);transform:rotate(16deg)">'+INSTR_SHIP+'</div>'+
     '<div class="helm" style="margin-top:14px;max-width:260px"><div class="v-helm" id="vhL">'+arrow('l',26)+'</div><div class="v-helm" id="vhR">'+arrow('r',26)+'</div></div></div>';
   iT(()=>document.getElementById('vhL')?.classList.add('tapping'),800);
   iT(()=>{ const s=document.getElementById('vk-ship'); if(s) s.style.transform='rotate(0deg)'; const l=document.getElementById('vhL'); if(l){l.classList.remove('tapping');l.classList.add('lit');} },1400);
 }
 function beatLifeboat(stage,cap){
-  cap.innerHTML='Every moment off-level drains your <strong>Resource</strong> — the sloppier you steer, the faster it empties. It is shared across all 5 rounds — drop below 30 and you’ll be resupplied when the round ends.';
+  cap.innerHTML='Every moment off-level drains your <strong>Resource</strong> — the sloppier you steer, the faster it empties. It is shared across all 5 rounds, so spend it wisely.';
   stage.innerHTML='<div class="v-lb" style="gap:20px"><div class="rm-track" style="width:72%"><div class="rm-fill" id="vdrain" style="width:100%"></div></div>'+
     '<div class="v-ship" style="transform:rotate(15deg)">'+INSTR_SHIP+'</div></div>';
   iT(()=>{ const e=document.getElementById('vdrain'); if(e){ e.style.transition='width 2.2s linear'; e.style.width='38%'; } },500);
 }
 function beatKeyChance(stage,cap){
-  cap.innerHTML='Can’t hold her? Take the <strong>lifeboat</strong>: claim bundles of numbers, the sea draws one, match it to survive. <strong>+1</strong> — more Resource left means more bundles.';
+  cap.innerHTML='Can’t hold it? Take the <strong>lifeboat</strong> yourself: claim bundles of numbers, the sea draws one, match it to survive. <strong>+1</strong> — more Resource left means more bundles.';
   const rows=['1–20','21–40','41–60','61–80','81–100'];
   stage.innerHTML='<div class="v-lb"><div class="v-ring">'+buoy(40)+'</div><div class="v-chiprow">'+
     rows.map((r,i)=>'<div class="v-chip" id="vb'+i+'">'+r+'</div>').join('')+
@@ -804,6 +807,15 @@ function beatKeyChance(stage,cap){
   iT(()=>document.getElementById('vb2')?.classList.add('claimed'),750);
   iT(()=>document.getElementById('vbd')?.classList.add('show'),1500);
   iT(()=>document.getElementById('vb2')?.classList.add('hit'),2100);
+}
+
+function beatRescue(stage,cap){
+  cap.innerHTML='Lose control and the ship <strong>capsizes</strong>? You still get a <strong>rescue lifeboat</strong> — but with <strong>fewer bundles</strong> than if you had taken the lifeboat yourself.';
+  stage.innerHTML='<div class="v-lb" style="gap:18px"><div class="v-ship" id="vr-ship" style="transition:transform 1s cubic-bezier(.5,0,.75,0);transform:rotate(8deg)">'+INSTR_SHIP+'</div>'+
+    '<div class="v-cmp"><div class="v-chip claimed">You take the lifeboat · more bundles</div>'+
+    '<div class="v-chip rescue" id="vr-b">Capsized · rescue · fewer bundles</div></div></div>';
+  iT(()=>{ const sh=document.getElementById('vr-ship'); if(sh) sh.style.transform='rotate(68deg) translateY(10px)'; },400);
+  iT(()=>{ SFX.play('wrong'); document.getElementById('vr-b')?.classList.add('show'); },1500);
 }
 
 function beginPlay(quiet){
@@ -945,7 +957,7 @@ function startStorm(){
     stormGust+=dt*1000;
     if(stormGust>=s.iv){ stormGust=0; R.gustDir=Math.random()<0.5?-1:1;
       R.vel += R.gustDir*s.gust*(0.6+Math.random()*0.8); }
-    // instability: the more she leans, the faster she falls (unstable — must be actively corrected)
+    // instability: the more it leans, the faster it falls (unstable — must be actively corrected)
     R.vel += Math.sign(R.angle)*Math.min(Math.abs(R.angle),60)*s.inst*dt;
     R.vel *= 0.985;
     R.angle += R.vel*dt;
@@ -978,7 +990,7 @@ function onDrift(){
   document.querySelectorAll('.helm-btn').forEach(b=>b.disabled=true);
   SFX.play('lose');
 }
-function stormWin(){ stopStorm(); if(R.resolved)return; resolve('storm',2,'⛵','Through The Storm','You held her level. +2'); }
+function stormWin(){ stopStorm(); if(R.resolved)return; resolve('storm',2,'⛵','Through The Storm','You held it level. +2'); }
 function stormLose(){
   // Capsize no longer ends the round outright — it drops you into a stingy rescue lifeboat (no Resource cost).
   stopStorm(); if(R.resolved) return;
@@ -991,7 +1003,8 @@ function stormLose(){
 function bundleAllowance(){
   const frac=Math.max(0,Math.min(1,G.resource/RESOURCE_MAX));
   let n;
-  if(R.rescue){ n=Math.round(RESCUE_MIN+frac*(RESCUE_MAX-RESCUE_MIN)); }   // capsized → stingier, floored
+  if(R.rescue){ n=Math.min(Math.round(RESCUE_MIN+frac*(RESCUE_MAX-RESCUE_MIN)),   // capsized → stingier,
+                          Math.round(LB_MIN+frac*(LB_MAX-LB_MIN))-1); }          // always below what bailing would give
   else { n=Math.round(LB_MIN+frac*(LB_MAX-LB_MIN)); }                      // chosen bail → generous
   return Math.max(1,Math.min(Math.floor(100/BUNDLE_SIZE),n));
 }
@@ -1067,7 +1080,7 @@ function playArrive(){
       rope.setAttribute('points',curve(P0,ctrl,tgt,u));
       const h=quad(P0,ctrl,tgt,u); hook.setAttribute('transform',`translate(${h.x.toFixed(1)},${h.y.toFixed(1)})`);
     } else if(t<T_CATCH){                                // hooked — the boat jolts
-      if(stage<1){ stage=1; SFX.play('right'); if(feed) feed.innerHTML='<strong>Hooked!</strong> Hauling her in…'; }
+      if(stage<1){ stage=1; SFX.play('right'); if(feed) feed.innerHTML='<strong>Hooked!</strong> Hauling it in…'; }
       rot=Math.sin((t-T_THROW)/45)*6*(1-(t-T_THROW)/(T_CATCH-T_THROW));
     } else {                                             // haul the boat from the horizon to the foreground
       const k=ease(Math.min(1,(t-T_CATCH)/(T_PULL-T_CATCH)));
@@ -1075,7 +1088,7 @@ function playArrive(){
       rot=Math.sin(t/320)*3*(1-k*0.5); b.y+=Math.sin(t/420)*2*(1-k);
       if(t>=T_PULL && stage<2){ stage=2; if(feed) feed.innerHTML='Climb aboard — <strong>claim your numbers.</strong>'; }
     }
-    if(t>=T_THROW){                                      // line pulls taut as she comes in
+    if(t>=T_THROW){                                      // line pulls taut as it comes in
       const a=bow(b), sag=t<T_CATCH?40:40*(1-Math.min(1,(t-T_CATCH)/(T_PULL-T_CATCH)))+6;
       rope.setAttribute('points',curve(P0,{x:(P0.x+a.x)/2,y:(P0.y+a.y)/2+sag},a,1));
       hook.setAttribute('transform',`translate(${a.x.toFixed(1)},${a.y.toFixed(1)})`);
