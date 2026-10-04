@@ -451,9 +451,13 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 /* lifeboat: the number grid stretches to fill the card */
 .lb-text{text-align:center;font-size:13px;color:var(--ink2);margin-bottom:2px;line-height:1.35}
 .lb-text span{font-size:11px;color:var(--muted)}
-#turn-card .bundle-grid{flex:1;min-height:0;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,minmax(30px,1fr));gap:6px;margin:6px 0 8px}
+#turn-card .bundle-grid{flex:1;min-height:0;grid-template-columns:repeat(5,1fr);grid-auto-rows:minmax(34px,1fr);gap:6px;margin:6px 0 8px}
 #turn-card .bundle-btn{padding:2px}
-#turn-card .bundle-btn .count{display:none}
+#turn-card .bundle-btn .count{display:block;font-size:10px;font-weight:700;color:var(--muted);margin-top:2px}
+#turn-card .bundle-btn{-webkit-tap-highlight-color:transparent}
+.lb-progress{text-align:center;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.5px;color:var(--ink);margin-top:4px}
+.lb-progress strong{font-size:15px}
+.lb-progress.done{color:var(--win)}
 #turn-card .bundle-btn .range{font-size:clamp(11px,min(3.6vw,2.1dvh),17px);white-space:nowrap}
 #turn-card .lb-reveal{margin:2px 0 0;min-height:20px;font-size:16px}
 #turn-card .storm-warn{padding:6px 10px;font-size:12px;margin-bottom:6px !important}
@@ -667,8 +671,8 @@ const MAX_SCORE=TOTAL_ROUNDS*2;        // a storm held = +2
 const WIN_SCORE=7;                    // only 7 or 8 is a victory (3 storms held + 1 lifeboat at worst)
 const ROUND_MS=20000;                 // 20 seconds per storm
 const RESOURCE_MAX=100;               // shared pool across the whole voyage
-const BUNDLE_SIZE=4;                  // each bundle = 4 numbers of 1..100
-const LB_MIN=4, LB_MAX=16;            // lifeboat bundle range (scales with Resource left)
+const BUNDLE_SIZE=5;                  // each bundle of numbers = 5 numbers of 1..100 (20 bundles)
+const LB_MIN=3, LB_MAX=13;            // bundles you may claim when you take the lifeboat (scales with Resource left): 15–65% to survive
 const PRESS_NUDGE=42;                 // deg/s impulse per helm tap
 const DEADZONE=6;                     // within ±6° costs no Resource
 const CAPSIZE=46;                     // beyond ±46° held too long = capsize
@@ -676,7 +680,7 @@ const CAPSIZE_HOLD=1100;              // ms past capsize angle before it goes do
 const DRAIN_K=0.16;                   // Resource drained per (deg off-level) per second — most helms dip below 30 by round 3–4 and get resupplied
 const RESUPPLY_BELOW=30;              // at round end, Resource under this triggers a resupply
 const RESUPPLY_AMOUNT=40;             // Resource added by a resupply
-const RESCUE_MIN=5, RESCUE_MAX=9;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
+const RESCUE_MIN=4, RESCUE_MAX=7;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
 // storm difficulty per round: gust strength, instability, gust interval (ms)
 // the 5-round curve minus its warm-up: round 1 = old round 2 … round 4 = old round-5 finale
 const STORM=[
@@ -1106,10 +1110,10 @@ function lifeboatHTML(){
   for(let i=0;i<totalBundles;i++){
     const lo=i*BUNDLE_SIZE+1, hi=lo+BUNDLE_SIZE-1;
     grid+=`<button class="bundle-btn" data-b="${i}">
-      <span class="range">${lo}–${hi}</span><span class="count">4 nums</span></button>`;
+      <span class="range">${lo}–${hi}</span><span class="count">${BUNDLE_SIZE} numbers</span></button>`;
   }
   const scNote = '';
-  const rescueNote = R.rescue ? `<div class="storm-warn">🌊 The ship sank — fewer bundles this time.</div>`:'';
+  const rescueNote = R.rescue ? `<div class="storm-warn">🌊 The ship sank — fewer bundles of numbers this time.</div>`:'';
   return `
   <div class="card-lb">
     <div class="turn-header">
@@ -1117,14 +1121,17 @@ function lifeboatHTML(){
       <span class="${R.rescue?'tag-err':'tag-lb'}">${R.rescue?'Rescue':'Lifeboat'} · +1</span>
     </div>
     ${rescueNote}${scNote}
-    <p class="lb-text">Claim <strong class="lbcount" id="lb-remaining">${allow}</strong> bundles of numbers.<br>
-      <span>The sea draws one number from 1–100. Land in a claimed bundle and you live.</span></p>
+    <p class="lb-text">Pick <strong class="lbcount">${allow}</strong> bundles of numbers — each bundle has <strong style="white-space:nowrap">${BUNDLE_SIZE} numbers</strong>.<br>
+      <span>The sea draws one number from 1–100. If it is in one of your bundles of numbers, you survive.</span></p>
+    <div class="lb-progress" id="lb-progress"><strong id="lb-picked">0</strong> of ${allow} bundles of numbers picked</div>
     <div class="lb-reveal" id="lb-reveal"></div>
     <div class="bundle-grid" id="bundle-grid">${grid}</div>
-    <button class="btn-p" id="lb-confirm" disabled onclick="confirmLifeboat()">Board the Lifeboat</button>
+    <button class="btn-p" id="lb-confirm" disabled onclick="confirmLifeboat()">${pickMoreLabel(allow)}</button>
 
   </div>`;
 }
+
+function pickMoreLabel(n){ return n>0 ? `Pick ${n} more bundle${n===1?'':'s'} of numbers` : 'Board the Lifeboat'; }
 
 function bindBundles(){
   const allow=bundleAllowance();
@@ -1135,8 +1142,10 @@ function bindBundles(){
       if(R.selected.has(i)){ R.selected.delete(i); b.classList.remove('sel'); }
       else if(R.selected.size<allow){ R.selected.add(i); b.classList.add('sel'); SFX.play('select'); }
       const remaining=allow-R.selected.size;
-      document.getElementById('lb-remaining').textContent=remaining;
-      document.getElementById('lb-confirm').disabled=R.selected.size===0;
+      document.getElementById('lb-picked').textContent=R.selected.size;
+      document.getElementById('lb-progress').classList.toggle('done',remaining===0);
+      // boarding only unlocks once every allowed bundle of numbers is picked
+      const cb=document.getElementById('lb-confirm'); cb.disabled=remaining>0; cb.textContent=pickMoreLabel(remaining);
       // disable unselected when full
       document.querySelectorAll('.bundle-btn').forEach(bb=>{
         const idx=parseInt(bb.dataset.b,10);
@@ -1149,7 +1158,7 @@ function bindBundles(){
 
 
 function confirmLifeboat(){
-  if(R.resolved || R.revealing) return;
+  if(R.resolved || R.revealing || R.selected.size<bundleAllowance()) return;
 
   const draw=Math.floor(Math.random()*100)+1;
   R.drawn=draw;
