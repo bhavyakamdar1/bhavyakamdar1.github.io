@@ -275,6 +275,12 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 .instr-dots .d.on{background:var(--yellow)}
 .instr-target{text-align:center;font-size:12px;color:var(--muted);margin-top:12px;border-top:2px solid var(--overlay);padding-top:12px}
 .instr-target strong{color:var(--ink);font-weight:800}
+.instr-title{font-family:'Anton';font-size:21px;letter-spacing:1px;text-transform:uppercase;color:var(--ink);text-align:center;line-height:1.1}
+.instr-title small{display:block;font-family:'Inter';font-size:10px;font-weight:800;letter-spacing:2px;color:var(--muted);margin-bottom:2px}
+#sc-intro .instr-cap{font-size:14px;line-height:1.45;color:var(--ink2)}
+.instr-cap .ic-line{display:block}
+.instr-cap .ic-eg{display:inline-flex;align-items:center;gap:4px;margin:4px 0;padding:2px 10px;background:var(--overlay);border:1.5px solid var(--line);border-radius:4px;font-size:13px;font-weight:700;color:var(--ink)}
+.instr-cap .ic-eg svg{display:inline-block;margin:0}
 /* vignette bits */
 .v-keys{display:flex;flex-direction:column;align-items:center;gap:16px}
 .v-ship{transform:rotate(-13deg);transition:transform .7s cubic-bezier(.34,1.56,.64,1)}
@@ -413,6 +419,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 #sc-intro .instr-target{margin-top:8px;padding-top:8px}
 #sc-intro .instr-nav{margin-top:0}
 #sc-intro .instr-skip{margin-top:8px}
+@media (max-height:720px){ #sc-intro .page>.tb{display:none} #sc-intro .instr-heading{margin-top:4px} }
 /* end */
 #sc-end .card{padding:14px}
 #sc-end .big-score{font-size:clamp(40px,7dvh,64px);margin:4px 0}
@@ -552,10 +559,11 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
     </div>
     <div class="instr-heading">How To Play</div>
     <div class="card instr-card">
+      <div class="instr-title" id="instr-title"></div>
       <div class="instr-stage" id="instr-stage"></div>
       <div class="instr-cap" id="instr-cap"></div>
       <div class="instr-dots" id="instr-dots"></div>
-      <div class="instr-target">Score <strong>7 or more</strong> out of 8 across 4 rounds to keep the ship afloat — and face your hope.</div>
+      <div class="instr-target">Storm held <strong>+2</strong> &nbsp;·&nbsp; Lifeboat saves you <strong>+1</strong> &nbsp;·&nbsp; <strong>7 or more</strong> of 8 wins</div>
     </div>
     <div class="instr-nav">
       <button class="btn-ghost" id="instr-restart" onclick="playInstructions()">&#8635; Restart</button>
@@ -787,25 +795,34 @@ function renderInstrPage(){
   if(nextB) nextB.style.display = last?'none':'';
   if(castB) castB.style.display = last?'':'none';
 }
+function instrTitle(step,text){ const t=document.getElementById('instr-title'); if(t) t.innerHTML=`<small>Step ${step} of ${INSTR_BEATS.length}</small>${text}`; }
 function beatKeys(stage,cap){
-  cap.innerHTML='A storm tilts the ship. Tap the arrow on the <strong>opposite side</strong> to right it — hold it level for 20 seconds. <strong>+2</strong>';
+  instrTitle(1,'Steer the ship');
+  cap.innerHTML='<span class="ic-line">The storm tips the ship. Tap the arrow on the <strong>other side</strong> to push it back.</span>'+
+    '<span class="ic-eg">Tipping right? Tap '+arrow('l',14)+' left</span>'+
+    '<span class="ic-line">Keep it steady for <strong>20 seconds</strong> → <strong>+2 points</strong></span>';
   stage.innerHTML='<div class="v-keys"><div class="v-ship" id="vk-ship" style="transition:transform .7s cubic-bezier(.34,1.56,.64,1);transform:rotate(16deg)">'+INSTR_SHIP+'</div>'+
     '<div class="helm" style="margin-top:14px;max-width:260px"><div class="v-helm" id="vhL">'+arrow('l',26)+'</div><div class="v-helm" id="vhR">'+arrow('r',26)+'</div></div></div>';
   iT(()=>document.getElementById('vhL')?.classList.add('tapping'),800);
   iT(()=>{ const s=document.getElementById('vk-ship'); if(s) s.style.transform='rotate(0deg)'; const l=document.getElementById('vhL'); if(l){l.classList.remove('tapping');l.classList.add('lit');} },1400);
 }
 function beatLifeboat(stage,cap){
-  cap.innerHTML='Every moment off-level drains your <strong>Resource</strong> — the sloppier you steer, the faster it empties. It is shared across all 4 rounds, so spend it wisely.';
+  instrTitle(2,'Watch your Resource');
+  cap.innerHTML='<span class="ic-line">The more the ship tips, the faster your <strong>Resource</strong> bar drains.</span>'+
+    '<span class="ic-line">It must last all <strong>4 rounds</strong>. If it hits zero, you can’t steer.</span>';
   stage.innerHTML='<div class="v-lb" style="gap:20px"><div class="rm-track" style="width:72%"><div class="rm-fill" id="vdrain" style="width:100%"></div></div>'+
     '<div class="v-ship" style="transform:rotate(15deg)">'+INSTR_SHIP+'</div></div>';
   iT(()=>{ const e=document.getElementById('vdrain'); if(e){ e.style.transition='width 2.2s linear'; e.style.width='38%'; } },500);
 }
 function beatKeyChance(stage,cap){
-  cap.innerHTML='Can’t hold it? Take the <strong>lifeboat</strong> yourself: claim bundles of numbers, the sea draws one, match it to survive. <strong>+1</strong> — more Resource left means more bundles.';
-  const rows=['1–20','21–40','41–60','61–80','81–100'];
+  instrTitle(3,'Take the lifeboat');
+  cap.innerHTML='<span class="ic-line">Too rough? Tap <strong>Abandon Ship</strong> at any time.</span>'+
+    '<span class="ic-line">Pick <strong>bundles of numbers</strong> (5 numbers each). The sea draws one number from 1–100.</span>'+
+    '<span class="ic-line">In your bundles? You’re saved → <strong>+1 point</strong></span>';
+  const rows=['1–5','6–10','11–15','16–20','21–25'];
   stage.innerHTML='<div class="v-lb"><div class="v-ring">'+buoy(40)+'</div><div class="v-chiprow">'+
     rows.map((r,i)=>'<div class="v-chip" id="vb'+i+'">'+r+'</div>').join('')+
-    '</div><div class="v-draw" id="vbd">Sea draws · 47</div></div>';
+    '</div><div class="v-draw" id="vbd">Sea draws · 13</div></div>';
   iT(()=>document.getElementById('vb1')?.classList.add('claimed'),450);
   iT(()=>document.getElementById('vb2')?.classList.add('claimed'),750);
   iT(()=>document.getElementById('vbd')?.classList.add('show'),1500);
@@ -813,10 +830,13 @@ function beatKeyChance(stage,cap){
 }
 
 function beatRescue(stage,cap){
-  cap.innerHTML='Lose control and the ship <strong>sinks</strong>? You still get a <strong>rescue lifeboat</strong> — but with <strong>fewer bundles</strong> than if you had taken the lifeboat yourself.';
+  instrTitle(4,'If the ship sinks');
+  cap.innerHTML='<span class="ic-line">Tip too far for too long and the ship <strong>sinks</strong>.</span>'+
+    '<span class="ic-line">You still get a <strong>rescue lifeboat</strong>, but with <strong>fewer bundles</strong>.</span>'+
+    '<span class="ic-eg">Leaving early is safer than sinking</span>';
   stage.innerHTML='<div class="v-lb" style="gap:18px"><div class="v-ship" id="vr-ship" style="transition:transform 1s cubic-bezier(.5,0,.75,0);transform:rotate(8deg)">'+INSTR_SHIP+'</div>'+
-    '<div class="v-cmp"><div class="v-chip claimed">You take the lifeboat · more bundles</div>'+
-    '<div class="v-chip rescue" id="vr-b">Sunk · rescue · fewer bundles</div></div></div>';
+    '<div class="v-cmp"><div class="v-chip claimed">You leave early · more bundles</div>'+
+    '<div class="v-chip rescue" id="vr-b">Ship sinks · fewer bundles</div></div></div>';
   iT(()=>{ const sh=document.getElementById('vr-ship'); if(sh) sh.style.transform='rotate(68deg) translateY(10px)'; },400);
   iT(()=>{ SFX.play('wrong'); document.getElementById('vr-b')?.classList.add('show'); },1500);
 }
