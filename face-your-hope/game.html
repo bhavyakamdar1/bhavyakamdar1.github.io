@@ -392,6 +392,9 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 .helm-btn:disabled{opacity:.4;cursor:not-allowed}
 /* instruction helm chips */
 .v-helm{flex:1;text-align:center;border:2.5px solid var(--line);border-radius:10px;padding:12px 6px;font-family:'Anton';font-size:14px;letter-spacing:.5px;color:var(--ink);background:var(--bg);position:relative}
+.v-hint{min-height:22px;margin-top:10px;display:flex;align-items:center;justify-content:center;gap:4px;font-size:13px;font-weight:800;color:var(--ink);text-align:center}
+.v-hint svg{display:inline-block;margin:0}
+.v-hint.ok{color:var(--win)}
 .v-helm.lit{background:var(--yellow);color:#0A0A0A;border-color:#0A0A0A}
 .v-helm.tapping::after{content:"";position:absolute;inset:-6px;border:3px solid var(--ink);border-radius:13px;animation:tapPulse .5s ease}
 
@@ -801,10 +804,37 @@ function beatKeys(stage,cap){
   cap.innerHTML='<span class="ic-line">The storm tips the ship. Tap the arrow on the <strong>other side</strong> to push it back.</span>'+
     '<span class="ic-eg">Tipping right? Tap '+arrow('l',14)+' left</span>'+
     '<span class="ic-line">Keep it steady for <strong>20 seconds</strong> → <strong>+2 points</strong></span>';
-  stage.innerHTML='<div class="v-keys"><div class="v-ship" id="vk-ship" style="transition:transform .7s cubic-bezier(.34,1.56,.64,1);transform:rotate(16deg)">'+INSTR_SHIP+'</div>'+
-    '<div class="helm" style="margin-top:14px;max-width:260px"><div class="v-helm" id="vhL">'+arrow('l',26)+'</div><div class="v-helm" id="vhR">'+arrow('r',26)+'</div></div></div>';
-  iT(()=>document.getElementById('vhL')?.classList.add('tapping'),800);
-  iT(()=>{ const s=document.getElementById('vk-ship'); if(s) s.style.transform='rotate(0deg)'; const l=document.getElementById('vhL'); if(l){l.classList.remove('tapping');l.classList.add('lit');} },1400);
+  stage.innerHTML='<div class="v-keys" style="width:100%;max-width:260px"><div class="v-ship" id="vk-ship" style="transform:rotate(0deg)">'+INSTR_SHIP+'</div>'+
+    '<div class="helm" style="margin-top:12px;max-width:260px;width:100%"><div class="v-helm" id="vhL">'+arrow('l',26)+'</div><div class="v-helm" id="vhR">'+arrow('r',26)+'</div></div>'+
+    '<div class="v-hint" id="vk-hint"></div></div>';
+  // looping demo: the storm pushes one way, the opposite arrow is tapped, the ship levels out
+  const L=arrow('l',14), Rr=arrow('r',14);
+  const steps=[
+    {wait:600,  hint:'The storm pushes the ship…'},
+    {tilt:16,   wait:900,  hint:'Tipping right'},
+    {tap:'L',   tilt:0,    wait:1000, hint:'Tap '+L+' left → level again'},
+    {tilt:-18,  wait:900,  hint:'Tipping left'},
+    {tap:'R',   tilt:0,    wait:1000, hint:'Tap '+Rr+' right → level again'},
+    {tilt:26,   wait:900,  hint:'Big gust! Tipping right'},
+    {tap:'L',   tilt:12,   wait:650,  hint:'Tap '+L+' left…'},
+    {tap:'L',   tilt:0,    wait:1400, hint:'…and again. Level ✓'},
+  ];
+  const ship=()=>document.getElementById('vk-ship');
+  const tap=(side)=>{ const b=document.getElementById(side==='L'?'vhL':'vhR'); if(!b) return;
+    b.classList.remove('tapping','lit'); void b.offsetWidth; b.classList.add('tapping','lit');
+    iT(()=>{ b.classList.remove('tapping','lit'); },450); };
+  const run=(k)=>{
+    const st=steps[k], sh=ship(), h=document.getElementById('vk-hint'); if(!sh) return;
+    if(st.tap) tap(st.tap);
+    if(st.tilt!==undefined){
+      // a gust leans the ship slowly; a tap snaps it back with a small overshoot
+      sh.style.transition = st.tap ? 'transform .5s cubic-bezier(.34,1.56,.64,1)' : 'transform .85s ease-in';
+      sh.style.transform = 'rotate('+st.tilt+'deg)';
+    }
+    if(h){ h.innerHTML=st.hint; h.classList.toggle('ok',/✓/.test(st.hint)); }
+    iT(()=>run((k+1)%steps.length), st.wait);
+  };
+  run(0);
 }
 function beatLifeboat(stage,cap){
   instrTitle(2,'Watch your Resource');
