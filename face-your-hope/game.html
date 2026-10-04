@@ -672,7 +672,7 @@ const WIN_SCORE=7;                    // only 7 or 8 is a victory (3 storms held
 const ROUND_MS=20000;                 // 20 seconds per storm
 const RESOURCE_MAX=100;               // shared pool across the whole voyage
 const BUNDLE_SIZE=5;                  // each bundle of numbers = 5 numbers of 1..100 (20 bundles)
-const LB_MIN=3, LB_MAX=13;            // bundles you may claim when you take the lifeboat (scales with Resource left): 15–65% to survive
+const LB_MIN=8, LB_MAX=17;            // bundles you may claim when you take the lifeboat (scales with Resource left): 40–85% to survive
 const PRESS_NUDGE=42;                 // deg/s impulse per helm tap
 const DEADZONE=6;                     // within ±6° costs no Resource
 const CAPSIZE=46;                     // beyond ±46° held too long = capsize
@@ -680,7 +680,7 @@ const CAPSIZE_HOLD=1100;              // ms past capsize angle before it goes do
 const DRAIN_K=0.16;                   // Resource drained per (deg off-level) per second — most helms dip below 30 by round 3–4 and get resupplied
 const RESUPPLY_BELOW=30;              // at round end, Resource under this triggers a resupply
 const RESUPPLY_AMOUNT=40;             // Resource added by a resupply
-const RESCUE_MIN=4, RESCUE_MAX=7;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
+const RESCUE_MIN=7, RESCUE_MAX=13;     // capsize-rescue lifeboat: variable but floored, stingier than a by-choice bail
 // storm difficulty per round: gust strength, instability, gust interval (ms)
 // the 5-round curve minus its warm-up: round 1 = old round 2 … round 4 = old round-5 finale
 const STORM=[
