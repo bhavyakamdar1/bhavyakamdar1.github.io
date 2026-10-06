@@ -167,7 +167,7 @@ a { color: inherit; text-decoration: none; }
     height: 100%;
     object-fit: cover;
     object-position: 50% 38%;
-    transform: scale(1.3) translateX(20%);
+    transform: scale(1.75) translateX(20%);
     transform-origin: 50% 38%;
   }
 }
