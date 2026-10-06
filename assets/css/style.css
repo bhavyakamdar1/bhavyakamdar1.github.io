@@ -151,37 +151,23 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
 }
 
-.hero-photo-placeholder {
+.hero-photo {
   position: absolute;
   inset: 0;
   z-index: 1;
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
-  padding: 118px 6% 0 0;
-  pointer-events: none;
+  overflow: hidden;
 }
-.hero-photo-placeholder .ph-box {
-  position: relative;
-  width: min(40%, 360px);
-}
-.hero-photo-placeholder svg {
-  display: block;
+.hero-photo img {
   width: 100%;
-  height: auto;
-  opacity: 0.3;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 35%;
 }
-.hero-photo-placeholder .placeholder-label-dark {
+.hero-photo::after {
+  content: "";
   position: absolute;
-  left: 50%;
-  bottom: -36px;
-  transform: translateX(-50%);
-  white-space: nowrap;
-  color: rgba(255,255,255,0.85);
-  background: rgba(0,0,0,0.35);
-}
-@media (max-width: 640px) {
-  .hero-photo-placeholder { display: none; }
+  inset: 0;
+  background: linear-gradient(0deg, rgba(8,10,6,0.88) 0%, rgba(8,10,6,0.4) 48%, rgba(8,10,6,0.05) 72%);
 }
 
 .hero-inner {
@@ -323,30 +309,38 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: -0.01em;
 }
 
+/* ---------- Shared "real photo" placeholder treatment ---------- */
+/* Every .ph box is meant to be swapped for a real <img> (object-fit:cover,
+   same box). Kept photographic/dark so real photos drop in without a
+   jarring tone shift. */
+.ph {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(150deg, #3c4631 0%, #1a1c13 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.ph svg { width: 52%; height: auto; opacity: 0.38; transform: translateY(10%); }
+
 /* ---------- Two-column blocks (About / Speaking) ---------- */
 .split-grid {
   max-width: var(--maxw);
   margin: 0 auto;
   display: grid;
   grid-template-columns: 0.85fr 1.15fr;
-  gap: 64px;
-  align-items: center;
+  gap: 56px;
+  align-items: stretch;
 }
-.split-grid.reverse { grid-template-columns: 1.15fr 0.85fr; }
+.split-grid.reverse { grid-template-columns: 0.85fr 1.15fr; }
 .split-grid.reverse .portrait-frame { order: 2; }
+.split-grid.reverse .split-copy { order: 1; }
 
 .portrait-frame {
   aspect-ratio: 4 / 5;
-  background: linear-gradient(150deg, #dedbcf, #c9c6b7);
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  overflow: hidden;
+  min-height: 420px;
 }
-.portrait-frame.wide { aspect-ratio: 7 / 5; }
-.portrait-frame svg { width: 34%; opacity: 0.55; }
+.portrait-frame.wide { aspect-ratio: 16 / 11; }
 .placeholder-label {
   position: absolute;
   bottom: 14px; left: 14px;
@@ -376,22 +370,21 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Featured book ---------- */
 .featured-book {
   max-width: var(--maxw);
-  margin: 0 auto 64px;
+  margin: 0 auto 72px;
   display: grid;
-  grid-template-columns: 280px 1fr;
+  grid-template-columns: 380px 1fr;
   gap: 56px;
-  align-items: start;
+  align-items: center;
 }
 .book-cover {
   aspect-ratio: 2 / 3;
   background: linear-gradient(150deg, #efece3, #d8d4c4);
-  border: 1px solid var(--color-line);
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
 }
-.book-cover svg { width: 30%; opacity: 0.5; }
+.book-cover svg { width: 34%; opacity: 0.5; }
 .featured-book h3 {
   font-family: var(--font-head);
   font-weight: 700;
@@ -420,7 +413,6 @@ a { color: inherit; text-decoration: none; }
 .card-thumb {
   aspect-ratio: 1 / 1;
   background: linear-gradient(155deg, #efece3, #d8d4c4);
-  border: 1px solid var(--color-line);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -454,6 +446,37 @@ a { color: inherit; text-decoration: none; }
 }
 
 .section-cta { text-align: center; margin-top: 46px; }
+
+/* ---------- Press-style image rows (Thinking) ---------- */
+.press-list {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+.press-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  align-items: center;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--color-line);
+}
+.press-row:first-child { padding-top: 0; }
+.press-image {
+  aspect-ratio: 3 / 2;
+  min-height: 260px;
+}
+.press-copy h4 {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(20px, 2.4vw, 30px);
+  margin: 0;
+  letter-spacing: -0.005em;
+}
+@media (max-width: 760px) {
+  .press-row { grid-template-columns: 1fr; gap: 20px; padding: 28px 0; }
+}
 
 /* ---------- Speaking/Thinking full-bleed CTA band ---------- */
 .cta-band {
