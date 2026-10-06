@@ -4,11 +4,59 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Face Your Hope</title>
-<meta http-equiv="refresh" content="0; url=/face-your-hope/game">
-<link rel="canonical" href="https://bhavyakamdar.com/face-your-hope/game">
+<meta name="description" content="Face Your Hope by Bhavya Kamdar: listen to the audiobook or play the game.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{--yellow:#FCFF35;--bg:#FFFFFF;--ink:#0A0A0A;--ink2:#3C3C3C;--muted:#7C7C72;--line:#0A0A0A;--sc:#0A0A0A;--raised:#FFFFFF}
+@media (prefers-color-scheme: dark){:root{--bg:#0A0A0A;--ink:#FBFBF0;--ink2:#C6C6BC;--muted:#8A8A80;--line:#FBFBF0;--sc:#FCFF35;--raised:#171717}}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);
+  min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 16px}
+.wrap{width:100%;max-width:440px;display:flex;flex-direction:column;gap:clamp(18px,4dvh,32px)}
+.tb{text-align:center}
+.tb .sub{font-size:12px;font-weight:800;letter-spacing:5px;text-transform:uppercase}
+.tb h1{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;line-height:.82;letter-spacing:1px;
+  transform:rotate(-2.5deg);margin:10px 0 8px;font-size:clamp(48px,min(17vw,10dvh),92px)}
+.tb h1 span{display:block}
+.tb .by{font-size:12px;font-weight:800;letter-spacing:5px;text-transform:uppercase;color:var(--ink2)}
+.ask{text-align:center;font-family:'Anton',sans-serif;font-size:22px;letter-spacing:1.5px;text-transform:uppercase}
+.choices{display:flex;flex-direction:column;gap:16px}
+.choice{display:flex;align-items:center;gap:16px;text-decoration:none;color:#0A0A0A;background:var(--yellow);
+  border:3px solid #0A0A0A;border-radius:8px;padding:clamp(16px,3dvh,24px) 20px;box-shadow:6px 6px 0 var(--sc);
+  transition:transform .15s ease,box-shadow .15s ease;-webkit-tap-highlight-color:transparent}
+.choice.alt{background:var(--raised);color:var(--ink);border-color:var(--line)}
+.choice:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--sc)}
+.choice:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--sc)}
+.choice:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+.choice svg{flex:none;width:52px;height:52px}
+.choice .t{display:block;font-family:'Anton',sans-serif;font-size:clamp(24px,7vw,30px);letter-spacing:1px;text-transform:uppercase;line-height:1}
+.choice .d{display:block;font-size:14px;font-weight:600;margin-top:6px;opacity:.8}
+.choice .go{margin-left:auto;font-family:'Anton',sans-serif;font-size:28px}
+</style>
 </head>
-<body style="font-family:sans-serif;text-align:center;padding:40px">
-<p><a href="/face-your-hope/game">Play Face Your Hope &rarr;</a></p>
-<script>location.replace('/face-your-hope/game');</script>
+<body>
+<main class="wrap">
+  <header class="tb">
+    <p class="sub">To Hope Is To Risk</p>
+    <h1><span>Face</span><span>Your</span><span>Hope</span></h1>
+    <p class="by">Bhavya Kamdar</p>
+  </header>
+  <p class="ask">How will you face it?</p>
+  <nav class="choices">
+    <a class="choice" href="/face-your-hope/listen">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M8 28v-4a16 16 0 0 1 32 0v4" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><rect x="5" y="27" width="10" height="15" rx="3" fill="currentColor"/><rect x="33" y="27" width="10" height="15" rx="3" fill="currentColor"/></svg>
+      <span><span class="t">Audiobook</span><span class="d">Listen to the chapters</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+    <a class="choice alt" href="/face-your-hope/game">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><rect x="13" y="8" width="3" height="20" fill="currentColor"/><rect x="25" y="14" width="7" height="9" fill="currentColor"/><rect x="20" y="20" width="18" height="9" rx="1.5" fill="currentColor"/><path d="M3 29h42s-3 11-10 11H13C6 40 3 29 3 29z" fill="currentColor"/></svg>
+      <span><span class="t">Game</span><span class="d">Save the ship in the storm</span></span>
+      <span class="go" aria-hidden="true">&rarr;</span>
+    </a>
+  </nav>
+</main>
 </body>
 </html>
