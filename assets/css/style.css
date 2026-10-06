@@ -152,19 +152,20 @@ a { color: inherit; text-decoration: none; }
 }
 
 .hero-photo {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  overflow: hidden;
-}
-.hero-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 42% 28%;
+  display: none;
 }
 @media (min-width: 860px) {
+  .hero-photo {
+    display: block;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+  }
   .hero-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     object-position: 50% 38%;
     transform: scale(1.3) translateX(20%);
     transform-origin: 50% 38%;
