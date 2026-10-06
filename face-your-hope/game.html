@@ -482,6 +482,59 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 #sc-intro .v-ship svg{width:clamp(74px,min(24vw,14dvh),140px)}
 #sc-intro .v-helm{padding:clamp(10px,2dvh,18px) 6px}
 .tb h1{font-size:clamp(32px,min(17vw,9.5dvh),96px)}
+
+/* ===== LANDING ===== */
+#sc-landing.active{padding:0}
+.landing{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+.ld-rain{position:absolute;inset:-60%;z-index:0;pointer-events:none;opacity:.55;
+  background:repeating-linear-gradient(105deg,transparent 0 26px,rgba(128,128,128,.22) 26px 27.5px);animation:ldRain .45s linear infinite}
+@keyframes ldRain{to{transform:translate(-14px,52px)}}
+.ld-flash{position:absolute;inset:0;z-index:0;pointer-events:none;background:var(--yellow);opacity:0;animation:ldFlash 5s linear 1.4s infinite}
+@keyframes ldFlash{0%,4%{opacity:0}5%{opacity:.5}8%{opacity:0}11%{opacity:.32}15%,100%{opacity:0}}
+.ld-bolt{position:absolute;z-index:1;width:clamp(40px,11vw,66px);opacity:0;pointer-events:none;animation:ldBolt 5s linear 1.4s infinite}
+.ld-bolt svg{display:block;width:100%}
+.ld-bolt.a{top:34%;left:7%;transform:rotate(-12deg)}
+.ld-bolt.b{top:28%;right:8%;transform:rotate(14deg) scale(.85);animation-delay:3.9s}
+@keyframes ldBolt{0%,4%{opacity:0}5%,8%{opacity:1}9%,10%{opacity:0}11%,15%{opacity:1}18%,100%{opacity:0}}
+.ld-top{position:relative;z-index:3;text-align:center;margin-top:62px;padding:0 12px}
+.ld-kicker{font-size:13px;font-weight:800;letter-spacing:6px;text-transform:uppercase;color:var(--ink);animation:ldFadeUp .6s .1s both}
+.ld-title{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;color:var(--ink);line-height:.82;letter-spacing:1px;
+  font-size:clamp(54px,min(19vw,10.5dvh),112px);transform:rotate(-2.5deg);margin:10px 0 12px}
+.ld-title span{display:block;animation:ldWord .75s cubic-bezier(.34,1.56,.64,1) both}
+.ld-title span:nth-child(1){animation-delay:.25s}
+.ld-title span:nth-child(2){animation-delay:.45s}
+.ld-title span:nth-child(3){animation-delay:.65s}
+@keyframes ldWord{0%{opacity:0;transform:translateY(-70px) scale(1.35) rotate(-9deg)}100%{opacity:1;transform:none}}
+.ld-game{display:inline-block;background:var(--yellow);color:#0A0A0A;border:3px solid #0A0A0A;border-radius:4px;box-shadow:4px 4px 0 var(--sc);
+  font-family:'Anton',sans-serif;font-size:clamp(18px,5vw,24px);letter-spacing:4px;text-transform:uppercase;padding:3px 16px;animation:ldBadge .55s .95s both}
+@keyframes ldBadge{0%{opacity:0;transform:scale(.4) rotate(-10deg)}70%{transform:scale(1.1) rotate(4deg)}100%{opacity:1;transform:rotate(2deg)}}
+.ld-mid{position:relative;z-index:4;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
+  padding-bottom:calc(30dvh + 30px)}
+.ld-hint{font-size:13px;font-weight:800;letter-spacing:5px;text-transform:uppercase;color:var(--ink2);animation:ldFadeUp .5s 1.2s both, ldBlink 1.8s 1.8s ease-in-out infinite}
+.ld-play{position:relative;display:flex;align-items:center;gap:12px;cursor:pointer;-webkit-tap-highlight-color:transparent;
+  font-family:'Anton',sans-serif;font-size:clamp(32px,9.5vw,46px);letter-spacing:4px;text-transform:uppercase;line-height:1;
+  background:var(--yellow);color:#0A0A0A;border:3px solid #0A0A0A;border-radius:12px;padding:14px 46px 14px 38px;box-shadow:6px 6px 0 var(--sc);
+  animation:ldBadgePlay .6s 1.1s both, ldPulse 1.6s 1.8s ease-in-out infinite}
+.ld-play svg{width:.8em;height:.8em}
+.ld-play::after{content:"";position:absolute;inset:-4px;border:3px solid var(--ink);border-radius:15px;opacity:0;pointer-events:none;animation:ldRing 1.6s 1.8s ease-out infinite}
+.ld-play:hover{background:#FFFF66}
+.ld-play:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--sc)}
+.ld-play:focus-visible{outline:3px solid var(--ink);outline-offset:6px}
+@keyframes ldBadgePlay{0%{opacity:0;transform:scale(.5)}70%{transform:scale(1.08)}100%{opacity:1;transform:scale(1)}}
+@keyframes ldPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+@keyframes ldRing{0%{opacity:.6;transform:scale(1)}100%{opacity:0;transform:scale(1.35)}}
+@keyframes ldFadeUp{0%{opacity:0;transform:translateY(12px)}100%{opacity:1;transform:none}}
+@keyframes ldBlink{0%,100%{opacity:1}50%{opacity:.35}}
+.ld-sea{position:absolute;left:0;right:0;bottom:0;height:30%;z-index:2;pointer-events:none;animation:ldFadeUp .8s .2s both}
+.ld-layer{position:absolute;inset:0;overflow:hidden}
+.ld-ship{position:absolute;left:50%;width:min(48vw,230px);margin-left:calc(min(48vw,230px) / -2);top:calc(36% - min(24vw,115px));
+  transform-origin:50% 80%;animation:ldRock 3.2s ease-in-out infinite}
+.ld-ship svg{display:block;width:100%;overflow:visible}
+@keyframes ldRock{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-9px) rotate(8deg)}}
+@media (prefers-reduced-motion: reduce){
+  .ld-rain,.ld-flash,.ld-ship,.ld-hint,.ld-play,.ld-play::after{animation:none}
+  .ld-bolt{animation:none;opacity:1}
+}
 </style>
 </head>
 <body>
@@ -496,7 +549,34 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 <div id="modal-root"></div>
 
 <!-- SETUP -->
-<div id="sc-setup" class="screen active">
+<!-- LANDING (first thing a visitor sees) -->
+<div id="sc-landing" class="screen active">
+  <div class="landing">
+    <div class="ld-rain" aria-hidden="true"></div>
+    <div class="ld-flash" aria-hidden="true"></div>
+    <div class="ld-bolt a"><svg viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg></div>
+    <div class="ld-bolt b"><svg viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg></div>
+    <header class="ld-top">
+      <p class="ld-kicker">Welcome to</p>
+      <h1 class="ld-title"><span>Face</span><span>Your</span><span>Hope</span></h1>
+      <p class="ld-game">The Game</p>
+    </header>
+    <div class="ld-mid">
+      <p class="ld-hint">Click to play</p>
+      <button class="ld-play" onclick="openSetup()" aria-label="Play">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>Play
+      </button>
+    </div>
+    <div class="ld-sea" aria-hidden="true">
+      <div class="ld-layer"><svg class="sea-svg" viewBox="0 0 1620 200" preserveAspectRatio="none"><path d="M0,60 C180,110 360,10 540,60 C720,110 900,10 1080,60 C1260,110 1440,10 1620,60 L1620,200 L0,200 Z" fill="var(--yellow2)"/></svg></div>
+      <div class="ld-ship"><svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="66" y="26" width="5" height="58" fill="var(--ink)"/><rect x="66" y="30" width="30" height="4" fill="var(--ink)"/><rect x="120" y="36" width="20" height="26" fill="var(--ink)"/><rect x="96" y="54" width="60" height="30" rx="3" fill="var(--ink)"/><path d="M14,84 L226,84 C226,84 214,120 190,120 L50,120 C26,120 14,84 14,84 Z" fill="var(--ink)"/><circle cx="108" cy="69" r="4" fill="var(--bg)"/><circle cx="126" cy="69" r="4" fill="var(--bg)"/><circle cx="144" cy="69" r="4" fill="var(--bg)"/></svg></div>
+      <div class="ld-layer"><svg class="sea-svg" viewBox="0 0 1620 200" preserveAspectRatio="none"><path d="M0,90 C180,130 360,50 540,90 C720,130 900,50 1080,90 C1260,130 1440,50 1620,90 L1620,200 L0,200 Z" fill="var(--yellow)"/></svg></div>
+    </div>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="sc-setup" class="screen">
   <div class="page">
     <div class="tb">
       <p class="sub">To Hope Is To Risk</p>
@@ -606,7 +686,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
       <span class="ital" id="end-ital">The dice are cast.</span>
     </div>
     <div class="card" id="end-card"></div>
-    <button class="btn-p" onclick="location.reload()">Sail Again</button>
+    <button class="btn-p" onclick="goHome()">Sail Again</button>
   </div>
 </div>
 
@@ -736,6 +816,11 @@ function renderBest(){
     <div class="lbcount" style="color:var(--hopetx);margin-top:4px">${b.score} pts</div>
     <div style="font-size:12px;color:var(--txt2)">${b.name} ${b.won?'· reached hope':''}</div>
   </div>`;
+}
+
+function openSetup(){
+  SFX.play('click');
+  show('sc-setup');
 }
 
 function startGame(withTutorial){
