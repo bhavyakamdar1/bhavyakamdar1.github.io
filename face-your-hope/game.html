@@ -486,9 +486,6 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 /* ===== LANDING ===== */
 #sc-landing.active{padding:0}
 .landing{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;overflow:hidden}
-.ld-rain{position:absolute;inset:-60%;z-index:0;pointer-events:none;opacity:.55;
-  background:repeating-linear-gradient(105deg,transparent 0 26px,rgba(128,128,128,.22) 26px 27.5px);animation:ldRain .45s linear infinite}
-@keyframes ldRain{to{transform:translate(-14px,52px)}}
 .ld-flash{position:absolute;inset:0;z-index:0;pointer-events:none;background:var(--yellow);opacity:0;animation:ldFlash 5s linear 1.4s infinite}
 @keyframes ldFlash{0%,4%{opacity:0}5%{opacity:.5}8%{opacity:0}11%{opacity:.32}15%,100%{opacity:0}}
 .ld-bolt{position:absolute;z-index:1;width:clamp(40px,11vw,66px);opacity:0;pointer-events:none;animation:ldBolt 5s linear 1.4s infinite}
@@ -532,7 +529,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 .ld-ship svg{display:block;width:100%;overflow:visible}
 @keyframes ldRock{0%,100%{transform:translateY(0) rotate(-7deg)}50%{transform:translateY(-9px) rotate(8deg)}}
 @media (prefers-reduced-motion: reduce){
-  .ld-rain,.ld-flash,.ld-ship,.ld-hint,.ld-play,.ld-play::after{animation:none}
+  .ld-flash,.ld-ship,.ld-hint,.ld-play,.ld-play::after{animation:none}
   .ld-bolt{animation:none;opacity:1}
 }
 </style>
@@ -552,7 +549,6 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
 <!-- LANDING (first thing a visitor sees) -->
 <div id="sc-landing" class="screen active">
   <div class="landing">
-    <div class="ld-rain" aria-hidden="true"></div>
     <div class="ld-flash" aria-hidden="true"></div>
     <div class="ld-bolt a"><svg viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg></div>
     <div class="ld-bolt b"><svg viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="var(--yellow)" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg></div>
