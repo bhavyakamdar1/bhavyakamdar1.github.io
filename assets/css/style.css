@@ -72,7 +72,8 @@ a { color: inherit; text-decoration: none; }
   background: transparent;
   transition: background 0.25s ease, box-shadow 0.25s ease;
 }
-.site-header.solid {
+.site-header.solid,
+.site-header.always-solid {
   background: var(--color-paper);
   box-shadow: 0 1px 0 var(--color-line);
 }
@@ -111,8 +112,9 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
 }
 
-.site-header:not(.solid) .nav { color: var(--color-paper); }
-.site-header.solid .nav { color: var(--color-ink); }
+.site-header:not(.solid):not(.always-solid) .nav { color: var(--color-paper); }
+.site-header.solid .nav,
+.site-header.always-solid .nav { color: var(--color-ink); }
 
 .nav-toggle {
   display: none;
@@ -413,7 +415,7 @@ a { color: inherit; text-decoration: none; }
   grid-template-columns: repeat(4, 1fr);
   gap: 28px;
 }
-.card-grid.books { grid-template-columns: repeat(3, 1fr); }
+.card-grid.books { grid-template-columns: repeat(4, 1fr); }
 
 .card { display: block; }
 .card-thumb {
@@ -445,7 +447,7 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 980px) {
-  .card-grid { grid-template-columns: repeat(2, 1fr); }
+  .card-grid, .card-grid.books { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 560px) {
   .card-grid, .card-grid.books { grid-template-columns: 1fr; }
@@ -571,3 +573,131 @@ a { color: inherit; text-decoration: none; }
 }
 .footer-social svg { width: 14px; height: 14px; fill: #e6e6e0; }
 .copyright { font-size: 12.5px; color: #8c8c84; }
+
+/* ---------- Book detail pages ---------- */
+.book-hero { padding-top: clamp(130px, 18vw, 170px); }
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.book-hero-grid {
+  display: grid;
+  grid-template-columns: 340px 1fr;
+  gap: 64px;
+  align-items: start;
+}
+
+.book-cover-art {
+  position: sticky;
+  top: 110px;
+}
+.book-cover-art img {
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.18);
+}
+
+.book-info h1 {
+  font-family: var(--font-head);
+  font-weight: 700;
+  font-size: clamp(32px, 4.2vw, 50px);
+  line-height: 1.04;
+  margin: 10px 0 10px;
+  letter-spacing: -0.01em;
+}
+.book-byline {
+  font-size: 16px;
+  color: var(--color-muted);
+  margin: 0 0 14px;
+}
+.book-byline a { border-bottom: 1px solid var(--color-line); }
+.book-byline a:hover { border-color: var(--color-ink); }
+
+.book-rating {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+  font-family: var(--font-head);
+  font-size: 14px;
+  font-weight: 600;
+}
+.book-rating .stars { color: var(--color-olive-dark); letter-spacing: 2px; }
+.book-rating .count { color: var(--color-muted); font-weight: 400; }
+
+.book-desc {
+  font-size: 17px;
+  line-height: 1.7;
+  color: #2b2b2b;
+  max-width: 62ch;
+  margin: 0 0 36px;
+}
+.book-desc + .book-desc { margin-top: -22px; }
+
+.book-formats {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 28px;
+  background: var(--color-offwhite);
+  border: 1px solid var(--color-line);
+  margin-bottom: 36px;
+}
+.format-block h4 {
+  font-family: var(--font-head);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+  color: var(--color-olive-dark);
+}
+.format-block .link-row .btn { font-size: 12px; padding: 12px 22px; }
+.format-note {
+  font-size: 13.5px;
+  color: var(--color-muted);
+  font-style: italic;
+  margin: 0;
+}
+
+.book-specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 32px;
+  padding-top: 28px;
+  border-top: 1px solid var(--color-line);
+  margin: 0;
+}
+.book-specs div { display: flex; flex-direction: column; gap: 3px; }
+.book-specs dt {
+  font-family: var(--font-head);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.book-specs dd { margin: 0; font-size: 14.5px; }
+
+.game-callout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  padding: 28px 32px;
+  margin-bottom: 36px;
+}
+.game-callout p { margin: 0; color: #d8d8d0; max-width: 46ch; }
+.game-callout h4 { font-family: var(--font-head); margin: 0 0 6px; font-size: 18px; }
+
+@media (max-width: 860px) {
+  .book-hero-grid { grid-template-columns: 1fr; gap: 32px; }
+  .book-cover-art { position: static; max-width: 280px; margin: 0 auto; }
+  .book-specs { grid-template-columns: 1fr 1fr; }
+}
