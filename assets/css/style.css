@@ -21,7 +21,7 @@
 
 * { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
 
 body {
   margin: 0;
@@ -29,6 +29,7 @@ body {
   color: var(--color-ink);
   background: var(--color-paper);
   line-height: 1.55;
+  overflow-x: clip;
 }
 
 img { max-width: 100%; display: block; }
