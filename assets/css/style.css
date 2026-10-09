@@ -129,7 +129,9 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 860px) {
   .nav-links {
     position: fixed;
-    top: 0; right: -100%;
+    top: 0; right: 0;
+    transform: translateX(100%);
+    visibility: hidden;
     height: 100vh;
     width: 260px;
     background: var(--color-ink);
@@ -137,9 +139,9 @@ a { color: inherit; text-decoration: none; }
     flex-direction: column;
     gap: 0;
     padding: 90px 32px;
-    transition: right 0.3s ease;
+    transition: transform 0.3s ease, visibility 0.3s;
   }
-  .nav-links.open { right: 0; }
+  .nav-links.open { transform: none; visibility: visible; }
   .nav-links a { color: var(--color-paper); display: block; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
   .nav-toggle { display: block; }
 }
