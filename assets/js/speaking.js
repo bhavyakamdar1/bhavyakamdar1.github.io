@@ -49,7 +49,7 @@ const SPEAKING_EVENTS = [
     const media = imgs.length > 1
       ? `<div class="speaking-gallery">${imgs.map((src) => `<img src="${esc(src)}" alt="${alt}" loading="lazy">`).join('')}</div>`
       : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0])}" alt="${alt}" loading="lazy">` : '';
-    return `<div class="speaking-post${imgs.length === 1 ? ' has-image' : ''}">
+    return `<div class="speaking-post${imgs.length ? ' has-image' : ''}">
       ${media}
       <div class="speaking-body">
         ${p.excerpt ? `<p class="speaking-excerpt">${esc(p.excerpt)}</p>` : ''}
