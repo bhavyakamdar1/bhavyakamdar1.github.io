@@ -143,7 +143,9 @@ a { color: inherit; text-decoration: none; }
   }
   .nav-links.open { transform: none; visibility: visible; }
   .nav-links a { color: var(--color-paper); display: block; padding: 14px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
-  .nav-toggle { display: block; }
+  .nav-links { z-index: 1; }
+  .nav-toggle { display: block; position: relative; z-index: 2; }
+  .nav-toggle.open { color: var(--color-paper); }
 }
 
 /* ---------- Hero ---------- */
