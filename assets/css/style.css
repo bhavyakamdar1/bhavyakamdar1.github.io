@@ -743,11 +743,11 @@ a { color: inherit; text-decoration: none; }
   .speaking-row { grid-template-columns: 1fr; gap: 8px; }
 }
 
-.speaking-card { display: block; }
-.speaking-card.has-image { display: grid; grid-template-columns: 260px 1fr; gap: 32px; align-items: start; }
+.speaking-posts { display: flex; flex-direction: column; gap: 36px; margin-top: 28px; }
+.speaking-post.has-image { display: grid; grid-template-columns: 240px 1fr; gap: 28px; align-items: start; }
 .speaking-img { width: 100%; height: auto; box-shadow: 0 16px 36px rgba(0,0,0,0.14); }
-.speaking-row .speaking-excerpt { margin: 14px 0 24px; line-height: 1.65; }
+.speaking-row .speaking-excerpt { margin: 0 0 22px; line-height: 1.65; }
 @media (max-width: 640px) {
-  .speaking-card.has-image { grid-template-columns: 1fr; gap: 20px; }
+  .speaking-post.has-image { grid-template-columns: 1fr; gap: 18px; }
   .speaking-img { max-width: 320px; }
 }
