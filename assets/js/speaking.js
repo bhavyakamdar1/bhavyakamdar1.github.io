@@ -3,7 +3,7 @@
 //   dateLabel: text shown beside the event, e.g. "5-7 Sep 2025"
 //   type:      role, e.g. "Judge", "Panel", "Keynote", "Guest talk"
 //   title, host (organiser)
-//   posts:     LinkedIn posts about the event, newest first:
+//   posts:     LinkedIn posts about the event, in the order shown (keep excerpts to ~1 line):
 //              { image (one) or images (several, optional), excerpt (opening lines), link }
 const SPEAKING_EVENTS = [
   {
@@ -14,17 +14,8 @@ const SPEAKING_EVENTS = [
     host: "Faculty of Commerce, GLS University & Ahmedabad Branch of WIRC-ICAI",
     posts: [
       {
-        images: [
-          "../assets/images/speaking/explorer-2025-boardroom-hall.jpg",
-          "../assets/images/speaking/explorer-2025-boardroom-judges.jpg",
-          "../assets/images/speaking/explorer-2025-boardroom-round.jpg",
-        ],
-        excerpt: "The curtains have closed on Explorer 2025: A National Level FinTech Business Conclave, and this is how THE BOARDROOM event went over the 3 Days: Round 1 \u2013 Global Alignment. 32 companies were represented by participants, each assigned a global conglomerate. The task was to take a stand on a highly relevant geopolitical-financial debate\u2026",
-        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_the-curtains-have-closed-on-explorer-2025-ugcPost-7373946116045889536-Yc9f/",
-      },
-      {
         image: "../assets/images/speaking/explorer-2025.jpg",
-        excerpt: "Life comes full circle. Years ago, I walked through the corridors of the Faculty of Commerce, GLS University as a student, filled with curiosity and dreams. Today, I return to the same place, not as a student, but as a Judge at Explorer 2025: National Level FinTech - Business Conclave…",
+        excerpt: "Life comes full circle. Years ago, I walked through the corridors of the Faculty of Commerce, GLS University as a student\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_life-comes-full-circle-years-ago-i-share-7369278045666357251-veA1/",
       },
       {
@@ -33,8 +24,17 @@ const SPEAKING_EVENTS = [
           "../assets/images/speaking/explorer-2025-on-site.jpg",
           "../assets/images/speaking/explorer-2025-plaque.jpg",
         ],
-        excerpt: "Grateful and inspired. It has been a wonderful 3 day experience at Explorer 2025: A National Level FinTech Business Conclave, organized by Faculty of Commerce, GLS University and ICAI Ahmedabad Branch. Being amongst students who showcased such great enthusiasm, determination, and innovative thinking was truly refreshing…",
+        excerpt: "Grateful and inspired. It has been a wonderful 3 day experience at Explorer 2025: A National Level FinTech Business Conclave\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_grateful-and-inspired-it-has-been-a-ugcPost-7371059639016214529-mfZS/",
+      },
+      {
+        images: [
+          "../assets/images/speaking/explorer-2025-boardroom-hall.jpg",
+          "../assets/images/speaking/explorer-2025-boardroom-judges.jpg",
+          "../assets/images/speaking/explorer-2025-boardroom-round.jpg",
+        ],
+        excerpt: "The curtains have closed on Explorer 2025: A National Level FinTech Business Conclave, and this is how THE BOARDROOM event went over the 3 Days\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_the-curtains-have-closed-on-explorer-2025-ugcPost-7373946116045889536-Yc9f/",
       },
     ],
   },
@@ -58,7 +58,7 @@ const SPEAKING_EVENTS = [
     const media = imgs.length > 1
       ? `<div class="speaking-gallery">${imgs.map((src) => `<img src="${esc(src)}" alt="${alt}" loading="lazy">`).join('')}</div>`
       : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0])}" alt="${alt}" loading="lazy">` : '';
-    return `<div class="speaking-post${imgs.length ? ' has-image' : ''}">
+    return `<div class="speaking-post">
       ${media}
       <div class="speaking-body">
         ${p.excerpt ? `<p class="speaking-excerpt">${esc(p.excerpt)}</p>` : ''}
