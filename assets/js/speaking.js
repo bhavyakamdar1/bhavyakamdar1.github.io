@@ -4,7 +4,7 @@
 //   type:      role, e.g. "Judge", "Panel", "Keynote", "Guest talk"
 //   title, host (organiser)
 //   posts:     LinkedIn posts about the event, shown in order:
-//              { image (optional), excerpt (opening lines), link }
+//              { image (one) or images (several, optional), excerpt (opening lines), link }
 const SPEAKING_EVENTS = [
   {
     date: "2025-09-05",
@@ -19,7 +19,11 @@ const SPEAKING_EVENTS = [
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_life-comes-full-circle-years-ago-i-share-7369278045666357251-veA1/",
       },
       {
-        image: "../assets/images/speaking/explorer-2025-with-dean.jpg",
+        images: [
+          "../assets/images/speaking/explorer-2025-with-dean.jpg",
+          "../assets/images/speaking/explorer-2025-on-site.jpg",
+          "../assets/images/speaking/explorer-2025-plaque.jpg",
+        ],
         excerpt: "Grateful and inspired. It has been a wonderful 3 day experience at Explorer 2025: A National Level FinTech Business Conclave, organized by Faculty of Commerce, GLS University and ICAI Ahmedabad Branch. Being amongst students who showcased such great enthusiasm, determination, and innovative thinking was truly refreshing…",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_grateful-and-inspired-it-has-been-a-ugcPost-7371059639016214529-mfZS/",
       },
@@ -39,13 +43,20 @@ const SPEAKING_EVENTS = [
   const fmt = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
   const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-  const post = (p, title) => `<div class="speaking-post${p.image ? ' has-image' : ''}">
-      ${p.image ? `<img class="speaking-img" src="${esc(p.image)}" alt="${esc(title)} — from the LinkedIn post" loading="lazy">` : ''}
+  const post = (p, title) => {
+    const imgs = p.images || (p.image ? [p.image] : []);
+    const alt = `${esc(title)} \u2014 from the LinkedIn post`;
+    const media = imgs.length > 1
+      ? `<div class="speaking-gallery">${imgs.map((src) => `<img src="${esc(src)}" alt="${alt}" loading="lazy">`).join('')}</div>`
+      : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0])}" alt="${alt}" loading="lazy">` : '';
+    return `<div class="speaking-post${imgs.length === 1 ? ' has-image' : ''}">
+      ${media}
       <div class="speaking-body">
         ${p.excerpt ? `<p class="speaking-excerpt">${esc(p.excerpt)}</p>` : ''}
         ${p.link ? `<a class="btn" href="${esc(p.link)}" target="_blank" rel="noopener">Read more on LinkedIn</a>` : ''}
       </div>
     </div>`;
+  };
 
   list.innerHTML = [...SPEAKING_EVENTS]
     .sort((a, b) => b.date.localeCompare(a.date))
