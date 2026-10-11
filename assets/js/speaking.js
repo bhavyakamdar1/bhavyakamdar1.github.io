@@ -229,11 +229,13 @@ const LI_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a
     const media = imgs.length > 1
       ? `<div class="speaking-gallery${imgs.length === 2 ? ' two' : ''}">${imgs.map((i) => `<img src="${esc(i.src)}" alt="${alt}" loading="lazy"${i.pos ? ` style="object-position:${esc(i.pos)}"` : ''}>`).join('')}</div>`
       : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy"${imgs[0].pos ? ` style="object-position:${esc(imgs[0].pos)}"` : ''}>` : '';
+    const mediaLink = p.link || (p.questions && p.questions[0] && p.questions[0].link);
+    const aria = `aria-label="Open on LinkedIn" tabindex="-1" target="_blank" rel="noopener"`;
     return `<div class="speaking-post${p.questions ? ' has-questions' : ''}">
-      ${media}
+      ${media && mediaLink ? `<a class="speaking-hit" href="${esc(mediaLink)}" ${aria}>${media}</a>` : media}
       <div class="speaking-body">
-        ${p.excerpt ? `<p class="speaking-excerpt">${esc(p.excerpt)}</p>` : ''}
-        ${p.questions ? `<ul class="speaking-qs">${p.questions.map((q) => `<li><p class="speaking-q">${esc(q.text)}</p><a class="li-btn sm" href="${esc(q.link)}" target="_blank" rel="noopener" aria-label="Read on LinkedIn" title="Read on LinkedIn">${LI_ICON}</a></li>`).join('')}</ul>` : ''}
+        ${p.excerpt ? (p.link ? `<a class="speaking-hit" href="${esc(p.link)}" ${aria}><p class="speaking-excerpt">${esc(p.excerpt)}</p></a>` : `<p class="speaking-excerpt">${esc(p.excerpt)}</p>`) : ''}
+        ${p.questions ? `<ul class="speaking-qs">${p.questions.map((q) => `<li><a class="speaking-hit" href="${esc(q.link)}" ${aria}><p class="speaking-q">${esc(q.text)}</p></a><a class="li-btn sm" href="${esc(q.link)}" target="_blank" rel="noopener" aria-label="Read on LinkedIn" title="Read on LinkedIn">${LI_ICON}</a></li>`).join('')}</ul>` : ''}
         ${p.link ? `<a class="li-btn" href="${esc(p.link)}" target="_blank" rel="noopener" aria-label="Read more on LinkedIn" title="Read more on LinkedIn">${LI_ICON}</a>` : ''}
       </div>
     </div>`;

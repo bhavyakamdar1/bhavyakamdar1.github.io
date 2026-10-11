@@ -810,3 +810,9 @@ a { color: inherit; text-decoration: none; }
 .speaking-qs li { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .speaking-qs .speaking-q { flex: 1; }
 .speaking-row .speaking-qs .speaking-q { margin: 0; }
+
+/* whole post is a link: image, text and logo button all open the LinkedIn post */
+.speaking-hit { display: contents; cursor: pointer; }
+.speaking-hit:hover .speaking-excerpt, .speaking-hit:hover .speaking-q { color: var(--color-olive-dark); }
+.speaking-hit:hover .speaking-img, .speaking-hit:hover .speaking-gallery { filter: brightness(0.96); }
+.speaking-img, .speaking-gallery { transition: filter 0.2s ease; }
