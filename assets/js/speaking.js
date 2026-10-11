@@ -20,6 +20,14 @@ const SPEAKING_EVENTS = [
         excerpt: "Excited and grateful to be invited as a Judge for the Freshers\u2019 Idea Hunt at ManaGenious Conclave 2026\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_managenious2026-glsuniversity-facultyofcommerce-share-7487752434484936705-obWu/",
       },
+      {
+        images: [
+          { src: "../assets/images/speaking/managenious-2026-judges.jpg", pos: "50% 50%" },
+          { src: "../assets/images/speaking/managenious-2026-group.jpg", pos: "50% 50%" },
+        ],
+        excerpt: "From Building the Product to Selling the Product. It was a pleasure to be invited as a Judge for the Fresher\u2019s Idea Hunt\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_managenious2026-fresherideahunt-glsuniversity-share-7502603288115113984-3OHW/",
+      },
     ],
   },
   {
@@ -203,7 +211,7 @@ const SPEAKING_EVENTS = [
     const imgs = (p.images || (p.image ? [p.image] : [])).map((i) => (typeof i === 'string' ? { src: i } : i));
     const alt = `${esc(title)} \u2014 from the LinkedIn post`;
     const media = imgs.length > 1
-      ? `<div class="speaking-gallery">${imgs.map((i) => `<img src="${esc(i.src)}" alt="${alt}" loading="lazy"${i.pos ? ` style="object-position:${esc(i.pos)}"` : ''}>`).join('')}</div>`
+      ? `<div class="speaking-gallery${imgs.length === 2 ? ' two' : ''}">${imgs.map((i) => `<img src="${esc(i.src)}" alt="${alt}" loading="lazy"${i.pos ? ` style="object-position:${esc(i.pos)}"` : ''}>`).join('')}</div>`
       : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy"${imgs[0].pos ? ` style="object-position:${esc(imgs[0].pos)}"` : ''}>` : '';
     return `<div class="speaking-post${p.questions ? ' has-questions' : ''}">
       ${media}
