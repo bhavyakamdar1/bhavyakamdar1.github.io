@@ -19,6 +19,15 @@ const SPEAKING_EVENTS = [
         excerpt: "\u201cWill AI take away my Finance Job?\u201d A question driven by fear, curiosity, and a rapidly changing reality\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_aiinfinance-futureready-careers-share-7443526016519757824-t0xt/",
       },
+      {
+        images: [
+          { src: "../assets/images/speaking/finxplore-2026-panel.jpg", pos: "50% 50%" },
+          { src: "../assets/images/speaking/finxplore-2026-memento.jpg", pos: "62% 40%" },
+          { src: "../assets/images/speaking/finxplore-2026-plaque.jpg", pos: "50% 45%" },
+        ],
+        excerpt: "If you think AI will replace you, you\u2019re asking the wrong question\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_ai-finance-finxplore2026-ugcPost-7444975186501586944-Aj8A/",
+      },
     ],
   },
   {
