@@ -16,7 +16,7 @@ const SPEAKING_EVENTS = [
     posts: [
       {
         image: { src: "../assets/images/speaking/capital-conclave-2026.jpg", pos: "50% 8%" },
-        excerpt: "Grateful for the opportunity to serve as a Judge at The Budget\u2019s Chanakya, part of the Capital Conclave at the Faculty of Commerce, GLS University\u2026",
+        excerpt: "Grateful for the opportunity to serve as a Judge at The Budget\u2019s Chanakya\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_grateful-for-the-opportunity-to-serve-as-ugcPost-7427574143547691008-mqj9/",
       },
       {
@@ -25,7 +25,7 @@ const SPEAKING_EVENTS = [
           { src: "../assets/images/speaking/capital-conclave-students.jpg", pos: "50% 62%" },
           { src: "../assets/images/speaking/capital-conclave-team.jpg", pos: "50% 62%" },
         ],
-        excerpt: "Where Policy Met Young Perspectives: Inside The Budget\u2019s Chanakya organised by FOC, GLS. Day 1 of The Budget\u2019s Chanakya Competition was centred around PPT presentations\u2026",
+        excerpt: "Where Policy Met Young Perspectives: Inside The Budget\u2019s Chanakya organised by FOC, GLS\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_budgetschanakya-unionbudget2026-budgetanalysis-ugcPost-7432306813859024898-k1fD/",
       },
     ],
@@ -43,7 +43,7 @@ const SPEAKING_EVENTS = [
           { src: "../assets/images/speaking/shikhar-2026-index-business.jpg", pos: "50% 52%" },
           { src: "../assets/images/speaking/shikhar-2026-logo.jpg", pos: "50% 50%" },
         ],
-        excerpt: "Thrilled to share that I have been invited by H. L. College of Commerce (Autonomous) to be part of the Executive Board for SHIKHAR 2026 (Crafted by HLCC MUN)\u2026",
+        excerpt: "Thrilled to share that I have been invited by H. L. College of Commerce (Autonomous)\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-mun-ugcPost-7422144519313403904-jFZj/",
       },
       {
@@ -52,7 +52,7 @@ const SPEAKING_EVENTS = [
           { src: "../assets/images/speaking/shikhar-2026-trophy.jpg", pos: "50% 38%" },
           { src: "../assets/images/speaking/shikhar-2026-team.jpg", pos: "50% 40%" },
         ],
-        excerpt: "It's a Wrap for Shikhar 2026 (HLCC MUN). Thank you to H. L. College of Commerce (Autonomous) for organising SHIKHAR 2026 with such professionalism and vision\u2026",
+        excerpt: "It's a Wrap for Shikhar 2026 (HLCC MUN). Thank you to H. L. College of Commerce\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-hlccmun-ugcPost-7425043826228137985-GXu2/",
       },
       {
@@ -61,7 +61,7 @@ const SPEAKING_EVENTS = [
           { src: "../assets/images/speaking/shikhar-2026-committee.jpg", pos: "55% 40%" },
           { src: "../assets/images/speaking/shikhar-2026-debate.jpg", pos: "50% 40%" },
         ],
-        excerpt: "When Digital Payments Fail: Policy Thinking at SHIKHAR 2026. At SHIKHAR 2026 (HLCC MUN), our committee sessions were designed to move beyond scripted debate and into real-time policy thinking\u2026",
+        excerpt: "When Digital Payments Fail: Policy Thinking at SHIKHAR 2026\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-hlccmun-ugcPost-7426871148832813056-Dxpt/",
       },
     ],
