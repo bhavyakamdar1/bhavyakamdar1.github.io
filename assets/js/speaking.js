@@ -11,8 +11,8 @@ const SPEAKING_EVENTS = [
     date: "2026-02-01",
     dateLabel: "1 Feb 2026",
     type: "RBI Governor \u00b7 Index Business Committee",
-    title: "SHIKHAR 2026",
-    host: "H. L. College of Commerce (Autonomous) \u00b7 HLCC MUN",
+    title: "SHIKHAR 2026 | HLCC MUN",
+    host: "H. L. College of Commerce (Autonomous)",
     posts: [
       {
         images: [
