@@ -30,7 +30,7 @@ const SPEAKING_EVENTS = [
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_ai-finance-finxplore2026-ugcPost-7444975186501586944-Aj8A/",
       },
       {
-        image: { src: "../assets/images/speaking/finxplore-2026-hall.jpg", pos: "48% 50%" },
+        image: { src: "../assets/images/speaking/finxplore-2026-speaking.jpg", pos: "52% 62%" },
         questions: [
           {
             text: "Will unequal access to AI tools widen the investing gap between retail and institutions?",
