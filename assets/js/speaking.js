@@ -19,6 +19,15 @@ const SPEAKING_EVENTS = [
         excerpt: "Grateful for the opportunity to serve as a Judge at The Budget\u2019s Chanakya, part of the Capital Conclave at the Faculty of Commerce, GLS University\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_grateful-for-the-opportunity-to-serve-as-ugcPost-7427574143547691008-mqj9/",
       },
+      {
+        images: [
+          { src: "../assets/images/speaking/capital-conclave-speaking.jpg", pos: "50% 34%" },
+          { src: "../assets/images/speaking/capital-conclave-students.jpg", pos: "50% 62%" },
+          { src: "../assets/images/speaking/capital-conclave-team.jpg", pos: "50% 62%" },
+        ],
+        excerpt: "Where Policy Met Young Perspectives: Inside The Budget\u2019s Chanakya organised by FOC, GLS. Day 1 of The Budget\u2019s Chanakya Competition was centred around PPT presentations\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_budgetschanakya-unionbudget2026-budgetanalysis-ugcPost-7432306813859024898-k1fD/",
+      },
     ],
   },
   {
