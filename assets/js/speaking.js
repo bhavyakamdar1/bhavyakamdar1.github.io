@@ -44,8 +44,8 @@ const SPEAKING_EVENTS = [
     ],
   },
   {
-    date: "2025-10-27",
-    dateLabel: "27 Oct \u2013 6 Nov 2025",
+    date: "2025-11-01",
+    dateLabel: "1 Nov 2025",
     type: "Guest Speaker \u00b7 Professional Skills for Administration",
     title: "Non-Teaching Staff Training Programme",
     host: "Banaskantha District Kelavani Mandal & G.D. Modi Vidya Sankul",
