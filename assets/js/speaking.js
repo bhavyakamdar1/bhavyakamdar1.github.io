@@ -8,6 +8,20 @@
 //              an image can be a path or { src, pos: "x% y%" } to choose which part shows when cropped
 const SPEAKING_EVENTS = [
   {
+    date: "2026-03-29",
+    dateLabel: "29 Mar 2026",
+    type: "Panelist \u00b7 AI in Finance",
+    title: "FinXplore 2026",
+    host: "H. L. College of Commerce (Autonomous)",
+    posts: [
+      {
+        image: { src: "../assets/images/speaking/finxplore-2026.jpg", pos: "50% 80%" },
+        excerpt: "\u201cWill AI take away my Finance Job?\u201d A question driven by fear, curiosity, and a rapidly changing reality\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_aiinfinance-futureready-careers-share-7443526016519757824-t0xt/",
+      },
+    ],
+  },
+  {
     date: "2026-02-10",
     dateLabel: "10\u201311 Feb 2026",
     type: "Judge \u00b7 The Budget\u2019s Chanakya",
