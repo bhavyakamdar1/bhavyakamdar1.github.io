@@ -40,10 +40,6 @@ const SPEAKING_EVENTS = [
             text: "Should students consider entrepreneurship in the AI-finance space?",
             link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_should-students-consider-entrepreneurship-share-7451865488344739840-J0sR/",
           },
-          {
-            text: "The third world war will happen due to artificial resources. What\u2019s your take?",
-            link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_finxplore-geopolitics-artificialintelligence-share-7459479756950917120-zINU/",
-          },
         ],
       },
     ],
