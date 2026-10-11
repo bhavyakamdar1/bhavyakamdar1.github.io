@@ -16,7 +16,7 @@ const SPEAKING_EVENTS = [
     host: "Faculty of Commerce, GLS University \u00b7 Innovision \u2013 The Management Club",
     posts: [
       {
-        image: { src: "../assets/images/speaking/managenious-2026.jpg", pos: "50% 0%" },
+        image: { src: "../assets/images/speaking/managenious-2026.jpg", pos: "50% 50%" },
         excerpt: "Excited and grateful to be invited as a Judge for the Freshers\u2019 Idea Hunt at ManaGenious Conclave 2026\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_managenious2026-glsuniversity-facultyofcommerce-share-7487752434484936705-obWu/",
       },
