@@ -32,6 +32,15 @@ const SPEAKING_EVENTS = [
         excerpt: "It's a Wrap for Shikhar 2026 (HLCC MUN). Thank you to H. L. College of Commerce (Autonomous) for organising SHIKHAR 2026 with such professionalism and vision\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-hlccmun-ugcPost-7425043826228137985-GXu2/",
       },
+      {
+        images: [
+          { src: "../assets/images/speaking/shikhar-2026-delegates.jpg", pos: "50% 60%" },
+          { src: "../assets/images/speaking/shikhar-2026-committee.jpg", pos: "55% 40%" },
+          { src: "../assets/images/speaking/shikhar-2026-debate.jpg", pos: "50% 40%" },
+        ],
+        excerpt: "When Digital Payments Fail: Policy Thinking at SHIKHAR 2026. At SHIKHAR 2026 (HLCC MUN), our committee sessions were designed to move beyond scripted debate and into real-time policy thinking\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-hlccmun-ugcPost-7426871148832813056-Dxpt/",
+      },
     ],
   },
   {
