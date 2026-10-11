@@ -5,7 +5,26 @@
 //   title, host (organiser)
 //   posts:     LinkedIn posts about the event, in the order shown (keep excerpts to ~1 line):
 //              { image (one) or images (several, optional), excerpt (opening lines), link }
+//              an image can be a path or { src, pos: "x% y%" } to choose which part shows when cropped
 const SPEAKING_EVENTS = [
+  {
+    date: "2025-11-04",
+    dateLabel: "4 Nov 2025",
+    type: "Co-ordinator \u00b7 Conference",
+    title: "AI in Practice: Transforming CA Offices through Smart Automation",
+    host: "ICAI Ahmedabad Branch",
+    posts: [
+      {
+        images: [
+          "../assets/images/speaking/ai-in-practice-podium.jpg",
+          { src: "../assets/images/speaking/ai-in-practice-panel.jpg", pos: "88% 30%" },
+          { src: "../assets/images/speaking/ai-in-practice-stage.jpg", pos: "88% 50%" },
+        ],
+        excerpt: "An insightful conference on \u201cAI in Practice: Transforming CA Offices through Smart Automation\u201d was held at ICAI Ahmedabad Branch\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_icai-ahmedabadbranch-artificialintelligence-ugcPost-7392503511592345600-T4Vx/",
+      },
+    ],
+  },
   {
     date: "2025-10-27",
     dateLabel: "27 Oct \u2013 6 Nov 2025",
@@ -71,11 +90,11 @@ const SPEAKING_EVENTS = [
   const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
   const post = (p, title) => {
-    const imgs = p.images || (p.image ? [p.image] : []);
+    const imgs = (p.images || (p.image ? [p.image] : [])).map((i) => (typeof i === 'string' ? { src: i } : i));
     const alt = `${esc(title)} \u2014 from the LinkedIn post`;
     const media = imgs.length > 1
-      ? `<div class="speaking-gallery">${imgs.map((src) => `<img src="${esc(src)}" alt="${alt}" loading="lazy">`).join('')}</div>`
-      : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0])}" alt="${alt}" loading="lazy">` : '';
+      ? `<div class="speaking-gallery">${imgs.map((i) => `<img src="${esc(i.src)}" alt="${alt}" loading="lazy"${i.pos ? ` style="object-position:${esc(i.pos)}"` : ''}>`).join('')}</div>`
+      : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy">` : '';
     return `<div class="speaking-post">
       ${media}
       <div class="speaking-body">
