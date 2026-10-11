@@ -209,6 +209,8 @@ const SPEAKING_EVENTS = [
   },
 ];
 
+const LI_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM3 9h4v12H3V9Zm7 0h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V21h-4V9Z"/></svg>';
+
 (function () {
   const list = document.getElementById('speaking-list');
   if (!list) return;
@@ -231,8 +233,8 @@ const SPEAKING_EVENTS = [
       ${media}
       <div class="speaking-body">
         ${p.excerpt ? `<p class="speaking-excerpt">${esc(p.excerpt)}</p>` : ''}
-        ${p.questions ? `<ul class="speaking-qs">${p.questions.map((q) => `<li><p class="speaking-q">${esc(q.text)}</p><a class="speaking-qlink" href="${esc(q.link)}" target="_blank" rel="noopener">Read on LinkedIn &rarr;</a></li>`).join('')}</ul>` : ''}
-        ${p.link ? `<a class="btn" href="${esc(p.link)}" target="_blank" rel="noopener">Read more on LinkedIn</a>` : ''}
+        ${p.questions ? `<ul class="speaking-qs">${p.questions.map((q) => `<li><p class="speaking-q">${esc(q.text)}</p><a class="li-btn sm" href="${esc(q.link)}" target="_blank" rel="noopener" aria-label="Read on LinkedIn" title="Read on LinkedIn">${LI_ICON}</a></li>`).join('')}</ul>` : ''}
+        ${p.link ? `<a class="li-btn" href="${esc(p.link)}" target="_blank" rel="noopener" aria-label="Read more on LinkedIn" title="Read more on LinkedIn">${LI_ICON}</a>` : ''}
       </div>
     </div>`;
   };

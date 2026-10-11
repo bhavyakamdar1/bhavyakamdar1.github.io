@@ -799,3 +799,14 @@ a { color: inherit; text-decoration: none; }
   .section-compact .link-row { gap: 8px; }
   .section-compact .link-row .btn { padding: 10px 11px; font-size: 10px; letter-spacing: 0.08em; }
 }
+
+/* ---------- LinkedIn logo button (Speaking) ---------- */
+.li-btn { display: inline-flex; align-items: center; justify-content: center; width: 42px; height: 42px; border: 1.5px solid var(--color-ink); color: var(--color-ink); transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease; flex: none; }
+.li-btn svg { width: 18px; height: 18px; fill: currentColor; }
+.li-btn:hover, .li-btn:focus-visible { background: #0a66c2; border-color: #0a66c2; color: #fff; }
+.li-btn.sm { width: 32px; height: 32px; }
+.li-btn.sm svg { width: 14px; height: 14px; }
+.speaking-body .li-btn { margin-top: auto; }
+.speaking-qs li { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.speaking-qs .speaking-q { flex: 1; }
+.speaking-row .speaking-qs .speaking-q { margin: 0; }
