@@ -8,6 +8,20 @@
 //              an image can be a path or { src, pos: "x% y%" } to choose which part shows when cropped
 const SPEAKING_EVENTS = [
   {
+    date: "2026-02-10",
+    dateLabel: "10\u201311 Feb 2026",
+    type: "Judge \u00b7 The Budget\u2019s Chanakya",
+    title: "Capital Conclave",
+    host: "Faculty of Commerce, GLS University",
+    posts: [
+      {
+        image: { src: "../assets/images/speaking/capital-conclave-2026.jpg", pos: "50% 8%" },
+        excerpt: "Grateful for the opportunity to serve as a Judge at The Budget\u2019s Chanakya, part of the Capital Conclave at the Faculty of Commerce, GLS University\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_grateful-for-the-opportunity-to-serve-as-ugcPost-7427574143547691008-mqj9/",
+      },
+    ],
+  },
+  {
     date: "2026-02-01",
     dateLabel: "1 Feb 2026",
     type: "RBI Governor \u00b7 Index Business Committee",
@@ -130,7 +144,7 @@ const SPEAKING_EVENTS = [
     const alt = `${esc(title)} \u2014 from the LinkedIn post`;
     const media = imgs.length > 1
       ? `<div class="speaking-gallery">${imgs.map((i) => `<img src="${esc(i.src)}" alt="${alt}" loading="lazy"${i.pos ? ` style="object-position:${esc(i.pos)}"` : ''}>`).join('')}</div>`
-      : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy">` : '';
+      : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy"${imgs[0].pos ? ` style="object-position:${esc(imgs[0].pos)}"` : ''}>` : '';
     return `<div class="speaking-post">
       ${media}
       <div class="speaking-body">
