@@ -5,6 +5,7 @@
 //   title, host (organiser)
 //   posts:     LinkedIn posts about the event, in the order shown (keep excerpts to ~1 line):
 //              { image (one) or images (several, optional), excerpt (opening lines), link }
+//              or questions: [{ text, link }] instead of excerpt/link, to share several LinkedIn posts in one card
 //              an image can be a path or { src, pos: "x% y%" } to choose which part shows when cropped
 const SPEAKING_EVENTS = [
   {
@@ -27,6 +28,23 @@ const SPEAKING_EVENTS = [
         ],
         excerpt: "If you think AI will replace you, you\u2019re asking the wrong question\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_ai-finance-finxplore2026-ugcPost-7444975186501586944-Aj8A/",
+      },
+      {
+        image: { src: "../assets/images/speaking/finxplore-2026-hall.jpg", pos: "48% 50%" },
+        questions: [
+          {
+            text: "Will unequal access to AI tools widen the investing gap between retail and institutions?",
+            link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_will-unequal-access-to-ai-tools-widen-the-ugcPost-7448291930267897857-w6dm/",
+          },
+          {
+            text: "Should students consider entrepreneurship in the AI-finance space?",
+            link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_should-students-consider-entrepreneurship-share-7451865488344739840-J0sR/",
+          },
+          {
+            text: "The third world war will happen due to artificial resources. What\u2019s your take?",
+            link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_finxplore-geopolitics-artificialintelligence-share-7459479756950917120-zINU/",
+          },
+        ],
       },
     ],
   },
@@ -177,10 +195,11 @@ const SPEAKING_EVENTS = [
     const media = imgs.length > 1
       ? `<div class="speaking-gallery">${imgs.map((i) => `<img src="${esc(i.src)}" alt="${alt}" loading="lazy"${i.pos ? ` style="object-position:${esc(i.pos)}"` : ''}>`).join('')}</div>`
       : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy"${imgs[0].pos ? ` style="object-position:${esc(imgs[0].pos)}"` : ''}>` : '';
-    return `<div class="speaking-post">
+    return `<div class="speaking-post${p.questions ? ' has-questions' : ''}">
       ${media}
       <div class="speaking-body">
         ${p.excerpt ? `<p class="speaking-excerpt">${esc(p.excerpt)}</p>` : ''}
+        ${p.questions ? `<ul class="speaking-qs">${p.questions.map((q) => `<li><p class="speaking-q">${esc(q.text)}</p><a class="speaking-qlink" href="${esc(q.link)}" target="_blank" rel="noopener">Read on LinkedIn &rarr;</a></li>`).join('')}</ul>` : ''}
         ${p.link ? `<a class="btn" href="${esc(p.link)}" target="_blank" rel="noopener">Read more on LinkedIn</a>` : ''}
       </div>
     </div>`;
