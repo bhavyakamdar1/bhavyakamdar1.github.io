@@ -8,6 +8,24 @@
 //              an image can be a path or { src, pos: "x% y%" } to choose which part shows when cropped
 const SPEAKING_EVENTS = [
   {
+    date: "2026-02-01",
+    dateLabel: "1 Feb 2026",
+    type: "RBI Governor \u00b7 Index Business Committee",
+    title: "SHIKHAR 2026",
+    host: "H. L. College of Commerce (Autonomous) \u00b7 HLCC MUN",
+    posts: [
+      {
+        images: [
+          { src: "../assets/images/speaking/shikhar-2026-rbi.jpg", pos: "50% 62%" },
+          { src: "../assets/images/speaking/shikhar-2026-index-business.jpg", pos: "50% 52%" },
+          { src: "../assets/images/speaking/shikhar-2026-logo.jpg", pos: "50% 50%" },
+        ],
+        excerpt: "Thrilled to share that I have been invited by H. L. College of Commerce (Autonomous) to be part of the Executive Board for SHIKHAR 2026 (Crafted by HLCC MUN)\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-mun-ugcPost-7422144519313403904-jFZj/",
+      },
+    ],
+  },
+  {
     date: "2025-11-04",
     dateLabel: "4 Nov 2025",
     type: "Co-ordinator \u00b7 Conference",
