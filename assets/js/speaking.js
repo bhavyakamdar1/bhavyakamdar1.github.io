@@ -9,6 +9,20 @@
 //              an image can be a path or { src, pos: "x% y%" } to choose which part shows when cropped
 const SPEAKING_EVENTS = [
   {
+    date: "2026-07-31",
+    dateLabel: "31 Jul \u2013 1 Aug 2026",
+    type: "Judge \u00b7 Freshers\u2019 Idea Hunt",
+    title: "ManaGenious Conclave 2026",
+    host: "Faculty of Commerce, GLS University \u00b7 Innovision \u2013 The Management Club",
+    posts: [
+      {
+        image: { src: "../assets/images/speaking/managenious-2026.jpg", pos: "50% 0%" },
+        excerpt: "Excited and grateful to be invited as a Judge for the Freshers\u2019 Idea Hunt at ManaGenious Conclave 2026\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_managenious2026-glsuniversity-facultyofcommerce-share-7487752434484936705-obWu/",
+      },
+    ],
+  },
+  {
     date: "2026-03-29",
     dateLabel: "29 Mar 2026",
     type: "Panelist \u00b7 AI in Finance",
