@@ -7,6 +7,24 @@
 //              { image (one) or images (several, optional), excerpt (opening lines), link }
 const SPEAKING_EVENTS = [
   {
+    date: "2025-11-01",
+    dateLabel: "1 Nov 2025",
+    type: "Guest Speaker \u00b7 Non-Teaching Staff Training Programme",
+    title: "Professional Skills for Administration",
+    host: "Banaskantha District Kelavani Mandal & G.D. Modi Vidya Sankul",
+    posts: [
+      {
+        images: [
+          "../assets/images/speaking/kelavani-mandal-session.jpg",
+          "../assets/images/speaking/kelavani-mandal-plaque.jpg",
+          "../assets/images/speaking/kelavani-mandal-hall.jpg",
+        ],
+        excerpt: "It was an honour to be invited as a Guest Speaker at G.D. Modi Vidya Sankul, as part of the Non-Teaching Staff Training Programme\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_it-was-an-honour-to-be-invited-as-a-guest-ugcPost-7391146336634601472-p7TV/",
+      },
+    ],
+  },
+  {
     date: "2025-09-05",
     dateLabel: "5–7 Sep 2025",
     type: "Judge · The Boardroom",
