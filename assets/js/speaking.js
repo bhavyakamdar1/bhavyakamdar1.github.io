@@ -23,6 +23,15 @@ const SPEAKING_EVENTS = [
         excerpt: "Thrilled to share that I have been invited by H. L. College of Commerce (Autonomous) to be part of the Executive Board for SHIKHAR 2026 (Crafted by HLCC MUN)\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-mun-ugcPost-7422144519313403904-jFZj/",
       },
+      {
+        images: [
+          { src: "../assets/images/speaking/shikhar-2026-memento.jpg", pos: "50% 20%" },
+          { src: "../assets/images/speaking/shikhar-2026-trophy.jpg", pos: "50% 38%" },
+          { src: "../assets/images/speaking/shikhar-2026-team.jpg", pos: "50% 40%" },
+        ],
+        excerpt: "It's a Wrap for Shikhar 2026 (HLCC MUN). Thank you to H. L. College of Commerce (Autonomous) for organising SHIKHAR 2026 with such professionalism and vision\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-hlccmun-ugcPost-7425043826228137985-GXu2/",
+      },
     ],
   },
   {
