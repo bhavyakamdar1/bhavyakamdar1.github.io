@@ -11,13 +11,13 @@ const SPEAKING_EVENTS = [
   {
     date: "2026-10-03",
     dateLabel: "3\u20134 Oct 2026",
-    type: "Judge \u00b7 Fin-AI Conclave",
+    type: "Judge \u00b7 Finance Ka Funda",
     title: "THE EDGE 2026",
     host: "Rising Youth Network \u00b7 SKIPS University",
     posts: [
       {
-        image: { src: "../assets/images/speaking/the-edge-2026.jpg", pos: "50% 50%" },
-        excerpt: "Excited to share that I\u2019ve been invited to be a Judge for THE EDGE 2026, a Fin-AI Conclave jointly organised by Rising Youth Network and SKIPS University\u2026",
+        image: { src: "../assets/images/speaking/the-edge-2026.jpg", pos: "50% 0%" },
+        excerpt: "Excited to share that I\u2019ve been invited to be a Judge for THE EDGE 2026, jointly organised by Rising Youth Network and SKIPS University\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_theedge2026-ryn-skipsuniversity-share-7510941806772146176-1dv9/",
       },
     ],
