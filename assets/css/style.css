@@ -852,6 +852,7 @@ a { color: inherit; text-decoration: none; }
 }
 .book-page p { margin: 0 0 .8em; }
 .pf-label { font-family: var(--font-head); font-size: .8em; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-olive-dark); }
+.pf-q { font-style: italic; border-left: 2px solid var(--color-olive); padding-left: .8em; }
 .pf-sign { font-style: italic; text-align: right; margin-top: 1em; }
 .book-cover3d { transform-style: preserve-3d; transform-origin: left center; transform: rotateY(calc(var(--open) * -180deg)); }
 .book-cover3d > * { position: absolute; inset: 0; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
