@@ -37,3 +37,37 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
     }
   });
 });
+
+// Scroll story: the book opens (preface + Buy now), then the storm scene (Play the game)
+(() => {
+  const story = document.querySelector('.story');
+  const track = story && story.querySelector('.story-track');
+  if (!track) return;
+  story.classList.add('is-live');
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  const seg = (p, a, b) => clamp((p - a) / (b - a));
+  const ease = (t) => t * t * (3 - 2 * t);
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const range = track.offsetHeight - window.innerHeight;
+    const p = range > 0 ? clamp(-track.getBoundingClientRect().top / range) : 0;
+    const open = ease(seg(p, 0.06, 0.3));
+    const buy = seg(p, 0.28, 0.4);
+    const game = ease(seg(p, 0.52, 0.68));
+    const play = seg(p, 0.7, 0.82);
+    const s = story.style;
+    s.setProperty('--open-live', open.toFixed(3));
+    s.setProperty('--buy', buy.toFixed(3));
+    s.setProperty('--game', game.toFixed(3));
+    s.setProperty('--play', play.toFixed(3));
+    story.classList.toggle('buy-on', buy > 0.5 && game < 0.5);
+    story.classList.toggle('play-on', play > 0.5);
+    story.classList.toggle('book-off', game >= 0.99);
+    story.classList.toggle('game-off', game <= 0.01);
+  };
+  const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+  window.addEventListener('scroll', request, { passive: true });
+  window.addEventListener('resize', request);
+  update();
+})();

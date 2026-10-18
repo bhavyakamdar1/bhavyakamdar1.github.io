@@ -7,7 +7,7 @@
 <meta name="description" content="Bhavya Kamdar — Chartered Accountant, author, creator, and educator. Writing about risk, hope, and the things a balance sheet can't hold.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -65,32 +65,77 @@
 </section>
 
 <!-- ============ WRITING ============ -->
-<!-- Replace .book-cover / .card-thumb.book with real B&W cover images (recommend 800x1200) -->
-<section class="section section-offwhite section-compact" id="writing">
-  <div class="section-head">
-    <div>
-      <p class="eyebrow">Writing</p>
-      <h2>The books</h2>
-    </div>
-  </div>
+<!-- Scroll story: the book flips open (preface + Buy now), then the storm/ship scene (Play the game). Driven by assets/js/main.js -->
+<section class="story" id="writing" aria-label="Face Your Hope">
+  <div class="story-track">
+    <div class="story-stage">
 
-  <!-- Featured book -->
-  <div class="featured-book">
-    <a href="books/face-your-hope/" class="book-cover">
-      <img src="assets/images/books/face-your-hope.jpg" alt="Face Your Hope — book cover" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-    </a>
-    <div>
-      <span class="card-tag">Featured &middot; Out now</span>
-      <h3>Face Your Hope</h3>
-      <p>A collection of stories from a real life, told the way memory tells them. Each one stands on its own — open any page, in any order.</p>
-      <div class="link-row">
-        <a href="books/face-your-hope/" class="btn">Read more</a>
-        <a href="face-your-hope/game" class="btn">Play the game</a>
+      <!-- Scene 1: the book -->
+      <div class="st-scene st-book">
+        <div class="st-book-art">
+          <div class="book3d">
+            <div class="book-page">
+              <p class="pf-label">Preface</p>
+              <!-- Placeholder preface: swap in the real opening lines of the book -->
+              <p>Every hope you have ever held has asked you for something. Time. Comfort. Pride. The safety of never having tried.</p>
+              <p>Because hope never travels alone. It moves with risk, choice and luck. And luck, it turns out, can be invited. The more you act, the wider the space where it can find you.</p>
+              <p class="pf-sign">&mdash; Bhavya Kamdar</p>
+            </div>
+            <div class="book-cover3d">
+              <img class="cover-front" src="assets/images/books/face-your-hope.jpg" alt="Face Your Hope — book cover">
+              <div class="cover-inside" aria-hidden="true"><span>Face<br>Your<br>Hope</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="st-side st-buy">
+          <p class="eyebrow">Writing &middot; Out now</p>
+          <h2>Face Your Hope</h2>
+          <p>A collection of stories from a real life, told the way memory tells them. Open any page, in any order.</p>
+          <div class="link-row">
+            <a href="books/face-your-hope/#buy" class="btn btn-solid">Buy now</a>
+            <a href="books/face-your-hope/" class="btn">Read more</a>
+          </div>
+        </div>
       </div>
+
+      <!-- Scene 2: the game -->
+      <div class="st-scene st-game">
+        <div class="storm-flash"></div>
+        <svg class="storm-bolt bolt-a" viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="#FCFF35" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg>
+        <svg class="storm-bolt bolt-b" viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="#FCFF35" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg>
+        <div class="st-ship-wrap">
+          <div class="st-ship">
+            <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="66" y="26" width="5" height="58" fill="#0A0A0A"/>
+              <rect x="66" y="30" width="30" height="4" fill="#0A0A0A"/>
+              <rect x="120" y="36" width="20" height="26" fill="#0A0A0A"/>
+              <rect x="96" y="54" width="60" height="30" rx="3" fill="#0A0A0A"/>
+              <path d="M14,84 L226,84 C226,84 214,120 190,120 L50,120 C26,120 14,84 14,84 Z" fill="#0A0A0A"/>
+              <circle cx="108" cy="69" r="4" fill="#fff"/>
+              <circle cx="126" cy="69" r="4" fill="#fff"/>
+              <circle cx="144" cy="69" r="4" fill="#fff"/>
+            </svg>
+          </div>
+        </div>
+        <div class="st-sea">
+          <svg class="sea-svg" viewBox="0 0 1620 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M0,60 C180,110 360,10 540,60 C720,110 900,10 1080,60 C1260,110 1440,10 1620,60 L1620,200 L0,200 Z" fill="#E6E800"/>
+            <path d="M0,90 C180,130 360,50 540,90 C720,130 900,50 1080,90 C1260,130 1440,50 1620,90 L1620,200 L0,200 Z" fill="#FCFF35"/>
+          </svg>
+        </div>
+        <div class="st-side st-play">
+          <p class="play-kicker">Thunderstorm's coming</p>
+          <h2>Can you save the ship?</h2>
+          <p>The book's companion game &mdash; feel what hope asks of you before you read a page.</p>
+          <div class="link-row">
+            <a href="face-your-hope/game" class="btn btn-play">Play the game</a>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-
-  <div class="section-cta">
+  <div class="section-cta story-cta">
     <a href="books/" class="btn">See all books</a>
   </div>
 </section>

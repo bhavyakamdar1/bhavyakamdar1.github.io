@@ -816,3 +816,111 @@ a { color: inherit; text-decoration: none; }
 .speaking-hit:hover .speaking-excerpt, .speaking-hit:hover .speaking-q { color: var(--color-olive-dark); }
 .speaking-hit:hover .speaking-img, .speaking-hit:hover .speaking-gallery { filter: brightness(0.96); }
 .speaking-img, .speaking-gallery { transition: filter 0.2s ease; }
+
+/* ---------- Scroll story: book opens, then the storm ---------- */
+.story { background: var(--color-offwhite); }
+.story-track { position: relative; }
+.story-stage { position: relative; min-height: 100vh; }
+.st-scene { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 90px 24px 48px; min-height: 100vh; }
+.st-book { --bh: min(40vh, 66vw); --bw: calc(var(--bh) / 1.5); --open: 1; }
+.st-game { background: #fff; overflow: hidden; border-top: 1px solid var(--color-line); }
+
+/* Live (JS) mode: tall scroll track with a pinned stage */
+.story.is-live .story-track { height: 380vh; }
+.story.is-live .story-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; overflow: hidden; }
+.story.is-live .st-scene { position: absolute; inset: 0; min-height: 0; }
+.story.is-live .st-book { opacity: calc(1 - var(--game, 0)); }
+.story.is-live .st-game { opacity: var(--game, 0); border-top: 0; }
+.story.is-live.book-off .st-book,
+.story.is-live.game-off .st-game { visibility: hidden; }
+.story.is-live .st-buy { opacity: var(--buy, 0); transform: translateY(calc((1 - var(--buy, 0)) * 24px)); }
+.story.is-live .st-play { opacity: var(--play, 0); transform: translateY(calc((1 - var(--play, 0)) * 24px)); }
+.story.is-live .st-side { pointer-events: none; }
+.story.is-live.buy-on .st-buy,
+.story.is-live.play-on .st-play { pointer-events: auto; }
+.story.is-live .st-book { --open: var(--open-live, 0); }
+.story.is-live .st-book-art { transform: translateY(calc(var(--game, 0) * -30px)); }
+
+/* The book */
+.st-book-art { perspective: 1800px; flex: none; }
+.book3d { position: relative; width: var(--bw); height: var(--bh); transform: translateX(calc(var(--open) * var(--bw) / 2)); }
+.book-page, .book-cover3d { position: absolute; inset: 0; }
+.book-page {
+  background: #fdfbf5; color: #2a2a26; padding: calc(var(--bh) * 0.07) calc(var(--bw) * 0.1);
+  box-shadow: inset 8px 0 14px -8px rgba(0,0,0,.25), 4px 4px 0 -1px #e9e4d6, 8px 8px 0 -2px #ddd7c6, 0 22px 40px -12px rgba(0,0,0,.35);
+  font-family: Georgia, 'Times New Roman', serif; font-size: clamp(9.5px, calc(var(--bh) * 0.036), 14px); line-height: 1.55; overflow: hidden;
+}
+.book-page p { margin: 0 0 .8em; }
+.pf-label { font-family: var(--font-head); font-size: .8em; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-olive-dark); }
+.pf-sign { font-style: italic; text-align: right; margin-top: 1em; }
+.book-cover3d { transform-style: preserve-3d; transform-origin: left center; transform: rotateY(calc(var(--open) * -180deg)); }
+.book-cover3d > * { position: absolute; inset: 0; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.cover-front { object-fit: cover; box-shadow: 0 22px 40px -12px rgba(0,0,0,.4); }
+.cover-inside {
+  transform: rotateY(180deg); background: linear-gradient(135deg, #f2eee2, #e6e0cd); display: flex; align-items: center; justify-content: center;
+  font-family: 'Anton', var(--font-head), sans-serif; text-transform: uppercase; text-align: center; color: rgba(17,17,17,.14);
+  font-size: calc(var(--bh) * 0.2); line-height: .9; letter-spacing: 1px; box-shadow: inset -8px 0 14px -8px rgba(0,0,0,.2);
+}
+
+/* Side panels (Buy now / Play the game) */
+.st-side { max-width: 440px; text-align: center; position: relative; z-index: 3; }
+.st-side h2 { font-family: var(--font-head); font-weight: 700; font-size: clamp(26px, 3.4vw, 40px); margin: 6px 0 12px; }
+.st-side p { color: #333; margin: 0 0 18px; }
+.st-side .link-row { justify-content: center; }
+.btn-solid { background: var(--color-ink); color: var(--color-paper); }
+.btn-solid:hover { background: transparent; color: var(--color-ink); }
+.story-cta { margin: 0; padding: 28px 24px 56px; }
+
+/* Game scene: same storm as the game's start screen */
+.st-game .st-side { background: #fff; border: 2px solid #0A0A0A; border-radius: 4px; box-shadow: 5px 5px 0 #0A0A0A; padding: 22px 24px; }
+.st-game .st-side h2 { font-family: 'Anton', var(--font-head), sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: 1px; line-height: 1; transform: rotate(-1.5deg); }
+.play-kicker { font-size: 11px; font-weight: 800; letter-spacing: .3em; text-transform: uppercase; color: #555; margin: 0 0 4px !important; }
+.btn-play { background: #FCFF35; color: #0A0A0A; border: 2px solid #0A0A0A; box-shadow: 3px 3px 0 #0A0A0A; font-weight: 700; }
+.btn-play:hover { background: #0A0A0A; color: #FCFF35; }
+.st-ship-wrap { position: relative; z-index: 1; flex: none; width: min(62vw, 300px); margin-top: auto; padding-top: 4vh; }
+.st-ship { transform-origin: 50% 88%; animation: stShipRock 3.6s ease-in-out infinite alternate; }
+.st-ship svg { width: 100%; display: block; overflow: visible; }
+@keyframes stShipRock {
+  0% { transform: translateY(0) rotate(-4deg); }
+  18% { transform: translateY(-10px) rotate(-12deg); }
+  38% { transform: translateY(6px) rotate(10deg); }
+  58% { transform: translateY(-8px) rotate(-15deg); }
+  78% { transform: translateY(4px) rotate(9deg); }
+  100% { transform: translateY(-2px) rotate(-4deg); }
+}
+.st-sea { position: absolute; left: 0; right: 0; bottom: 0; height: 40%; overflow: hidden; z-index: 2; pointer-events: none; }
+.st-sea .sea-svg { position: absolute; bottom: 0; left: 0; width: 225%; height: 100%; animation: stSeaLoop 5.25s linear infinite; }
+@keyframes stSeaLoop { from { transform: translateX(0); } to { transform: translateX(-33.3333%); } }
+.st-game .st-side { z-index: 3; margin-bottom: 4px; }
+.storm-flash { position: absolute; inset: 0; background: #FCFF35; opacity: 0; z-index: 0; pointer-events: none; animation: stFlash 3.6s linear infinite; }
+.storm-bolt { position: absolute; width: clamp(34px, 8vw, 52px); opacity: 0; z-index: 1; pointer-events: none; }
+.storm-bolt.bolt-a { top: 14%; right: 12%; transform: rotate(8deg); animation: stBoltA 3.6s linear infinite; }
+.storm-bolt.bolt-b { top: 18%; left: 10%; transform: rotate(-10deg) scale(.8); animation: stBoltB 3.6s linear infinite; }
+@keyframes stBoltA { 0%,22%{opacity:0} 23%,27%{opacity:1} 29%,31%{opacity:0} 32%,36%{opacity:1} 40%,100%{opacity:0} }
+@keyframes stBoltB { 0%,62%{opacity:0} 63%,68%{opacity:1} 70%,72%{opacity:0} 73%,77%{opacity:1} 81%,100%{opacity:0} }
+@keyframes stFlash { 0%,22%{opacity:0} 23%{opacity:.45} 27%{opacity:0} 32%{opacity:.3} 36%,62%{opacity:0} 63%{opacity:.4} 68%{opacity:0} 73%{opacity:.25} 77%,100%{opacity:0} }
+
+@media (min-width: 860px) {
+  .st-book { --bh: min(58vh, 460px); }
+  .st-scene { flex-direction: row; justify-content: center; gap: 4vw; padding: 90px 6vw 48px; }
+  .st-book-art { width: calc(var(--bw) * 2 + 20px); display: flex; justify-content: center; }
+  .st-side { text-align: left; }
+  .st-side .link-row { justify-content: flex-start; }
+  .st-ship-wrap { width: min(34vw, 340px); margin-top: 0; align-self: flex-end; margin-bottom: 17vh; padding: 0; }
+  .st-game .st-side { margin-bottom: 0; }
+  .st-sea { height: 34%; }
+}
+@media (max-width: 859px) {
+  .st-game { gap: 12px; padding-top: 80px; }
+  .st-ship-wrap { margin-bottom: 3vh; }
+  .st-game .st-side { max-width: 92%; padding: 16px 18px; }
+  .st-game .st-side p { display: none; }
+  .st-game .st-side h2 { font-size: 26px; margin-bottom: 14px; }
+  .st-book { gap: 20px; }
+  .st-book .st-side p { font-size: 14px; margin-bottom: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .st-ship { animation-duration: 8s; }
+  .st-sea .sea-svg { animation-duration: 24s; }
+  .storm-flash, .storm-bolt { animation: none; opacity: 0; }
+}
