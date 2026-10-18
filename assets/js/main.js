@@ -55,14 +55,11 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
     const open = ease(seg(p, 0.06, 0.3));
     const buy = seg(p, 0.28, 0.4);
     const game = ease(seg(p, 0.52, 0.68));
-    const play = seg(p, 0.7, 0.82);
     const s = story.style;
     s.setProperty('--open-live', open.toFixed(3));
     s.setProperty('--buy', buy.toFixed(3));
     s.setProperty('--game', game.toFixed(3));
-    s.setProperty('--play', play.toFixed(3));
     story.classList.toggle('buy-on', buy > 0.5 && game < 0.5);
-    story.classList.toggle('play-on', play > 0.5);
     story.classList.toggle('book-off', game >= 0.99);
     story.classList.toggle('game-off', game <= 0.01);
   };
@@ -70,4 +67,20 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
   window.addEventListener('scroll', request, { passive: true });
   window.addEventListener('resize', request);
   update();
+
+  // Play inside the embedded game opens the real game page straight at the name-entry screen
+  const frame = story.querySelector('.st-game-frame');
+  const wire = () => {
+    try {
+      const btn = frame.contentDocument.querySelector('.ld-play');
+      if (!btn || btn.dataset.wired) return;
+      btn.dataset.wired = '1';
+      btn.addEventListener('click', (e) => {
+        e.stopImmediatePropagation();
+        e.preventDefault();
+        window.location.href = frame.getAttribute('src') + '#name';
+      }, true);
+    } catch (err) { /* cross-origin: the game's own Play still works inside the frame */ }
+  };
+  if (frame) { frame.addEventListener('load', wire); wire(); }
 })();
