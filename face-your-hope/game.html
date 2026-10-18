@@ -1483,6 +1483,7 @@ document.getElementById('player-name').addEventListener('keydown',e=>{ if(e.key=
 SFX.initMuted();
 document.getElementById('mbtn').innerHTML = SFX.isMuted() ? '&#128263;' : '&#128266;';
 document.addEventListener('pointerdown', function armOnce(){ SFX.arm(); }, {once:true});
+if(location.hash==='#name') openSetup();
 
 </script>
 </body>

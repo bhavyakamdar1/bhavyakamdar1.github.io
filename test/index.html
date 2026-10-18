@@ -77,8 +77,11 @@
           <div class="book3d">
             <div class="book-page">
               <p class="pf-label">Preface</p>
+              <p>Thank you for opening this book. Before you turn the page, I want to leave you with the question I keep asking myself.</p>
               <p class="pf-q">If your life were a movie, and people had been watching it up to this very moment, what would the audience be screaming at the screen for you to do?</p>
-              <p class="pf-sign">&mdash; Bhavya Kamdar</p>
+              <p>Sit with it for a second. You will probably find that you already know the answer. You have known it for a while.</p>
+              <p>That answer is your hope.</p>
+              <p class="pf-end">So, can you face your hope?</p>
             </div>
             <div class="book-cover3d">
               <img class="cover-front" src="../assets/images/books/face-your-hope.jpg" alt="Face Your Hope — book cover">
@@ -97,39 +100,9 @@
         </div>
       </div>
 
-      <!-- Scene 2: the game -->
+      <!-- Scene 2: the game's own opening page, embedded as-is. Play inside it jumps to the name entry page. -->
       <div class="st-scene st-game">
-        <div class="storm-flash"></div>
-        <svg class="storm-bolt bolt-a" viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="#FCFF35" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg>
-        <svg class="storm-bolt bolt-b" viewBox="0 0 48 84" aria-hidden="true"><path d="M30,2 L6,46 L22,46 L10,82 L44,32 L27,32 L40,2 Z" fill="#FCFF35" stroke="#0A0A0A" stroke-width="3" stroke-linejoin="round"/></svg>
-        <div class="st-ship-wrap">
-          <div class="st-ship">
-            <svg viewBox="0 0 240 150" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect x="66" y="26" width="5" height="58" fill="#0A0A0A"/>
-              <rect x="66" y="30" width="30" height="4" fill="#0A0A0A"/>
-              <rect x="120" y="36" width="20" height="26" fill="#0A0A0A"/>
-              <rect x="96" y="54" width="60" height="30" rx="3" fill="#0A0A0A"/>
-              <path d="M14,84 L226,84 C226,84 214,120 190,120 L50,120 C26,120 14,84 14,84 Z" fill="#0A0A0A"/>
-              <circle cx="108" cy="69" r="4" fill="#fff"/>
-              <circle cx="126" cy="69" r="4" fill="#fff"/>
-              <circle cx="144" cy="69" r="4" fill="#fff"/>
-            </svg>
-          </div>
-        </div>
-        <div class="st-sea">
-          <svg class="sea-svg" viewBox="0 0 1620 200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M0,60 C180,110 360,10 540,60 C720,110 900,10 1080,60 C1260,110 1440,10 1620,60 L1620,200 L0,200 Z" fill="#E6E800"/>
-            <path d="M0,90 C180,130 360,50 540,90 C720,130 900,50 1080,90 C1260,130 1440,50 1620,90 L1620,200 L0,200 Z" fill="#FCFF35"/>
-          </svg>
-        </div>
-        <div class="st-side st-play">
-          <p class="play-kicker">Thunderstorm's coming</p>
-          <h2>Can you save the ship?</h2>
-          <p>The book's companion game &mdash; feel what hope asks of you before you read a page.</p>
-          <div class="link-row">
-            <a href="../face-your-hope/game" class="btn btn-play">Play the game</a>
-          </div>
-        </div>
+        <iframe class="st-game-frame" src="../face-your-hope/game" title="Face Your Hope — The Game" loading="eager"></iframe>
       </div>
 
     </div>
