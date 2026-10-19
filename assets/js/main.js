@@ -95,3 +95,31 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
   };
   if (frame) { frame.addEventListener('load', wire); wire(); }
 })();
+
+// About: the portrait rises in as the section scrolls into view; the copy fades up in turn
+(() => {
+  const fig = document.querySelector('.about-figure');
+  if (!fig) return;
+  const lines = document.querySelectorAll('.about-line');
+  const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (still) return;
+  lines.forEach((el) => el.classList.add('is-pending'));
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      lines.forEach((el, i) => setTimeout(() => el.classList.add('is-in'), 150 + i * 160));
+      io.disconnect();
+    });
+  }, { threshold: 0.25 });
+  io.observe(fig);
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const r = fig.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / (r.height * 0.9 + window.innerHeight * 0.2)));
+    fig.style.setProperty('--rise', (p * p * (3 - 2 * p)).toFixed(3));
+  };
+  window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener('resize', update);
+  update();
+})();
