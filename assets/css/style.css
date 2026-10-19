@@ -817,41 +817,45 @@ a { color: inherit; text-decoration: none; }
 .speaking-hit:hover .speaking-img, .speaking-hit:hover .speaking-gallery { filter: brightness(0.96); }
 .speaking-img, .speaking-gallery { transition: filter 0.2s ease; }
 
-/* ---------- Scroll story: book opens, then the storm ---------- */
+/* ---------- Scroll story: the book opens, the preface page turns to the game ---------- */
 .story { background: var(--color-offwhite); }
 .story-track { position: relative; }
 .story-stage { position: relative; min-height: 100vh; }
 .st-scene { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; padding: 90px 24px 48px; min-height: 100vh; }
-.st-book { --bh: min(40vh, 66vw); --bw: calc(var(--bh) / 1.5); --open: 1; }
+.st-book { --bh: min(42vh, 68vw); --bw: calc(var(--bh) / 1.5); --open: 1; --flip: 1; }
 
 /* Live (JS) mode: tall scroll track with a pinned stage */
-.story.is-live .story-track { height: 380vh; }
+.story.is-live .story-track { height: 400vh; }
 .story.is-live .story-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; overflow: hidden; }
 .story.is-live .st-scene { position: absolute; inset: 0; min-height: 0; }
-.story.is-live .st-book { opacity: calc(1 - var(--game, 0)); }
-.story.is-live .st-game { opacity: var(--game, 0); border-top: 0; }
-.story.is-live.book-off .st-book,
-.story.is-live.game-off .st-game { visibility: hidden; }
-.story.is-live .st-buy { opacity: var(--buy, 0); transform: translateY(calc((1 - var(--buy, 0)) * 24px)); }
-.story.is-live .st-side { pointer-events: none; }
+.story.is-live .st-book { --open: var(--open-live, 0); --flip: var(--flip-live, 0); }
+.story.is-live .st-buy { opacity: var(--buy, 0); transform: translateY(calc((1 - var(--buy, 0)) * 24px)); pointer-events: none; }
 .story.is-live.buy-on .st-buy { pointer-events: auto; }
-.story.is-live .st-book { --open: var(--open-live, 0); }
-.story.is-live .st-book-art { transform: translateY(calc(var(--game, 0) * -30px)); }
 
 /* The book */
 .st-book-art { perspective: 1800px; flex: none; }
-.book3d { position: relative; width: var(--bw); height: var(--bh); transform: translateX(calc(var(--open) * var(--bw) / 2)); }
-.book-page, .book-cover3d { position: absolute; inset: 0; }
+.book3d { position: relative; width: var(--bw); height: var(--bh); transform-style: preserve-3d; transform: translateX(calc(var(--open) * var(--bw) / 2)); }
+.book-page, .book-leaf, .book-cover3d { position: absolute; inset: 0; }
 .book-page {
-  background: #fdfbf5; color: #2a2a26; padding: calc(var(--bh) * 0.07) calc(var(--bw) * 0.1);
-  box-shadow: inset 8px 0 14px -8px rgba(0,0,0,.25), 4px 4px 0 -1px #e9e4d6, 8px 8px 0 -2px #ddd7c6, 0 22px 40px -12px rgba(0,0,0,.35);
-  font-family: Georgia, 'Times New Roman', serif; font-size: clamp(9.5px, calc(var(--bh) * 0.036), 14px); line-height: 1.55; overflow: hidden;
+  background: #fdfbf5; color: #2a2a26; padding: calc(var(--bh) * 0.05) calc(var(--bw) * 0.08);
+  font-family: Georgia, 'Times New Roman', serif; font-size: calc(var(--bh) * 0.034); line-height: 1.42; overflow: hidden;
 }
-.book-page p { margin: 0 0 .8em; }
+.book-page p { margin: 0 0 .55em; }
+.game-page { padding: 0; background: #fff; box-shadow: 4px 4px 0 -1px #e9e4d6, 8px 8px 0 -2px #ddd7c6, 0 22px 40px -12px rgba(0,0,0,.35); }
+.st-game-frame { position: absolute; top: 0; left: 0; width: 360px; height: 540px; border: 0; background: #fff; transform-origin: 0 0; transform: scale(var(--fscale, .5)); }
+.game-page::after { content: ""; position: absolute; inset: 0; pointer-events: none; box-shadow: inset 8px 0 14px -8px rgba(0,0,0,.25); }
+.book-leaf { transform-style: preserve-3d; transform-origin: left center; transform: rotateY(calc(var(--flip) * -180deg)) translateZ(1px); }
+.book-cover3d { transform-style: preserve-3d; transform-origin: left center; transform: rotateY(calc(var(--open) * -180deg)) translateZ(2px); }
+.leaf-face { position: absolute; inset: 0; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.leaf-front { box-shadow: inset 8px 0 14px -8px rgba(0,0,0,.25); }
+.leaf-back {
+  transform: rotateY(180deg); background: #fdfbf5; display: flex; align-items: center; justify-content: center; text-align: center;
+  font-family: Georgia, 'Times New Roman', serif; font-style: italic; color: rgba(42,42,38,.35); font-size: calc(var(--bh) * 0.06); line-height: 1.3;
+  box-shadow: inset -8px 0 14px -8px rgba(0,0,0,.2);
+}
 .pf-label { font-family: var(--font-head); font-size: .8em; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--color-olive-dark); }
 .pf-q { font-style: italic; border-left: 2px solid var(--color-olive); padding-left: .8em; }
 .pf-end { font-style: italic; margin-top: 1em; }
-.book-cover3d { transform-style: preserve-3d; transform-origin: left center; transform: rotateY(calc(var(--open) * -180deg)); }
 .book-cover3d > * { position: absolute; inset: 0; width: 100%; height: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
 .cover-front { object-fit: cover; box-shadow: 0 22px 40px -12px rgba(0,0,0,.4); }
 .cover-inside {
@@ -860,7 +864,7 @@ a { color: inherit; text-decoration: none; }
   font-size: calc(var(--bh) * 0.2); line-height: .9; letter-spacing: 1px; box-shadow: inset -8px 0 14px -8px rgba(0,0,0,.2);
 }
 
-/* Side panels (Buy now / Play the game) */
+/* Side panel (Buy now / Play the game) */
 .st-side { max-width: 440px; text-align: center; position: relative; z-index: 3; }
 .st-side h2 { font-family: var(--font-head); font-weight: 700; font-size: clamp(26px, 3.4vw, 40px); margin: 6px 0 12px; }
 .st-side p { color: #333; margin: 0 0 18px; }
@@ -869,23 +873,14 @@ a { color: inherit; text-decoration: none; }
 .btn-solid:hover { background: transparent; color: var(--color-ink); }
 .story-cta { margin: 0; padding: 28px 24px 56px; }
 
-/* Game scene: the game's real opening page, embedded */
-.st-game { padding: 72px 0 0; background: var(--color-offwhite); align-items: stretch; }
-.st-game-frame { display: block; width: 100%; max-width: 640px; margin: 0 auto; flex: 1; border: 0; background: #fff; box-shadow: 0 0 0 1px var(--color-line), 0 0 60px rgba(0,0,0,.08); }
-.story:not(.is-live) .st-game { min-height: 100vh; }
-.story:not(.is-live) .st-game-frame { height: 100vh; }
-
 @media (min-width: 860px) {
   .st-book { --bh: min(58vh, 460px); }
   .st-scene { flex-direction: row; justify-content: center; gap: 4vw; padding: 90px 6vw 48px; }
-  .st-game { padding: 72px 0 0; }
   .st-book-art { width: calc(var(--bw) * 2 + 20px); display: flex; justify-content: center; }
   .st-side { text-align: left; }
   .st-side .link-row { justify-content: flex-start; }
 }
 @media (max-width: 859px) {
-  .st-book { --bh: min(42vh, 68vw); gap: 20px; }
-  .book-page { padding: calc(var(--bh) * 0.05) calc(var(--bw) * 0.08); font-size: calc(var(--bh) * 0.034); line-height: 1.42; }
-  .book-page p { margin-bottom: .55em; }
+  .st-book { gap: 20px; }
   .st-book .st-side p { font-size: 14px; margin-bottom: 14px; }
 }
