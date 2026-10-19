@@ -903,3 +903,24 @@ a { color: inherit; text-decoration: none; }
 .about-line { transition: opacity .6s ease, transform .6s ease; }
 .about-line.is-in { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) { .about-line { transition: none; } }
+
+/* ---------- Speaking: full-width photo with a caption card in the bottom-right corner ---------- */
+.speaking-banner { position: relative; background: #111; line-height: 0; }
+.speaking-banner > img { display: block; width: 100%; height: auto; max-height: 100vh; object-fit: cover; object-position: center 35%; aspect-ratio: 3 / 2; }
+.speaking-card {
+  position: absolute; right: clamp(14px, 4vw, 56px); bottom: clamp(14px, 4vw, 56px);
+  width: min(420px, calc(100% - 28px)); padding: 26px 28px 28px; line-height: 1.5;
+  background: rgba(10,10,10,.8); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); color: #fff;
+}
+.speaking-card .eyebrow { color: rgba(255,255,255,.7); margin: 0 0 8px; }
+.speaking-card h2 { font-family: var(--font-head); font-weight: 700; font-size: clamp(24px, 2.6vw, 32px); line-height: 1.15; margin: 0 0 12px; color: #fff; }
+.speaking-card p { color: rgba(255,255,255,.88); margin: 0 0 18px; font-size: 15px; }
+.speaking-card .btn { color: #fff; border-color: #fff; }
+.speaking-card .btn:hover { background: #fff; color: #111; }
+@media (max-width: 600px) {
+  .speaking-card { right: 0; bottom: 0; width: 78%; padding: 16px 16px 18px; }
+  .speaking-card .speaking-card-text { display: none; }
+  .speaking-card h2 { font-size: 20px; margin-bottom: 12px; }
+  .speaking-card .eyebrow { font-size: 10px; margin-bottom: 4px; }
+  .speaking-card .btn { padding: 10px 14px; font-size: 10.5px; letter-spacing: .08em; }
+}
