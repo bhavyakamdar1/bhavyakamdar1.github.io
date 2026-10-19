@@ -60,9 +60,13 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
     const buy = seg(p, 0.28, 0.4);
     const s = story.style;
     s.setProperty('--open-live', ease(seg(p, 0.06, 0.3)).toFixed(3));
-    s.setProperty('--flip-live', ease(seg(p, 0.45, 0.7)).toFixed(3));
+    const flip = ease(seg(p, 0.45, 0.7));
+    s.setProperty('--flip-live', flip.toFixed(3));
     s.setProperty('--buy', buy.toFixed(3));
     story.classList.toggle('buy-on', buy > 0.5);
+    story.classList.toggle('on-game', flip > 0.5);
+    story.querySelector('.swap-play').setAttribute('aria-hidden', flip > 0.5 ? 'false' : 'true');
+    story.querySelector('.swap-play').tabIndex = flip > 0.5 ? 0 : -1;
   };
   const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
   window.addEventListener('scroll', request, { passive: true });
@@ -72,7 +76,14 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
   // Play on the embedded game page opens the real game at its opening page
   const wire = () => {
     try {
-      const btn = frame.contentDocument.querySelector('.ld-play');
+      const doc = frame.contentDocument;
+      if (!doc.getElementById('st-embed-style')) {   // the "Click to play" hint collides with the title plate at page size
+        const st = doc.createElement('style');
+        st.id = 'st-embed-style';
+        st.textContent = '.ld-hint{display:none !important}';
+        doc.head.appendChild(st);
+      }
+      const btn = doc.querySelector('.ld-play');
       if (!btn || btn.dataset.wired) return;
       btn.dataset.wired = '1';
       btn.addEventListener('click', (e) => {
