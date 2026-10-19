@@ -20,6 +20,15 @@ const SPEAKING_EVENTS = [
         excerpt: "Excited to share that I\u2019ve been invited to be a Judge for THE EDGE 2026, jointly organised by Rising Youth Network and SKIPS University\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_theedge2026-ryn-skipsuniversity-share-7510941806772146176-1dv9/",
       },
+      {
+        images: [
+          { src: "../assets/images/speaking/the-edge-2026-judging.jpg", pos: "30% 40%" },
+          { src: "../assets/images/speaking/the-edge-2026-table.jpg", pos: "65% 40%" },
+          { src: "../assets/images/speaking/the-edge-2026-hall.jpg", pos: "50% 45%" },
+        ],
+        excerpt: "Financial statements don\u2019t just present numbers. They tell stories. The real skill lies in reading them right\u2026",
+        link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_financekafunda-theedge-financialanalysis-share-7517834398726070272-OpzU/",
+      },
     ],
   },
   {
