@@ -38,38 +38,38 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
   });
 });
 
-// Scroll story: the book opens (preface + Buy now), then the storm scene (Play the game)
+// Scroll story: the book opens (preface + Buy now), then the preface page turns to the game's opening page
 (() => {
   const story = document.querySelector('.story');
   const track = story && story.querySelector('.story-track');
   if (!track) return;
   story.classList.add('is-live');
+  const book = story.querySelector('.book3d');
+  const frame = story.querySelector('.st-game-frame');
   const clamp = (v) => Math.min(1, Math.max(0, v));
   const seg = (p, a, b) => clamp((p - a) / (b - a));
   const ease = (t) => t * t * (3 - 2 * t);
   let ticking = false;
+  const fit = () => {   // scale the 360px-wide game page down to the size of a book page
+    if (book && frame) frame.style.setProperty('--fscale', (book.offsetWidth / frame.offsetWidth).toFixed(4));
+  };
   const update = () => {
     ticking = false;
     const range = track.offsetHeight - window.innerHeight;
     const p = range > 0 ? clamp(-track.getBoundingClientRect().top / range) : 0;
-    const open = ease(seg(p, 0.06, 0.3));
     const buy = seg(p, 0.28, 0.4);
-    const game = ease(seg(p, 0.52, 0.68));
     const s = story.style;
-    s.setProperty('--open-live', open.toFixed(3));
+    s.setProperty('--open-live', ease(seg(p, 0.06, 0.3)).toFixed(3));
+    s.setProperty('--flip-live', ease(seg(p, 0.45, 0.7)).toFixed(3));
     s.setProperty('--buy', buy.toFixed(3));
-    s.setProperty('--game', game.toFixed(3));
-    story.classList.toggle('buy-on', buy > 0.5 && game < 0.5);
-    story.classList.toggle('book-off', game >= 0.99);
-    story.classList.toggle('game-off', game <= 0.01);
+    story.classList.toggle('buy-on', buy > 0.5);
   };
   const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
   window.addEventListener('scroll', request, { passive: true });
-  window.addEventListener('resize', request);
-  update();
+  window.addEventListener('resize', () => { fit(); request(); });
+  fit(); update();
 
-  // Play inside the embedded game opens the real game page straight at the name-entry screen
-  const frame = story.querySelector('.st-game-frame');
+  // Play on the embedded game page opens the real game at its opening page
   const wire = () => {
     try {
       const btn = frame.contentDocument.querySelector('.ld-play');
@@ -78,9 +78,9 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
       btn.addEventListener('click', (e) => {
         e.stopImmediatePropagation();
         e.preventDefault();
-        window.location.href = frame.getAttribute('src') + '#name';
+        window.location.href = frame.getAttribute('src');
       }, true);
-    } catch (err) { /* cross-origin: the game's own Play still works inside the frame */ }
+    } catch (err) { /* cross-origin: the game's own Play still works inside the page */ }
   };
   if (frame) { frame.addEventListener('load', wire); wire(); }
 })();

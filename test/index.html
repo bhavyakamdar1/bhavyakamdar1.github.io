@@ -71,17 +71,23 @@
   <div class="story-track">
     <div class="story-stage">
 
-      <!-- Scene 1: the book -->
+      <!-- The book: cover opens to the preface, then the preface page turns to the game's opening page -->
       <div class="st-scene st-book">
         <div class="st-book-art">
           <div class="book3d">
-            <div class="book-page">
-              <p class="pf-label">Preface</p>
-              <p>Thank you for opening this book. Before you turn the page, I want to leave you with the question I keep asking myself.</p>
-              <p class="pf-q">If your life were a movie, and people had been watching it up to this very moment, what would the audience be screaming at the screen for you to do?</p>
-              <p>Sit with it for a second. You will probably find that you already know the answer. You have known it for a while.</p>
-              <p>That answer is your hope.</p>
-              <p class="pf-end">So, can you face your hope?</p>
+            <div class="book-page game-page">
+              <iframe class="st-game-frame" src="../face-your-hope/game" title="Face Your Hope — The Game"></iframe>
+            </div>
+            <div class="book-leaf">
+              <div class="leaf-face leaf-front book-page">
+                <p class="pf-label">Preface</p>
+                <p>Thank you for opening this book. Before you turn the page, I want to leave you with the question I keep asking myself.</p>
+                <p class="pf-q">If your life were a movie, and people had been watching it up to this very moment, what would the audience be screaming at the screen for you to do?</p>
+                <p>Sit with it for a second. You will probably find that you already know the answer. You have known it for a while.</p>
+                <p>That answer is your hope.</p>
+                <p class="pf-end">So, can you face your hope?</p>
+              </div>
+              <div class="leaf-face leaf-back" aria-hidden="true"><span>To hope<br>is to risk.</span></div>
             </div>
             <div class="book-cover3d">
               <img class="cover-front" src="../assets/images/books/face-your-hope.jpg" alt="Face Your Hope — book cover">
@@ -95,14 +101,9 @@
           <p>A collection of stories from a real life, told the way memory tells them. Open any page, in any order.</p>
           <div class="link-row">
             <a href="../books/face-your-hope/#buy" class="btn btn-solid">Buy now</a>
-            <a href="../books/face-your-hope/" class="btn">Read more</a>
+            <a href="../face-your-hope/game" class="btn st-play-btn">Play the game</a>
           </div>
         </div>
-      </div>
-
-      <!-- Scene 2: the game's own opening page, embedded as-is. Play inside it jumps to the name entry page. -->
-      <div class="st-scene st-game">
-        <iframe class="st-game-frame" src="../face-your-hope/game" title="Face Your Hope — The Game" loading="eager"></iframe>
       </div>
 
     </div>
