@@ -7,7 +7,7 @@
 <meta name="description" content="Bhavya Kamdar — Chartered Accountant, author, creator, and educator. Writing about risk, hope, and the things a balance sheet can't hold.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -65,32 +65,52 @@
 </section>
 
 <!-- ============ WRITING ============ -->
-<!-- Replace .book-cover / .card-thumb.book with real B&W cover images (recommend 800x1200) -->
-<section class="section section-offwhite section-compact" id="writing">
-  <div class="section-head">
-    <div>
-      <p class="eyebrow">Writing</p>
-      <h2>The books</h2>
-    </div>
-  </div>
+<!-- Scroll story: the book flips open (preface + Buy now), then the storm/ship scene (Play the game). Driven by assets/js/main.js -->
+<section class="story" id="writing" aria-label="Face Your Hope">
+  <div class="story-track">
+    <div class="story-stage">
 
-  <!-- Featured book -->
-  <div class="featured-book">
-    <a href="books/face-your-hope/" class="book-cover">
-      <img src="assets/images/books/face-your-hope.jpg" alt="Face Your Hope — book cover" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-    </a>
-    <div>
-      <span class="card-tag">Featured &middot; Out now</span>
-      <h3>Face Your Hope</h3>
-      <p>A collection of stories from a real life, told the way memory tells them. Each one stands on its own — open any page, in any order.</p>
-      <div class="link-row">
-        <a href="books/face-your-hope/" class="btn">Read more</a>
-        <a href="face-your-hope/game" class="btn">Play the game</a>
+      <!-- The book: cover opens to the preface, then the preface page turns to the game's opening page -->
+      <div class="st-scene st-book">
+        <div class="st-book-art">
+          <div class="book3d">
+            <div class="book-page game-page">
+              <iframe class="st-game-frame" src="face-your-hope/game" title="Face Your Hope — The Game"></iframe>
+            </div>
+            <div class="book-leaf">
+              <div class="leaf-face leaf-front book-page">
+                <p class="pf-label">Preface</p>
+                <p>Thank you for opening this book. Before you turn the page, I want to leave you with the question I keep asking myself.</p>
+                <p class="pf-q">If your life were a movie, and people had been watching it up to this very moment, what would the audience be screaming at the screen for you to do?</p>
+                <p>Sit with it for a second. You will probably find that you already know the answer. You have known it for a while.</p>
+                <p>That answer is your hope.</p>
+                <p class="pf-end">So, can you face your hope?</p>
+              </div>
+              <div class="leaf-face leaf-back" aria-hidden="true"><span>To hope<br>is to risk.</span></div>
+            </div>
+            <div class="book-cover3d">
+              <img class="cover-front" src="assets/images/books/face-your-hope.jpg" alt="Face Your Hope — book cover">
+              <div class="cover-inside" aria-hidden="true"><span>Face<br>Your<br>Hope</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="st-side st-buy">
+          <p class="eyebrow">Writing &middot; Out now</p>
+          <h2>Face Your Hope</h2>
+          <p>A collection of stories from a real life, told the way memory tells them. Open any page, in any order.</p>
+          <div class="link-row">
+            <span class="btn-swap">
+              <a href="books/face-your-hope/#buy" class="btn btn-solid swap-buy">Buy now</a>
+              <a href="face-your-hope/game" class="btn btn-solid swap-play" tabindex="-1" aria-hidden="true">Play the game</a>
+            </span>
+            <a href="books/face-your-hope/" class="btn">Read more</a>
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
-
-  <div class="section-cta">
+  <div class="section-cta story-cta">
     <a href="books/" class="btn">See all books</a>
   </div>
 </section>
