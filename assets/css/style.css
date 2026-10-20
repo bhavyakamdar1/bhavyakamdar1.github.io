@@ -969,3 +969,24 @@ a { color: inherit; text-decoration: none; }
 .thinking-grid { align-items: stretch; }
 @media (max-width: 900px) { .thinking-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .thinking-grid { grid-template-columns: 1fr; } }
+
+/* ---------- Invited by: institution logos in white, in the hero photo's bottom-right corner (all screen sizes) ---------- */
+.hero-photo::before { content: ""; position: absolute; inset: 0; z-index: 1; pointer-events: none; background: linear-gradient(0deg, rgba(8,10,6,0.78) 0%, rgba(8,10,6,0.45) 22%, rgba(8,10,6,0) 42%); }
+.hero-invited { position: absolute; z-index: 2; right: 14px; bottom: 14px; width: 66%; text-align: right; }
+.hero-invited-label { font-family: var(--font-head); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: #d7dcc7; margin: 0 0 8px; text-shadow: 0 1px 4px rgba(0,0,0,.6); }
+.hero-invited-logos { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 8px 14px; }
+.hero-invited-logos li { display: flex; align-items: center; }
+.hero-invited-logos .row-break { flex-basis: 100%; height: 0; }   /* always three logos on the first row, two on the second */
+.hero-invited-logos img { width: auto; display: block; filter: brightness(0) invert(1) drop-shadow(0 1px 3px rgba(0,0,0,.55)); opacity: .94; }
+.hero-invited .logo-icai, .hero-invited .logo-hlcc { height: clamp(40px, 9.6vw, 64px); }
+.hero-invited .logo-gls, .hero-invited .logo-ryn { height: clamp(25px, 5.8vw, 38px); }
+.hero-invited .logo-skips { height: clamp(29px, 6.6vw, 44px); }
+@media (min-width: 860px) {
+  .hero-invited { right: max(32px, calc((100% - var(--maxw)) / 2 + 32px)); bottom: 90px; width: min(360px, 34vw); }
+  .hero-invited-label { font-size: 12px; letter-spacing: 0.25em; margin-bottom: 16px; }
+  .hero-invited-logos { gap: 18px 26px; }
+  .hero-invited .logo-icai, .hero-invited .logo-hlcc { height: 68px; }
+  .hero-invited .logo-gls, .hero-invited .logo-ryn { height: 44px; }
+  .hero-invited .logo-skips { height: 48px; }
+}
+@media (min-width: 860px) { .hero-photo::before { display: none; } }
