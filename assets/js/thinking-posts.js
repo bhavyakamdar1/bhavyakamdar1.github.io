@@ -5,6 +5,11 @@
 // Paths are written from the site root; pages prefix them with their own relative root.
 const THINKING_POSTS = [
   {
+    image: { src: "assets/images/thinking-posts/shakti-pumps-policy.jpg", pos: "50% 50%" },
+    excerpt: "Checkmate: How the Right Policy Moved Shakti Pumps to the Winning Square",
+    link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_checkmate-how-the-right-policy-moved-shakti-share-7302186343185485824-nqWW/",
+  },
+  {
     image: { src: "assets/images/thinking-posts/petpooja-story.jpg", pos: "50% 50%" },
     excerpt: "Petpooja: The Silent Force Powering India\u2019s Restaurant Revolution",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_beyondbhavya-petpooja-restauranttech-share-7299720621330997249-HSZ5/",
