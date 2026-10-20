@@ -929,18 +929,18 @@ a { color: inherit; text-decoration: none; }
   .speaking-card .btn { padding: 11px 16px; font-size: 11px; letter-spacing: .09em; }
 }
 
-/* ---------- Home Thinking: scroll-drawn "Beyond Bhavya" cover, then the chosen posts ---------- */
+/* ---------- Home Thinking: "Beyond Bhavya" is written in, slides left, and the featured posts appear on the right ---------- */
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .thinking-home { background: #fff; }
-.thinking-stage { min-height: 100vh; padding: 96px 24px 32px; display: flex; align-items: center; justify-content: center; }
-.thinking-title { position: relative; margin: 0; width: min(760px, 88vw, 80vh); aspect-ratio: 1058 / 644; }
+.thinking-stage { padding: 96px 24px 0; }
+.thinking-title { position: relative; margin: 0 auto 32px; width: min(760px, 88vw, 80vh); aspect-ratio: 1058 / 644; }
 .thinking-title img { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 .thinking-title-script {
   -webkit-mask-image: linear-gradient(100deg, #000 calc(var(--draw, 1) * 112% - 12%), transparent calc(var(--draw, 1) * 112%));
           mask-image: linear-gradient(100deg, #000 calc(var(--draw, 1) * 112% - 12%), transparent calc(var(--draw, 1) * 112%));
 }
 /* Posts: each card shows its full portrait image */
-.thinking-cards { max-width: 1000px; margin: 0 auto; padding: 24px 24px 0; display: grid; grid-template-columns: repeat(3, 1fr); align-items: stretch; gap: 40px clamp(16px, 2.6vw, 32px); }
+.thinking-cards { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); align-items: stretch; gap: 40px clamp(16px, 2.6vw, 32px); }
 .thinking-card { display: flex; flex-direction: column; align-items: flex-start; }
 .thinking-card .speaking-hit { display: contents; }
 .thinking-card .press-image { width: 100%; height: auto; aspect-ratio: auto; min-height: 0; display: block; box-shadow: 0 16px 36px rgba(0,0,0,0.14); }
@@ -948,16 +948,20 @@ a { color: inherit; text-decoration: none; }
 .thinking-card .li-btn { margin-top: auto; }
 .thinking-empty { color: var(--color-muted); }
 .thinking-section-cta { text-align: center; margin: 0; padding: 48px 24px 88px; background: #fff; }
-
-/* Scroll-driven mode (added by thinking.js; without it everything simply shows) */
-.thinking-scroll.is-anim { height: 240vh; }
-.thinking-scroll.is-anim .thinking-stage { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 0; box-sizing: border-box; padding-top: 84px; overflow: hidden; }
-.thinking-scroll.is-anim .thinking-title-base { opacity: var(--in, 1); transform: translateY(calc((1 - var(--in, 1)) * 18px)) scale(calc(0.96 + var(--in, 1) * 0.04)); }
-.thinking-home.is-anim .thinking-card { opacity: 0; transform: translateY(36px); transition: opacity .7s ease, transform .7s ease; }
-.thinking-home.is-anim .thinking-card.in-view { opacity: 1; transform: none; }
 @media (max-width: 900px) { .thinking-cards { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 560px) { .thinking-cards { grid-template-columns: 1fr; max-width: 420px; } .thinking-stage { padding: 84px 16px 40px; } }
-@media (prefers-reduced-motion: reduce) { .thinking-scroll.is-anim { height: auto; } }
+@media (max-width: 560px) { .thinking-cards { grid-template-columns: 1fr; max-width: 420px; } }
+
+/* Scroll-driven mode (added by thinking.js; without it the title and posts simply stack). Everything below is positioned by the script. */
+.thinking-scroll.is-anim .thinking-stage { position: sticky; top: 0; height: 100vh; height: 100svh; box-sizing: border-box; padding: 0; overflow: hidden; }
+.is-anim .thinking-title { position: absolute; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%) translate(var(--tx, 0px), var(--ty, 0px)) scale(var(--ts, 1)); will-change: transform; }
+.is-anim .thinking-title-base { opacity: var(--in, 1); }
+.is-anim .thinking-cards { position: absolute; top: 0; right: 24px; left: var(--cl, 42%); max-width: none; margin: 0; height: 100%; grid-template-columns: repeat(3, 1fr); align-content: center; align-items: start; gap: 24px; will-change: transform; }
+.is-anim .thinking-card { opacity: var(--show, 0); transform: translateY(calc((1 - var(--show, 0)) * 36px)); }
+@media (max-width: 640px) {
+  .is-anim .thinking-cards { right: 12px; grid-template-columns: 1fr; height: auto; align-content: start; top: 92px; gap: 36px; transform: translateY(var(--cy, 0px)); }
+  .is-anim .thinking-excerpt { font-size: 13px; margin: 12px 0 10px; }
+}
+@media (prefers-reduced-motion: reduce) { .thinking-scroll.is-anim { height: auto !important; } }
 
 /* Thinking page: every post is its own card, newest first */
 .thinking-page { padding-top: clamp(130px, 18vw, 170px); background: #fff; }
