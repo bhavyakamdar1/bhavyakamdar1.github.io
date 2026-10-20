@@ -5,6 +5,11 @@
 // Paths are written from the site root; pages prefix them with their own relative root.
 const THINKING_POSTS = [
   {
+    image: { src: "assets/images/thinking-posts/india-us-quick-commerce.jpg", pos: "50% 50%" },
+    excerpt: "Why India Zips While U.S. Trips at Quick Commerce?",
+    link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_why-india-zips-while-us-trips-at-quick-share-7292493022682836992-52Ct/",
+  },
+  {
     image: { src: "assets/images/thinking-posts/chinese-vs-indian-steel.jpg", pos: "50% 50%" },
     excerpt: "Is Chinese Steeling the Show?",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_is-chinese-steeling-the-show-chinas-share-7289888926956216321-A-z4/",
