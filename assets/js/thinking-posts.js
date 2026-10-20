@@ -1,0 +1,14 @@
+// Thinking posts, NEWEST FIRST: add each new post at the TOP of the list.
+//   image:   path (assets/images/thinking-posts/...) or { src, pos: "x% y%" } to choose which part shows when cropped
+//   excerpt: opening line(s) of the post, copied from LinkedIn (no trailing "...")
+//   link:    the LinkedIn post URL
+// Paths are written from the site root; pages prefix them with their own relative root.
+const THINKING_POSTS = [
+];
+
+// Shown on the home page until there are three real posts.
+const THINKING_PLACEHOLDERS = [
+  { tag: "On writing",    title: "What a balance sheet can’t hold" },
+  { tag: "On creativity", title: "The discipline of noticing" },
+  { tag: "On risk",       title: "Why I put a die in my name" },
+];
