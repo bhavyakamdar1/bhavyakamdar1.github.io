@@ -46,6 +46,8 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
   story.classList.add('is-live');
   const book = story.querySelector('.book3d');
   const frame = story.querySelector('.st-game-frame');
+  const GAME = frame ? frame.dataset.src : '';
+  let gameOn = false;   // the embedded game keeps animating even off-screen, so it is only loaded while the book is being read
   const clamp = (v) => Math.min(1, Math.max(0, v));
   const seg = (p, a, b) => clamp((p - a) / (b - a));
   const ease = (t) => t * t * (3 - 2 * t);
@@ -56,7 +58,10 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
   const update = () => {
     ticking = false;
     const range = track.offsetHeight - window.innerHeight;
-    const p = range > 0 ? clamp(-track.getBoundingClientRect().top / range) : 0;
+    const rect = track.getBoundingClientRect();
+    const p = range > 0 ? clamp(-rect.top / range) : 0;
+    const wantGame = !!frame && p > 0.15 && rect.bottom > 0;
+    if (wantGame !== gameOn) { gameOn = wantGame; frame.src = wantGame ? GAME : 'about:blank'; }
     const buy = seg(p, 0.28, 0.4);
     const s = story.style;
     s.setProperty('--open-live', ease(seg(p, 0.06, 0.3)).toFixed(3));
@@ -89,7 +94,7 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
       btn.addEventListener('click', (e) => {
         e.stopImmediatePropagation();
         e.preventDefault();
-        window.location.href = frame.getAttribute('src');
+        window.location.href = GAME;
       }, true);
     } catch (err) { /* cross-origin: the game's own Play still works inside the page */ }
   };
