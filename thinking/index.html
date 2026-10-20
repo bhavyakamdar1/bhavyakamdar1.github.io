@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Thinking — Bhavya Kamdar</title>
-<meta name="description" content="Posts and observations by Bhavya Kamdar on finance, risk, creativity and the things a balance sheet can't hold.">
+<title>Beyond Bhavya — Thinking — Bhavya Kamdar</title>
+<meta name="description" content="Beyond Bhavya: why companies win, why policies shift, and what a balance sheet doesn't say. Posts by Bhavya Kamdar.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
@@ -30,7 +30,8 @@
   <div class="section-head">
     <div>
       <p class="eyebrow">Thinking</p>
-      <h2>Things seen, thoughts made</h2>
+      <h2>Beyond Bhavya</h2>
+      <p class="thinking-sub">Why companies win, why policies shift, and what a balance sheet doesn&rsquo;t say.</p>
     </div>
   </div>
   <div class="thinking-grid" id="thinking-posts"></div>
@@ -50,8 +51,7 @@
   const grid = document.getElementById('thinking-posts');
   grid.innerHTML = THINKING_POSTS.length
     ? THINKING_POSTS.map((p) => thinkingCardHTML(p, '../')).join('')
-    <a href="https://share.google/yTGObZ7mtLQTmVMPv" target="_blank" rel="noopener">Google</a>
-    <a href="https://www.linkedin.com/in/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194" target="_blank" rel="noopener">LinkedIn</a>
+    : '<p class="speaking-empty">Posts are being added. Meanwhile, read along on <a href="https://www.linkedin.com/in/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194" target="_blank" rel="noopener">LinkedIn</a>.</p>';
 </script>
 </body>
 </html>
