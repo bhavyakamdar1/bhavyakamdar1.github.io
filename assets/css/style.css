@@ -974,7 +974,8 @@ a.thinking-card:hover h4 { color: var(--color-olive-dark); }
 .thinking-page { padding-top: clamp(130px, 18vw, 170px); background: #fff; }
 .thinking-grid { max-width: var(--maxw); margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 44px 28px; }
 .thinking-grid .thinking-excerpt { display: block; -webkit-line-clamp: unset; line-clamp: unset; overflow: visible; }
-.thinking-grid .press-image { aspect-ratio: 4 / 3; }
+.thinking-grid { align-items: start; }
+.thinking-grid .press-image { aspect-ratio: auto; height: auto; }
 @media (max-width: 900px) { .thinking-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .thinking-grid { grid-template-columns: 1fr; } }
 .thinking-section-cta { text-align: center; margin: 0; padding: 0 24px 80px; background: #fff; }
