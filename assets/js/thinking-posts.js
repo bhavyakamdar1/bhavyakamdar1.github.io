@@ -5,6 +5,11 @@
 // Paths are written from the site root; pages prefix them with their own relative root.
 const THINKING_POSTS = [
   {
+    image: { src: "assets/images/thinking-posts/swiggy-pg-ratio.jpg", pos: "50% 40%" },
+    excerpt: "Why Swiggy\u2019s Prices Are Rising Despite Not Being Profitable?",
+    link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_why-swiggys-prices-are-rising-despite-not-share-7281604247501049858-jghG/",
+  },
+  {
     image: { src: "assets/images/thinking-posts/india-stack.jpg", pos: "50% 50%" },
     excerpt: "Did you know that India is quietly leading a global digital revolution?",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_indiastack-fintech-digitalindia-share-7268611264430424065-cxNr/",
