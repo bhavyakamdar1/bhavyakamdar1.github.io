@@ -126,18 +126,20 @@
 </section>
 
 <!-- ============ THINKING ============ -->
-<!-- Scroll-driven: BHAVYA shows, "Beyond" is written in, then the article cards rise in. Cards live in assets/js/thinking.js -->
-<section class="thinking-scroll" id="thinking">
-  <div class="thinking-stage">
-    <h2 class="visually-hidden">Beyond Bhavya</h2>
-    <figure class="thinking-title" aria-hidden="true">
-      <img class="thinking-title-base" src="assets/images/thinking/beyond-bhavya.jpg" alt="" width="1058" height="644" loading="lazy">
-      <img class="thinking-title-script" src="assets/images/thinking/beyond-script.png" alt="" width="1058" height="644" loading="lazy">
-    </figure>
-    <div class="thinking-cards" id="thinking-list"></div>
+<!-- BHAVYA shows, "Beyond" is written in on scroll, then the featured posts fade in (posts flagged home:true in assets/js/thinking-posts.js) -->
+<section class="thinking-home" id="thinking">
+  <div class="thinking-scroll">
+    <div class="thinking-stage">
+      <h2 class="visually-hidden">Beyond Bhavya</h2>
+      <figure class="thinking-title" aria-hidden="true">
+        <img class="thinking-title-base" src="assets/images/thinking/beyond-bhavya.jpg" alt="" width="1058" height="644" loading="lazy">
+        <img class="thinking-title-script" src="assets/images/thinking/beyond-script.png" alt="" width="1058" height="644" loading="lazy">
+      </figure>
+    </div>
   </div>
+  <div class="thinking-cards" id="thinking-list"></div>
+  <div class="thinking-section-cta"><a href="thinking/" class="btn">Read all posts</a></div>
 </section>
-<div class="thinking-section-cta"><a href="thinking/" class="btn">See all thinking</a></div>
 
 <!-- ============ ABOUT ============ -->
 <section class="section" id="about">
