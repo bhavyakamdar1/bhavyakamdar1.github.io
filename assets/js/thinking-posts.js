@@ -5,6 +5,11 @@
 // Paths are written from the site root; pages prefix them with their own relative root.
 const THINKING_POSTS = [
   {
+    image: { src: "assets/images/thinking-posts/wind-energy-policy.jpg", pos: "50% 40%" },
+    excerpt: "In 1996, wind energy in India was thriving. With an 80% depreciation benefit, investors saw windmills as a tax-efficient, environmentally friendly option.",
+    link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_in-1996-wind-energy-in-india-was-thriving-share-7284098115790376960-eGIG/",
+  },
+  {
     image: { src: "assets/images/thinking-posts/swiggy-pg-ratio.jpg", pos: "50% 40%" },
     excerpt: "Why Swiggy\u2019s Prices Are Rising Despite Not Being Profitable?",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_why-swiggys-prices-are-rising-despite-not-share-7281604247501049858-jghG/",
