@@ -5,6 +5,11 @@
 // Paths are written from the site root; pages prefix them with their own relative root.
 const THINKING_POSTS = [
   {
+    image: { src: "assets/images/thinking-posts/apple-revolution-evolution.jpg", pos: "50% 50%" },
+    excerpt: "Revolution vs Evolution: The Two Eras That Built Apple",
+    link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_revolution-vs-evolution-the-two-eras-that-share-7381566088544706560-OHhp/",
+  },
+  {
     image: { src: "assets/images/thinking-posts/yen-carry-trade.jpg", pos: "50% 50%" },
     excerpt: "They say money doesn\u2019t grow on trees. But in Japan, for decades, it\u2019s felt like it might.",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_they-say-money-doesnt-grow-on-trees-share-7338413679438123009-F0jN/",
