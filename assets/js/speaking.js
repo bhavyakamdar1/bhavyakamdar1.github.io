@@ -225,7 +225,7 @@ const LI_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a
   if (!list) return;
 
   if (!SPEAKING_EVENTS.length) {
-    list.innerHTML = '<p class="speaking-empty">Engagements are being added. Meanwhile, see recent talks on <a href="https://www.linkedin.com/in/ca-bhavya-kamdar" target="_blank" rel="noopener">LinkedIn</a>.</p>';
+    list.innerHTML = '<p class="speaking-empty">Engagements are being added. Meanwhile, see recent talks on <a href="https://www.linkedin.com/in/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194" target="_blank" rel="noopener">LinkedIn</a>.</p>';
     return;
   }
 
