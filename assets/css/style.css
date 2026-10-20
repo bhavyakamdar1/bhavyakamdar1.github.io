@@ -883,6 +883,8 @@ a { color: inherit; text-decoration: none; }
 .btn-solid:hover { background: transparent; color: var(--color-ink); }
 .btn-swap { display: inline-grid; }
 .btn-swap .btn { grid-area: 1 / 1; text-align: center; transition: opacity .35s ease, transform .35s ease; }
+.desc-swap { display: grid; }
+.desc-swap > span { grid-area: 1 / 1; transition: opacity .35s ease, transform .35s ease; }
 .swap-play { opacity: 0; visibility: hidden; transform: translateY(6px); }
 .story.on-game .swap-buy { opacity: 0; visibility: hidden; transform: translateY(-6px); }
 .story.on-game .swap-play { opacity: 1; visibility: visible; transform: none; }
