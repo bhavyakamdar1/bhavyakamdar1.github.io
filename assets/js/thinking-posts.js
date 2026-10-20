@@ -5,6 +5,11 @@
 // Paths are written from the site root; pages prefix them with their own relative root.
 const THINKING_POSTS = [
   {
+    image: { src: "assets/images/thinking-posts/amazon-quick-commerce.jpg", pos: "50% 50%" },
+    excerpt: "Amazon: Late to the Quick Commerce Party?",
+    link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_amazon-late-to-the-quick-commerce-party-share-7286037960083329025-LqRe/",
+  },
+  {
     image: { src: "assets/images/thinking-posts/wind-energy-policy.jpg", pos: "50% 40%" },
     excerpt: "In 1996, wind energy in India was thriving. With an 80% depreciation benefit, investors saw windmills as a tax-efficient, environmentally friendly option.",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_in-1996-wind-energy-in-india-was-thriving-share-7284098115790376960-eGIG/",
