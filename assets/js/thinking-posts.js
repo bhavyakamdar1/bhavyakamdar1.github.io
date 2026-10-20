@@ -5,6 +5,11 @@
 // Paths are written from the site root; pages prefix them with their own relative root.
 const THINKING_POSTS = [
   {
+    image: { src: "assets/images/thinking-posts/yen-carry-trade.jpg", pos: "50% 50%" },
+    excerpt: "They say money doesn\u2019t grow on trees. But in Japan, for decades, it\u2019s felt like it might.",
+    link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_they-say-money-doesnt-grow-on-trees-share-7338413679438123009-F0jN/",
+  },
+  {
     image: { src: "assets/images/thinking-posts/buffett-japan-bet.jpg", pos: "50% 50%" },
     excerpt: "Buffett\u2019s Billion-Yen Bet: Why Berkshire Went Big on Japan",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_buffetts-billion-yen-bet-why-berkshire-share-7333356277596684288-8VYV/",
