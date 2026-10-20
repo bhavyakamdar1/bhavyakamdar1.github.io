@@ -970,20 +970,19 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 900px) { .thinking-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 560px) { .thinking-grid { grid-template-columns: 1fr; } }
 
-/* ---------- Trusted by: black-and-white institution logos, right after the hero ---------- */
-.trusted { background: #fff; text-align: center; padding: 44px 24px 48px; border-bottom: 1px solid var(--color-line); }
-.trusted .eyebrow { margin: 0 0 26px; }
-.trusted-logos { list-style: none; margin: 0 auto; padding: 0; max-width: var(--maxw); display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 28px clamp(28px, 5vw, 64px); }
-.trusted-logos li { display: flex; align-items: center; }
-.trusted-logos img { width: auto; display: block; }
-.logo-icai, .logo-hlcc { height: 84px; }
-.logo-gls { height: 60px; }
-.logo-skips { height: 64px; }
-.logo-ryn { height: 60px; }
-@media (max-width: 640px) {
-  .trusted { padding: 36px 16px 40px; }
-  .trusted-logos { gap: 22px 26px; }
-  .logo-icai, .logo-hlcc { height: 58px; }
-  .logo-gls, .logo-ryn { height: 40px; }
-  .logo-skips { height: 44px; }
+/* ---------- Invited by: institution logos in white, in the hero's empty right-hand corner ---------- */
+.hero-invited { margin-top: 40px; }
+.hero-invited-label { font-family: var(--font-head); font-size: 12px; letter-spacing: 0.25em; text-transform: uppercase; color: #d7dcc7; margin: 0 0 16px; }
+.hero-invited-logos { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 18px 26px; }
+.hero-invited-logos li { display: flex; align-items: center; }
+.hero-invited-logos img { width: auto; display: block; filter: brightness(0) invert(1); opacity: .94; }
+.hero-invited .logo-icai, .hero-invited .logo-hlcc { height: 58px; }
+.hero-invited .logo-gls, .hero-invited .logo-ryn { height: 38px; }
+.hero-invited .logo-skips { height: 42px; }
+@media (min-width: 860px) {
+  .hero-invited { position: absolute; right: 32px; bottom: 90px; width: min(360px, 34vw); margin-top: 0; text-align: right; }
+  .hero-invited-logos { justify-content: flex-end; }
+  .hero-invited .logo-icai, .hero-invited .logo-hlcc { height: 68px; }
+  .hero-invited .logo-gls, .hero-invited .logo-ryn { height: 44px; }
+  .hero-invited .logo-skips { height: 48px; }
 }
