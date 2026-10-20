@@ -38,7 +38,7 @@ const THINKING_POSTS = [
     .join('');
 
   // Scroll-driven cover: BHAVYA shows first, "Beyond" is written in as you scroll, then the pieces rise in.
-  const section = document.getElementById('thinking-scroll');
+  const section = document.getElementById('thinking');
   const title = section && section.querySelector('.thinking-title');
   if (!title || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
@@ -55,6 +55,7 @@ const THINKING_POSTS = [
     ticking = false;
     const r = section.getBoundingClientRect();
     const p = clamp(-r.top / (r.height - window.innerHeight));
+    title.style.setProperty('--in', clamp((window.innerHeight - r.top) / (window.innerHeight * 0.6)).toFixed(3));
     title.style.setProperty('--draw', seg(p, 0.05, 0.55).toFixed(4));
     title.style.transform = `translateY(${(shift * (1 - ease(seg(p, 0.55, 0.72)))).toFixed(1)}px)`;
     cards.forEach((c, i) => c.style.setProperty('--show', ease(seg(p, 0.68 + i * 0.08, 0.82 + i * 0.08)).toFixed(3)));

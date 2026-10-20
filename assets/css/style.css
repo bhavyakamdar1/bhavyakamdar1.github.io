@@ -960,5 +960,4 @@ a.thinking-card:hover h4 { color: var(--color-olive-dark); }
   .thinking-card .thinking-excerpt, .thinking-card .thinking-date { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { .thinking-scroll.is-anim { height: auto; } }
-.thinking-scroll.is-anim .thinking-title-base { animation: thinking-pop 0.9s ease-out both; }
-@keyframes thinking-pop { from { opacity: 0; transform: translateY(18px) scale(0.96); } to { opacity: 1; transform: none; } }
+.thinking-scroll.is-anim .thinking-title-base { opacity: var(--in, 1); transform: translateY(calc((1 - var(--in, 1)) * 18px)) scale(calc(0.96 + var(--in, 1) * 0.04)); }
