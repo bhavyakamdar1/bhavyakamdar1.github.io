@@ -70,8 +70,10 @@ document.querySelectorAll('.newsletter-form').forEach((form) => {
     s.setProperty('--buy', buy.toFixed(3));
     story.classList.toggle('buy-on', buy > 0.5);
     story.classList.toggle('on-game', flip > 0.5);
-    story.querySelector('.swap-play').setAttribute('aria-hidden', flip > 0.5 ? 'false' : 'true');
-    story.querySelector('.swap-play').tabIndex = flip > 0.5 ? 0 : -1;
+    story.querySelectorAll('.swap-play').forEach((el) => {
+      el.setAttribute('aria-hidden', flip > 0.5 ? 'false' : 'true');
+      if (el.tagName === 'A') el.tabIndex = flip > 0.5 ? 0 : -1;
+    });
   };
   const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
   window.addEventListener('scroll', request, { passive: true });
