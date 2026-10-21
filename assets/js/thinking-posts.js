@@ -65,7 +65,7 @@ const THINKING_POSTS = [
   },
   {
     image: { src: "assets/images/thinking-posts/wind-energy-policy.jpg", pos: "50% 40%" },
-    excerpt: "In 1996, wind energy in India was thriving. With an 80% depreciation benefit, investors saw windmills as a tax-efficient, environmentally friendly option.",
+    excerpt: "In 1996, wind energy in India was thriving.",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_in-1996-wind-energy-in-india-was-thriving-share-7284098115790376960-eGIG/",
   },
   {
@@ -80,7 +80,7 @@ const THINKING_POSTS = [
   },
   {
     image: { src: "assets/images/thinking-posts/nbfc-account-aggregator.jpg", pos: "50% 55%" },
-    excerpt: "In early 2022, Reports surfaced alleging that Paytm Payments Bank may have allowed data to flow to China-based entities with indirect stakes in the company.",
+    excerpt: "In early 2022, reports surfaced alleging that Paytm Payments Bank may have allowed data to flow to China-based entities.",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_datasecurity-nbfc-accountaggregator-ugcPost-7265599252590907392-GB0E/",
   },
 ];
