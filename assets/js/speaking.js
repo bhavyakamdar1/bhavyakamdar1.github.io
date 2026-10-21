@@ -3,6 +3,7 @@
 //   dateLabel: text shown beside the event, e.g. "5-7 Sep 2025"
 //   type:      role, e.g. "Judge", "Panel", "Keynote", "Guest talk"
 //   title, host (organiser)
+//   phoneRows: "2+1" (optional) on phones, first two posts side by side and the third full width below
 //   posts:     LinkedIn posts about the event, in the order shown (keep excerpts to ~1 line):
 //              { image (one) or images (several, optional), excerpt (opening lines), link }
 //              or questions: [{ text, link }] instead of excerpt/link, to share several LinkedIn posts in one card
@@ -58,6 +59,7 @@ const SPEAKING_EVENTS = [
     dateLabel: "29 Mar 2026",
     type: "Panelist \u00b7 AI in Finance",
     title: "FinXplore 2026",
+    phoneRows: "2+1",
     host: "H. L. College of Commerce (Autonomous)",
     posts: [
       {
@@ -258,7 +260,7 @@ const LI_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a
         <span class="card-tag">${esc(e.type)}</span>
         <h3>${esc(e.title)}</h3>
         ${e.host ? `<p class="speaking-meta">${esc(e.host)}</p>` : ''}
-        <div class="speaking-posts">${(e.posts || []).map((p) => post(p, e.title)).join('')}</div>
+        <div class="speaking-posts${e.phoneRows === '2+1' ? ' phone-2-1' : ''}">${(e.posts || []).map((p) => post(p, e.title)).join('')}</div>
       </div>
     </article>`)
     .join('');
