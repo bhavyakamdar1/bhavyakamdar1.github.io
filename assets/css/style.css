@@ -1007,3 +1007,12 @@ a { color: inherit; text-decoration: none; }
   .speaking-posts.phone-2-1 .speaking-body .li-btn { width: 34px; height: 34px; }
   .speaking-posts.phone-2-1 .speaking-body .li-btn svg { width: 14px; height: 14px; }
 }
+
+/* Connect: the CTA band and footer share one screen, so the nav "Connect" link lands with both fully visible */
+.connect-screen { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; }
+.connect-screen .cta-band { flex: 1 0 auto; min-height: 0; padding-top: 72px; box-sizing: border-box; }
+.connect-screen .cta-band-inner { padding-top: 24px; padding-bottom: 36px; }
+.connect-screen .site-footer { padding: 36px 32px 20px; }
+.connect-screen .footer-columns { margin-bottom: 22px; }
+.connect-screen .footer-bottom { padding-top: 16px; }
+@media (max-width: 860px) { .connect-screen .cta-band { padding-top: 64px; } }
