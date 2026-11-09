@@ -48,12 +48,12 @@ if (navToggle && navLinks) {
     const range = track.offsetHeight - window.innerHeight;
     const rect = track.getBoundingClientRect();
     const p = range > 0 ? clamp(-rect.top / range) : 0;
-    const wantGame = !!frame && p > 0.15 && rect.bottom > 0;
+    const wantGame = !!frame && p > 0.1 && rect.bottom > 0;
     if (wantGame !== gameOn) { gameOn = wantGame; frame.src = wantGame ? GAME : 'about:blank'; }
-    const buy = seg(p, 0.28, 0.4);
+    const buy = seg(p, 0.2, 0.3);
     const s = story.style;
-    s.setProperty('--open-live', ease(seg(p, 0.06, 0.3)).toFixed(3));
-    const flip = ease(seg(p, 0.45, 0.7));
+    s.setProperty('--open-live', ease(seg(p, 0.03, 0.22)).toFixed(3));
+    const flip = ease(seg(p, 0.42, 0.8));
     s.setProperty('--flip-live', flip.toFixed(3));
     s.setProperty('--buy', buy.toFixed(3));
     story.classList.toggle('buy-on', buy > 0.5);
