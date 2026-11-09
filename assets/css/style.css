@@ -503,21 +503,6 @@ a { color: inherit; text-decoration: none; }
   color: #e6e6e0;
   padding: 70px 32px 32px;
 }
-.footer-top {
-  max-width: var(--maxw);
-  margin: 0 auto 48px;
-  display: flex;
-  justify-content: space-between;
-  gap: 40px;
-  flex-wrap: wrap;
-}
-.footer-top h3 {
-  font-family: var(--font-head);
-  font-size: 20px;
-  max-width: 380px;
-  margin: 0 0 20px;
-}
-
 .footer-columns {
   max-width: var(--maxw);
   margin: 0 auto 48px;
