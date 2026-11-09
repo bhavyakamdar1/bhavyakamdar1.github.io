@@ -583,6 +583,7 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
       <h3 style="font-family:'Anton';font-size:16px;text-transform:uppercase;letter-spacing:1px;color:var(--ink);margin-bottom:12px">Your Name</h3>
       <input type="text" placeholder="Enter your name" id="player-name"/>
       <p style="font-size:12px;font-weight:600;color:var(--muted);margin:2px 0 4px">Score <strong style="color:var(--ink)">7 or more</strong> out of 8 across 4 rounds to win.</p>
+      <p style="font-size:11px;font-weight:600;color:var(--muted);margin:0 0 8px">Your name and how you play are recorded anonymously to improve the game.</p>
       <button class="btn-p" onclick="startGame()">Begin</button>
       <button class="btn-ghost" id="replay-tut" onclick="startGame(true)" style="display:none">&#9654; How to play</button>
     </div>
@@ -686,6 +687,8 @@ button{cursor:pointer;border:none;font-family:'Inter';font-size:14px;font-weight
   </div>
 </div>
 
+<script src="../assets/js/config.js"></script>
+<script src="../assets/js/tracker.js"></script>
 <script>
 
 /* ---------------- persistence (graceful) ---------------- */
@@ -819,11 +822,13 @@ function openSetup(){
   show('sc-setup');
 }
 
+function track(ev,d,name){ try{ if(window.FYHTrack){ if(name!==undefined) FYHTrack.setName(name); FYHTrack.send(ev,d); } }catch(e){} }
 function startGame(withTutorial){
   SFX.play('click');
   const name=(document.getElementById('player-name').value||'Voyager').trim().slice(0,24);
   clearGameTimers(); stopStorm(); stopArrive(); stormPaused=false;
   G=fresh(name,WIN_SCORE);
+  track('voyage_start',{tutorial:!!withTutorial,returning:hasSeenIntro(),typedName:!!document.getElementById('player-name').value.trim()},name);
   document.getElementById('intro-welcome').textContent=`Welcome aboard, ${name}.`;
   // first voyage gets the sinking-ship intro + tutorial; returning players go straight to sea
   if(withTutorial || !hasSeenIntro()) playIntroAnim();
@@ -972,8 +977,9 @@ function nextRound(){
     phase:'storm',             // storm | arrive | lifeboat | done
     resolved:false, drifting:false, revealing:false,
     selected:new Set(), drawn:null,
-    outcome:null, points:0
+    outcome:null, points:0, helmL:0, helmR:0
   };
+  track('round_start',{round:G.round,resource:Math.round(G.resource)});
   renderTracker();
   renderTurn();
 }
@@ -1076,6 +1082,7 @@ function bindStorm(){
 function pressHelm(dir){            // dir -1 = port (corrects right tilt), +1 = starboard
   if(R.phase!=='storm'||R.resolved||R.drifting||R.counting) return;
   R.vel += dir*PRESS_NUDGE;
+  if(dir<0)R.helmL++; else R.helmR++;
   SFX.play('tap');
 }
 
@@ -1120,6 +1127,7 @@ function renderStormFrame(){
   updateResource();
 }
 function onDrift(){
+  track('out_of_resource',{round:G.round,balancedMs:Math.round(R.elapsed)});
   const f=document.getElementById('feed'); if(f){ f.innerHTML='Out of Resource — you can’t steer. <strong>Take the lifeboat, now.</strong>'; }
   document.querySelectorAll('.helm-btn').forEach(b=>b.disabled=true);
   SFX.play('lose');
@@ -1129,6 +1137,7 @@ function stormLose(){
   // Capsize no longer ends the round outright — it drops you into a stingy rescue lifeboat (no Resource cost).
   stopStorm(); if(R.resolved) return;
   R.rescue = true;
+  track('capsized',{round:G.round,balancedMs:Math.round(R.elapsed)});
   SFX.play('lose');
   flashResult('err','🌊','Sunk!','Scramble for the lifeboat — the sea is close.');
   later(()=>{ R.phase='arrive'; renderTurn(); }, 1500);
@@ -1148,6 +1157,7 @@ function openLifeboat(){
   if(R.resolved || R.phase!=='storm' || R.counting) return;
   stopStorm();
   R.phase='arrive';
+  track('lifeboat_chosen',{round:G.round,balancedMs:Math.round(R.elapsed),resource:Math.round(G.resource),angle:Math.round(R.angle)});
   SFX.play('click');
   renderTurn();
 }
@@ -1293,6 +1303,7 @@ function confirmLifeboat(){
 
   const draw=Math.floor(Math.random()*100)+1;
   R.drawn=draw;
+  track('lifeboat_confirm',{round:G.round,bundles:[...R.selected].sort((a,b)=>a-b).join(','),rescue:!!R.rescue});
   const hitBundle=Math.floor((draw-1)/BUNDLE_SIZE);
   const survived=R.selected.has(hitBundle);
   R.revealing=true;                                   // lock input during the held reveal
@@ -1324,6 +1335,7 @@ function resolve(outcome,pts,icon,title,sub){
   G.results[G.round-1]={ round:G.round, outcome, points:pts,
     resourceLeft:Math.round(G.resource), resupply:resupplied?Math.round(G.resource-before):0,
     drawn:R.drawn, drifting:R.drifting };
+  track('round_end',{round:G.round,outcome,points:pts,balancedMs:Math.round(R.elapsed),roundMs:ROUND_MS,helmLeft:R.helmL,helmRight:R.helmR,resourceLeft:Math.round(G.resource),drawn:R.drawn,rescue:!!R.rescue,drifting:R.drifting});
   const cls = outcome==='lost'?'err':(outcome==='lifeboat'?'neu':'ok');
   flashResult(cls,icon,title,sub);
   if(pts>0) confetti(outcome==='storm'?70:45);
@@ -1365,6 +1377,7 @@ function endGame(){
   const boatWins=G.results.filter(r=>r.outcome==='lifeboat').length;
   const losses=G.results.filter(r=>r.outcome==='lost').length;
 
+  track('voyage_end',{score:G.score,won,stormWins,boatWins,losses});
   const best=loadBest();
   const isBest=!best || G.score>best.score;
   if(isBest) saveBest({name:G.name,score:G.score,won});

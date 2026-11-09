@@ -26,15 +26,23 @@ if (navToggle && navLinks) {
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 }
 
-// Newsletter forms: placeholder handling until a real email service is wired up
+// Newsletter forms: subscribe through Buttondown (set BUTTONDOWN_USERNAME in assets/js/config.js)
 document.querySelectorAll('.newsletter-form').forEach((form) => {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     const input = form.querySelector('input[type="email"]');
-    if (input) {
-      alert('Thanks for subscribing! (Connect a real email service to make this live.)');
-      input.value = '';
-    }
+    const btn = form.querySelector('button[type="submit"]');
+    const user = (window.SITE_CONFIG || {}).BUTTONDOWN_USERNAME;
+    if (!input || !input.value) return;
+    if (!user) { alert('Subscriptions are not switched on yet. Please try again soon.'); return; }
+    const data = new FormData();
+    data.append('email', input.value.trim());
+    data.append('embed', '1');
+    if (btn) { btn.disabled = true; btn.dataset.label = btn.textContent; btn.textContent = 'Subscribing…'; }
+    fetch('https://buttondown.com/api/emails/embed-subscribe/' + encodeURIComponent(user), { method: 'POST', mode: 'no-cors', body: data })
+      .then(() => { input.value = ''; alert('Thanks! Check your inbox to confirm your subscription.'); })
+      .catch(() => alert('Sorry, that did not go through. Please try again.'))
+      .finally(() => { if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label; } });
   });
 });
 
