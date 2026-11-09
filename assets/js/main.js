@@ -118,3 +118,34 @@ if (navToggle && navLinks) {
   window.addEventListener('resize', update);
   update();
 })();
+
+// In-page nav links: scroll smoothly, then re-check the position once the page above has settled
+// (pinned scroll scenes and lazy images change the page height while a long scroll is under way), so the section lands exactly at the top.
+(() => {
+  const settle = (target) => {
+    let tries = 0;
+    const check = () => {
+      const off = target.getBoundingClientRect().top;
+      if (Math.abs(off) > 2 && tries++ < 4) {
+        window.scrollTo({ top: window.scrollY + off, behavior: 'auto' });
+        setTimeout(check, 150);
+      }
+    };
+    return check;
+  };
+  document.querySelectorAll('a[href^="#"]').forEach((a) => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const target = id && document.getElementById(id);
+      if (!target) return;
+      e.preventDefault();
+      history.pushState(null, '', '#' + id);
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      let timer;
+      const done = () => { clearTimeout(timer); window.removeEventListener('scroll', onScroll); settle(target)(); };
+      const onScroll = () => { clearTimeout(timer); timer = setTimeout(done, 180); };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      timer = setTimeout(done, 400);
+    });
+  });
+})();
