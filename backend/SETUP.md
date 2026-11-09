@@ -1,4 +1,4 @@
-# Setup: game data (Google Sheets) and email signups (Buttondown)
+# Setup: game data (Google Sheets)
 
 Until you do the steps below the site works normally and simply saves nothing.
 
@@ -14,10 +14,3 @@ An `Events` tab fills up with one row per action: `page_open`, `click`, `voyage_
 `lifeboat_confirm`, `round_end` (outcome, `balancedMs` out of 20000, left/right helm presses) and `voyage_end`.
 `player_id` is a random anonymous ID stored in the visitor's browser, so you can follow one person across visits.
 If you edit the script later, use **Deploy > Manage deployments > Edit > New version** (the URL stays the same).
-
-## B. Email signups to Buttondown (about 3 minutes)
-1. Sign up at buttondown.com (free tier) and pick a username.
-2. Put it into `assets/js/config.js` as `BUTTONDOWN_USERNAME`, then commit and push.
-
-Subscribers appear in the Buttondown dashboard, where you can also write and send newsletters.
-New subscribers get a confirmation email first (Buttondown's default), which keeps spam signups out.
