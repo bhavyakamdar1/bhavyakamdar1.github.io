@@ -127,7 +127,7 @@ if (navToggle && navLinks) {
     const check = () => {
       const off = target.getBoundingClientRect().top;
       if (Math.abs(off) > 2 && tries++ < 4) {
-        window.scrollTo({ top: window.scrollY + off, behavior: 'auto' });
+        window.scrollTo({ top: window.scrollY + off, behavior: 'instant' });
         setTimeout(check, 150);
       }
     };
@@ -148,4 +148,22 @@ if (navToggle && navLinks) {
       timer = setTimeout(done, 400);
     });
   });
+})();
+
+// Arriving from another page with a #section link (e.g. Speaking -> About): the pinned scroll scenes and lazy images
+// change the page height after the browser has already jumped, so the section ends up off-position.
+// Keep re-aligning it for the first moments after load, unless the visitor starts scrolling themselves.
+(() => {
+  const id = decodeURIComponent(location.hash.slice(1));
+  if (!id) return;
+  let touched = false;
+  ['wheel', 'touchstart', 'keydown', 'mousedown'].forEach((ev) => window.addEventListener(ev, () => { touched = true; }, { passive: true, once: true }));
+  const align = () => {
+    const target = document.getElementById(id);
+    if (!target || touched) return;
+    const off = target.getBoundingClientRect().top;
+    if (Math.abs(off) > 2) window.scrollTo({ top: window.scrollY + off, behavior: 'instant' });
+  };
+  [0, 150, 400, 800, 1400, 2200].forEach((t) => setTimeout(align, t));
+  window.addEventListener('load', () => { align(); setTimeout(align, 200); });
 })();
