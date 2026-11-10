@@ -25,6 +25,8 @@ const LINKEDIN = 'https://www.linkedin.com/in/ca-bhavya-kamdar-%F0%9F%8E%B2-6877
 const INSTAGRAM = 'https://www.instagram.com/bhavyakamdar1/';
 const PERSON_ID = SITE + '/#person';
 const WEBSITE_ID = SITE + '/#website';
+// Site-ownership codes for Google Search Console / Bing Webmaster Tools (public by design; shown on the home page only).
+const VERIFICATION = { 'google-site-verification': 'J-1pKCMyDVkQ5dMprZc5qV87QKJN9I7a0uvZszCaeX4' };
 const DEFAULT_IMAGE = { src: '/assets/images/hero-speaking.jpg', w: 1500, h: 1000, alt: 'Bhavya Kamdar speaking on a panel' };
 
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
@@ -308,6 +310,7 @@ function headBlock(p) {
     `<meta name="twitter:description" content="${esc(p.description)}">`,
     `<meta name="twitter:image" content="${SITE}${img.src}">`,
   ];
+  if (p.url === '/') for (const [name, content] of Object.entries(VERIFICATION)) lines.push(`<meta name="${name}" content="${esc(content)}">`);
   if (p.graph) {
     const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': clean(p.graph(p)) }).replace(/</g, '\\u003c');
     lines.push(`<script type="application/ld+json">${json}</script>`);
