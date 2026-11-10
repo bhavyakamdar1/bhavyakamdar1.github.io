@@ -1010,6 +1010,19 @@ a { color: inherit; text-decoration: none; }
   .speaking-posts.phone-2-1 .speaking-body .li-btn { width: 34px; height: 34px; }
   .speaking-posts.phone-2-1 .speaking-body .li-btn svg { width: 14px; height: 14px; }
 }
+/* Phones: every event uses the same arrangement, two posts side by side and a third full width underneath */
+@media (max-width: 600px) {
+  .speaking-posts { grid-template-columns: 1fr 1fr; gap: 20px 12px; }
+  .speaking-posts .speaking-post:nth-child(3) { grid-column: 1 / -1; }
+  .speaking-posts .speaking-post:nth-child(3) .speaking-img,
+  .speaking-posts .speaking-post:nth-child(3) .speaking-gallery { aspect-ratio: 16 / 10; }
+  .speaking-posts .speaking-post:nth-child(3) .speaking-gallery { grid-template-columns: 2fr 1fr; grid-template-rows: 1fr 1fr; }
+  .speaking-posts .speaking-post:nth-child(3) .speaking-gallery img:first-child { grid-column: 1; grid-row: 1 / -1; }
+  .speaking-row .speaking-excerpt { font-size: 12.5px; -webkit-line-clamp: 5; line-clamp: 5; }
+  .speaking-row .speaking-post:nth-child(3) .speaking-excerpt { font-size: 14px; }
+  .speaking-body .li-btn { width: 34px; height: 34px; }
+  .speaking-body .li-btn svg { width: 14px; height: 14px; }
+}
 
 /* Connect: the CTA band and footer share one screen, so the nav "Connect" link lands with both fully visible */
 .connect-screen { display: flex; flex-direction: column; min-height: 100vh; min-height: 100svh; }
