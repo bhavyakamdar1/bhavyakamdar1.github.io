@@ -49,7 +49,8 @@ const person = (full) => Object.assign({
   alternateName: 'CA Bhavya Kamdar',
   honorificPrefix: 'CA',
   jobTitle: 'Chartered Accountant',
-  description: 'Bhavya Kamdar is a Chartered Accountant, author, speaker and educator who writes about risk, hope and the things a balance sheet can’t hold. Author of Face Your Hope and four other books.',
+  description: 'Bhavya Kamdar is a Chartered Accountant who believes every number has a story behind it. A GLS University alumnus, Bhavya wrote a first book at 16, speaks at institutions including ICAI, H. L. College of Commerce and SKIPS University, and writes Beyond Bhavya on LinkedIn. Latest book: Face Your Hope.',
+  alumniOf: { '@type': 'CollegeOrUniversity', name: 'GLS University' },
   image: SITE + '/assets/images/bhavya-portrait.webp',
   email: 'mailto:' + EMAIL,
   sameAs: [LINKEDIN, INSTAGRAM],
@@ -170,7 +171,9 @@ function faq(books, events) {
   const hosts = ['ICAI Ahmedabad Branch', 'GLS University', 'H. L. College of Commerce', 'SKIPS University', 'Rising Youth Network'];
   return [
     ['Who is Bhavya Kamdar?',
-      `Bhavya Kamdar is a Chartered Accountant, author, speaker and educator. Bhavya works with risk, returns and the fine print, and writes, speaks and teaches about the things a balance sheet can&rsquo;t hold. Bhavya is the author of <em>Face Your Hope</em> (${year(fyh)}) and four earlier books.`],
+      `Bhavya Kamdar is a Chartered Accountant who believes every number has a story behind it. Bhavya is an author, a speaker invited by institutions such as ICAI, H. L. College of Commerce and SKIPS University, and the writer of <em>Beyond Bhavya</em> on LinkedIn. The latest book is <em>Face Your Hope</em> (${year(fyh)}).`],
+    ['Where did Bhavya Kamdar study, and when did Bhavya start writing?',
+      `Bhavya Kamdar is an alumnus of GLS University and qualified as a Chartered Accountant. Bhavya wrote a first book at the age of 16 and has gone on to write ${books.length} books in total.`],
     ['What books has Bhavya Kamdar written?',
       `Bhavya Kamdar has written ${books.length} books: ${bookList.slice(0, -1).join(', ')} and ${bookList.slice(-1)}.`],
     ['What is Face Your Hope about?',
@@ -184,7 +187,7 @@ function faq(books, events) {
     ['What does Bhavya Kamdar speak about?',
       `Bhavya Kamdar speaks with students and professionals about finance, AI in finance and in CA practice, public policy and the Union Budget, and the choices that shape a career. Engagements include guest sessions, panels and judging at ${hosts.slice(0, -1).join(', ')} and ${hosts.slice(-1)}. The <a href="../speaking/">speaking page</a> lists all ${events.length} engagements.`],
     ['What is Beyond Bhavya?',
-      `Beyond Bhavya is Bhavya Kamdar&rsquo;s series of short business and finance explainers: why companies win, why policies shift, and what a balance sheet doesn&rsquo;t say. Posts have covered Apple, Berkshire Hathaway&rsquo;s investment in Japan, the yen carry trade, the Korea Discount, India Stack and quick commerce in India. They are collected on the <a href="../thinking/">Thinking page</a>.`],
+      `Beyond Bhavya is Bhavya Kamdar&rsquo;s series of short business and finance explainers: why companies win, why policies shift, and what a balance sheet doesn&rsquo;t say. The posts are published on <a href="${LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a>, where more than 6,000 people follow Bhavya. Posts have covered Apple, Berkshire Hathaway&rsquo;s investment in Japan, the yen carry trade, the Korea Discount, India Stack and quick commerce in India. They are collected on the <a href="../thinking/">Thinking page</a>.`],
     ['How can I invite Bhavya Kamdar to speak, or get in touch?',
       `Email <a href="${EMAIL_LINK}">${EMAIL}</a> about a talk, a panel, judging an event, a book, or just to say hello. Bhavya is also on <a href="${LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a> and <a href="${INSTAGRAM}" target="_blank" rel="noopener">Instagram</a>.`],
   ];
@@ -208,7 +211,7 @@ const PAGES = [
   {
     file: 'index.html', url: '/', sitemap: 1.0,
     title: 'Bhavya Kamdar — Chartered Accountant, Author & Speaker',
-    description: 'Bhavya Kamdar is a Chartered Accountant, speaker and author of Face Your Hope — writing about risk, hope and the things a balance sheet can’t hold.',
+    description: 'Bhavya Kamdar is a Chartered Accountant who believes every number has a story behind it. Author of Face Your Hope, speaker, and writer of Beyond Bhavya on LinkedIn.',
     graph: (p) => [website(), person(true), webpage(p, 'WebPage', { mainEntity: { '@id': PERSON_ID }, primaryImageOfPage: SITE + DEFAULT_IMAGE.src })],
   },
   {
