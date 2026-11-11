@@ -1,6 +1,6 @@
 // Thinking posts, NEWEST FIRST: add each new post at the TOP of the list.
 //   image:   path (assets/images/thinking-posts/...) or { src, pos: "x% y%" } to choose which part shows when cropped
-//   category: Markets | Companies | Startups | Policy (drives the filter on the Thinking page)
+//   category: Markets | Business | Company | Policy (drives the filter on the Thinking page)
 //   excerpt: opening line(s) of the post, copied from LinkedIn (no trailing "...")
 //   link:    the LinkedIn post URL
 //   home:    true to feature the post on the home page (the first three flagged, in list order)
@@ -14,7 +14,7 @@ const THINKING_POSTS = [
   },
   {
     image: { src: "assets/images/thinking-posts/apple-revolution-evolution.jpg", pos: "50% 50%" },
-    category: "Companies",
+    category: "Business",
     home: true,
     excerpt: "Revolution vs Evolution: The Two Eras That Built Apple",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_revolution-vs-evolution-the-two-eras-that-share-7381566088544706560-OHhp/",
@@ -34,7 +34,7 @@ const THINKING_POSTS = [
   },
   {
     image: { src: "assets/images/thinking-posts/startup-success-timing.jpg", pos: "50% 50%" },
-    category: "Startups",
+    category: "Business",
     excerpt: "The Secret Ingredient to Startup Success (It\u2019s Not What You Think!)",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_the-secret-ingredient-to-startup-success-share-7312704400685248512-AiNS/",
   },
@@ -46,19 +46,19 @@ const THINKING_POSTS = [
   },
   {
     image: { src: "assets/images/thinking-posts/petpooja-story.jpg", pos: "50% 50%" },
-    category: "Startups",
+    category: "Company",
     excerpt: "Petpooja: The Silent Force Powering India\u2019s Restaurant Revolution",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_beyondbhavya-petpooja-restauranttech-share-7299720621330997249-HSZ5/",
   },
   {
     image: { src: "assets/images/thinking-posts/chhaswala-buttermilk.jpg", pos: "50% 50%" },
-    category: "Startups",
+    category: "Company",
     excerpt: "\u201cNo Milk, No Problem: How Chhaswala Broke the Dairy Rulebook\u201d",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_beyondbhavya-chhaswala-buttermilk-share-7295299067239129088-CKL5/",
   },
   {
     image: { src: "assets/images/thinking-posts/india-us-quick-commerce.jpg", pos: "50% 50%" },
-    category: "Companies",
+    category: "Business",
     excerpt: "Why India Zips While U.S. Trips at Quick Commerce?",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_why-india-zips-while-us-trips-at-quick-share-7292493022682836992-52Ct/",
   },
@@ -71,7 +71,7 @@ const THINKING_POSTS = [
   },
   {
     image: { src: "assets/images/thinking-posts/amazon-quick-commerce.jpg", pos: "50% 50%" },
-    category: "Companies",
+    category: "Business",
     excerpt: "Amazon: Late to the Quick Commerce Party?",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_amazon-late-to-the-quick-commerce-party-share-7286037960083329025-LqRe/",
   },
@@ -83,7 +83,7 @@ const THINKING_POSTS = [
   },
   {
     image: { src: "assets/images/thinking-posts/swiggy-pg-ratio.jpg", pos: "50% 40%" },
-    category: "Companies",
+    category: "Markets",
     excerpt: "Why Swiggy\u2019s Prices Are Rising Despite Not Being Profitable?",
     link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_why-swiggys-prices-are-rising-despite-not-share-7281604247501049858-jghG/",
   },
