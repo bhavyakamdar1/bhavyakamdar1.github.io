@@ -35,7 +35,11 @@ if (navToggle && navLinks) {
   const book = story.querySelector('.book3d');
   const frame = story.querySelector('.st-game-frame');
   const GAME = frame ? frame.dataset.src : '';
-  let gameOn = false;   // the embedded game keeps animating even off-screen, so it is only loaded while the book is being read
+  // The embedded game is loaded once, as soon as the page has finished loading (after the hero is up), so it is
+  // already running by the time a visitor scrolls to the book instead of starting to load when they arrive.
+  const loadGame = () => { if (frame && !frame.getAttribute('src')) frame.src = GAME; };
+  if (document.readyState === 'complete') setTimeout(loadGame, 300);
+  else window.addEventListener('load', () => setTimeout(loadGame, 300), { once: true });
   const clamp = (v) => Math.min(1, Math.max(0, v));
   const seg = (p, a, b) => clamp((p - a) / (b - a));
   const ease = (t) => t * t * (3 - 2 * t);
@@ -48,8 +52,6 @@ if (navToggle && navLinks) {
     const range = track.offsetHeight - window.innerHeight;
     const rect = track.getBoundingClientRect();
     const p = range > 0 ? clamp(-rect.top / range) : 0;
-    const wantGame = !!frame && p > 0.1 && rect.bottom > 0;
-    if (wantGame !== gameOn) { gameOn = wantGame; frame.src = wantGame ? GAME : 'about:blank'; }
     const buy = seg(p, 0.2, 0.3);
     const s = story.style;
     s.setProperty('--open-live', ease(seg(p, 0.03, 0.22)).toFixed(3));

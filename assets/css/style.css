@@ -1068,3 +1068,16 @@ a { color: inherit; text-decoration: none; }
 .faq-item p { margin: 0 0 20px; max-width: 66ch; }
 .about-cta { margin-top: 44px; }
 @media (max-width: 560px) { .about-facts { grid-template-columns: 1fr; } }
+
+/* ---------- Hero entrance: the first screen builds itself when the page opens ---------- */
+@keyframes hero-photo-in { from { opacity: 0; transform: scale(1.14); } to { opacity: 1; transform: scale(1); } }
+@keyframes hero-rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes hero-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: no-preference) {
+  .hero-photo > img { animation: hero-photo-in 2.2s cubic-bezier(.2,.7,.2,1) both; }
+  .hero-eyebrow { animation: hero-rise .8s cubic-bezier(.2,.7,.2,1) .45s both; }
+  .hero h1 { animation: hero-rise 1s cubic-bezier(.2,.7,.2,1) .65s both; }
+  .hero-actions { animation: hero-rise .8s cubic-bezier(.2,.7,.2,1) .95s both; }
+  .hero .social-row { animation: hero-rise .8s cubic-bezier(.2,.7,.2,1) 1.15s both; }
+  .hero-invited { animation: hero-fade 1.2s ease 1.4s both; }
+}
