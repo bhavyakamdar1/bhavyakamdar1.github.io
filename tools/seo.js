@@ -21,6 +21,8 @@ const ROOT = path.resolve(__dirname, '..');
 const SITE = 'https://bhavyakamdar.com';
 const NAME = 'Bhavya Kamdar';
 const EMAIL = 'cabhavyakamdar@gmail.com';
+// Pre-filled mail link used for the address inside the About page FAQ (HTML-escaped for the href)
+const EMAIL_LINK = 'mailto:cabhavyakamdar@gmail.com?subject=Hello%20Bhavya&amp;body=Hi%20Bhavya%2C%0D%0A%0D%0AI%20read%20your%20About%20page%20and%20wanted%20to%20reach%20out.%0D%0A%0D%0A%5BWrite%20your%20message%20here%5D%0D%0A%0D%0ARegards%2C%0D%0A%5BYour%20name%5D';
 const LINKEDIN = 'https://www.linkedin.com/in/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194';
 const INSTAGRAM = 'https://www.instagram.com/bhavyakamdar1/';
 const PERSON_ID = SITE + '/#person';
@@ -184,7 +186,7 @@ function faq(books, events) {
     ['What is Beyond Bhavya?',
       `Beyond Bhavya is Bhavya Kamdar&rsquo;s series of short business and finance explainers: why companies win, why policies shift, and what a balance sheet doesn&rsquo;t say. Posts have covered Apple, Berkshire Hathaway&rsquo;s investment in Japan, the yen carry trade, the Korea Discount, India Stack and quick commerce in India. They are collected on the <a href="../thinking/">Thinking page</a>.`],
     ['How can I invite Bhavya Kamdar to speak, or get in touch?',
-      `Email <a href="mailto:${EMAIL}">${EMAIL}</a> about a talk, a panel, judging an event, a book, or just to say hello. Bhavya is also on <a href="${LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a> and <a href="${INSTAGRAM}" target="_blank" rel="noopener">Instagram</a>.`],
+      `Email <a href="${EMAIL_LINK}">${EMAIL}</a> about a talk, a panel, judging an event, a book, or just to say hello. Bhavya is also on <a href="${LINKEDIN}" target="_blank" rel="noopener">LinkedIn</a> and <a href="${INSTAGRAM}" target="_blank" rel="noopener">Instagram</a>.`],
   ];
 }
 
