@@ -176,7 +176,7 @@ function faq(books, events) {
     ['What is Face Your Hope about?',
       `<em>Face Your Hope</em> is a collection of stories from a real life, told the way memory tells them. Each story carries a different kind of hope and stands on its own, so the book can be opened at any page, in any order. Its central idea is that to hope is to risk: hope moves with risk, choice and luck, and the more you act, the more places luck has to find you. It is ${fyh.specs.Pages} pages, published by ${fyh.specs.Publisher} on ${fyh.specs.Published}.`],
     ['Where can I buy Face Your Hope?',
-      `<em>Face Your Hope</em> is sold on Amazon.in, Flipkart and Notion Press as a hardcover (&#8377;${price(fyh, /hardcover/i)}) and a paperback (&#8377;${price(fyh, /paperback/i)}). There is no eBook edition at this time. All the buying links are on the <a href="..${fyh.url}#buy">Face Your Hope page</a>.`],
+      `<em>Face Your Hope</em> is sold on Amazon.in, Flipkart and Notion Press as a hardcover (&#8377;${price(fyh, /hardcover/i)}) and a paperback (&#8377;${price(fyh, /paperback/i)}), and as a Kindle eBook on Amazon.in (&#8377;${price(fyh, /ebook|kindle/i)}). All the buying links are on the <a href="..${fyh.url}#buy">Face Your Hope page</a>.`],
     ['Is there a Face Your Hope audiobook?',
       `Not yet. An audiobook of <em>Face Your Hope</em>, with every chapter read aloud, is planned for early 2027.`],
     ['What is the Face Your Hope game?',
