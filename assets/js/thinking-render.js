@@ -5,7 +5,7 @@ function thinkingCardHTML(p, root) {
   const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
   const img = typeof p.image === 'string' ? { src: p.image } : p.image;
   const aria = 'aria-label="Open on LinkedIn" tabindex="-1" target="_blank" rel="noopener"';
-  return `<div class="thinking-card">
+  return `<div class="thinking-card" data-category="${esc(p.category)}">
     <a class="speaking-hit" href="${esc(p.link)}" ${aria}><img class="press-image" src="${esc(root + img.src)}" alt="" loading="lazy"></a>
     <a class="speaking-hit" href="${esc(p.link)}" ${aria}><p class="thinking-excerpt">${esc(p.excerpt)}</p></a>
     <a class="li-btn" href="${esc(p.link)}" target="_blank" rel="noopener" aria-label="Read the full post on LinkedIn" title="Read the full post on LinkedIn">${THINKING_LI_ICON}</a>
