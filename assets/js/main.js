@@ -127,7 +127,7 @@ if (navToggle && navLinks) {
   const settle = (target) => {
     let tries = 0;
     const check = () => {
-      const off = target.getBoundingClientRect().top;
+      const off = target.getBoundingClientRect().top - (parseFloat(getComputedStyle(target).scrollMarginTop) || 0);
       if (Math.abs(off) > 2 && tries++ < 4) {
         window.scrollTo({ top: window.scrollY + off, behavior: 'instant' });
         setTimeout(check, 150);
@@ -163,7 +163,7 @@ if (navToggle && navLinks) {
   const align = () => {
     const target = document.getElementById(id);
     if (!target || touched) return;
-    const off = target.getBoundingClientRect().top;
+    const off = target.getBoundingClientRect().top - (parseFloat(getComputedStyle(target).scrollMarginTop) || 0);
     if (Math.abs(off) > 2) window.scrollTo({ top: window.scrollY + off, behavior: 'instant' });
   };
   [0, 150, 400, 800, 1400, 2200].forEach((t) => setTimeout(align, t));
