@@ -921,7 +921,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 560px) { .thinking-cards { grid-template-columns: 1fr; max-width: 420px; } }
 
 /* Scroll-driven mode (added by thinking.js; without it the title and posts simply stack). Everything below is positioned by the script. */
-.thinking-scroll.is-anim .thinking-stage { position: sticky; top: 0; height: 100vh; height: 100svh; box-sizing: border-box; padding: 0; overflow: hidden; }
+.thinking-scroll.is-anim .thinking-stage { position: sticky; top: 0; height: 100vh; height: 100svh; box-sizing: border-box; padding: 0; overflow-x: clip; overflow-y: visible; }
 .is-anim .thinking-title { position: absolute; left: 50%; top: 50%; margin: 0; transform: translate(-50%, -50%) translate(var(--tx, 0px), var(--ty, 0px)) scale(var(--ts, 1)); will-change: transform; }
 .is-anim .thinking-title-base { opacity: var(--in, 1); }
 .is-anim .thinking-cards { position: absolute; top: 0; right: 24px; left: var(--cl, 42%); max-width: none; margin: 0; height: 100%; grid-template-columns: repeat(3, 1fr); align-content: center; align-items: start; gap: 24px; will-change: transform; }
