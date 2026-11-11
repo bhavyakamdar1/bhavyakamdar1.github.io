@@ -299,6 +299,7 @@ function headBlock(p) {
     `<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">`,
     `<link rel="canonical" href="${SITE}${p.url}">`,
     `<link rel="icon" href="${rel}assets/images/favicon.svg" type="image/svg+xml">`,
+    `<link rel="icon" href="${rel}favicon.ico" sizes="any">`,
     `<link rel="icon" href="${rel}assets/images/favicon-48.png" type="image/png" sizes="48x48">`,
     `<link rel="apple-touch-icon" href="${rel}assets/images/apple-touch-icon.png">`,
     `<meta property="og:site_name" content="${NAME}">`,
