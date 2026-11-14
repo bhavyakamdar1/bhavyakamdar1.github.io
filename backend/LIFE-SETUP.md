@@ -1,16 +1,23 @@
-# Life Log: connect the Google Sheet (about 3 minutes)
+# Life Log: connect your Google Sheet (about 5 minutes)
 
-The private page at `/life/` can keep your data in a Google Sheet in your own Google account, so it is always saved there and you can also edit it in Sheets.
+Same idea as the game data in `SETUP.md`: a small Apps Script web app in front of a Google Sheet, with its URL kept in `assets/js/config.js`. The difference is that this data is private, so every call also needs a **secret token**. The URL is safe to commit; the token never goes in the repo.
 
-1. Signed in as **cabhavyakamdar@gmail.com**, create a new Google Sheet (or use your existing Excel data: File → Import → Upload).
-2. **Extensions → Apps Script.** Delete the sample code and paste all of `backend/life-sheet.gs`.
-3. Change `TOKEN` on the first line to a long random string (a password-manager generated one is ideal). Save.
-4. **Deploy → New deployment → Web app.** Execute as: **Me**. Who has access: **Anyone**. Deploy and authorise when asked. Copy the **Web app URL**.
-5. Open `/life/`, unlock, go to **Data → Google Sheet sync**, paste the URL and the same token, then **Connect & sync**.
+You do all of this signed in to **cabhavyakamdar@gmail.com** in your own browser. Nobody else needs your Google login.
 
-Notes
+1. Upload `Planning_restructured.xlsx` to the Google Drive of that account, open it, and choose **File → Save as Google Sheets**. (Tabs Movies, Food and Social already have the right columns and dropdowns.)
+2. In that sheet: **Extensions → Apps Script**. Delete the sample code and paste all of `backend/life-sheet.gs`.
+3. Change `TOKEN` on the first line to a long random string (a password manager can generate one). Save.
+4. **Deploy → New deployment → Web app.** Execute as: **Me**. Who has access: **Anyone**. Deploy and approve the permissions. Copy the **Web app URL** (ends in `/exec`).
+5. Paste the URL into `assets/js/config.js` as `LIFE_ENDPOINT` and commit, or just paste it into the page in step 6.
+6. Open `/life/`, unlock, go to **Data → Google Sheet sync**, enter the token (and the URL if it is not in `config.js`), then **Connect & sync**.
 
-- "Anyone" only means the URL can be called; every call without the token is rejected, and the sheet itself is never shared. The URL and token are stored inside the encrypted vault, not in the public repo.
-- Sheet tabs are created for you: Movies, Food, Social, Reminders. Keep the `id` column; rows you add by hand without an id get one on the next sync.
-- If you change the script later, use Deploy → Manage deployments → Edit → New version (the URL stays the same).
-- Rotate the token any time: edit it in the script, redeploy a new version, and update it in the page.
+## How it behaves
+- Saving anything on the page sends it to the sheet within a couple of seconds. Opening the page loads the sheet.
+- If the sheet can't be reached, your change is kept on the device and sent on the next save or unlock. It is not lost.
+- You can also edit the sheet directly. Keep the header names; you may reorder columns or add your own (the script only touches the columns the page uses). New tabs `Reminders` and `Settings` are created automatically.
+- Don't edit the sheet and the page at the same moment: the last save wins.
+- "Anyone" only means the URL can be called. Every call without the token is rejected and the sheet itself is never shared.
+- If you edit the script later: **Deploy → Manage deployments → Edit → New version** (the URL stays the same). To rotate the token, change it in the script, redeploy a new version, and update it on the page.
+
+## Asking Claude about the same sheet
+In claude.ai, turn on the Google Drive / Google Sheets connector for cabhavyakamdar@gmail.com and ask, e.g. "In my Life Log sheet, how much did I spend on coffee in 2026?". This uses your Claude plan, not extra API billing. Simple questions can be asked on the page itself (Dashboard → Ask your data), which needs no AI at all.

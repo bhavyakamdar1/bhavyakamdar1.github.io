@@ -23,4 +23,6 @@ It writes the `SEO:START … SEO:END` block in every page's `<head>`, the FAQ on
 
 ## Life Log (private)
 
-`/life/` is an unlisted, `noindex` page with a password-gated personal tracker (movies, food, social, reminders). Data is encrypted in the browser (AES-GCM, PBKDF2) and can sync to a private Google Sheet through an Apps Script bridge; setup is in `backend/LIFE-SETUP.md`. It is deliberately not in `tools/seo.js`, the sitemap or the site navigation.
+`/life/` is an unlisted, `noindex` page with a password-gated personal tracker: Movies & Shows, Food (one row per item, grouped into meals), Social (monthly catch-ups), Reminders, a dashboard and an "Ask your data" box that answers simple questions in the browser with no AI. Its structure mirrors `Planning_restructured.xlsx` (genre / sub-genre dropdowns, food types, etc.).
+
+Data is encrypted in the browser (AES-GCM, PBKDF2) and mirrored to a private Google Sheet through an Apps Script bridge, the same pattern as the game data: the bridge URL goes in `assets/js/config.js` (`LIFE_ENDPOINT`), the secret token is typed into the page once and kept only inside the encrypted vault. Setup is in `backend/LIFE-SETUP.md`. The page is deliberately not in `tools/seo.js`, the sitemap or the site navigation, and no personal data lives in this repo.
