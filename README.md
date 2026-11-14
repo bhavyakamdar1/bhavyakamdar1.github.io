@@ -20,3 +20,7 @@ Run it, then commit, after you:
 It writes the `SEO:START … SEO:END` block in every page's `<head>`, the FAQ on `/about/`, and `sitemap.xml`. Don't edit those by hand.
 
 `robots.txt` and `llms.txt` (a plain-text summary of the site for AI assistants) are edited by hand.
+
+## Life Log (private)
+
+`/life/` is an unlisted, `noindex` page with a password-gated personal tracker (movies, food, social, reminders). Data is encrypted in the browser (AES-GCM, PBKDF2) and can sync to a private Google Sheet through an Apps Script bridge; setup is in `backend/LIFE-SETUP.md`. It is deliberately not in `tools/seo.js`, the sitemap or the site navigation.
