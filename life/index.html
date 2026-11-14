@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Log</title>
+<meta name="robots" content="noindex, nofollow, noarchive">
+<link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="life.css">
+</head>
+<body>
+
+<!-- ============ LOCK SCREEN ============ -->
+<main id="lock" class="lock">
+  <form id="lock-form" class="lock-card" autocomplete="off">
+    <h1>Life Log</h1>
+    <p id="lock-sub" class="muted"></p>
+    <input id="pw" type="password" placeholder="Password" autocomplete="current-password" required>
+    <input id="pw2" type="password" placeholder="Repeat password" autocomplete="new-password" hidden>
+    <button class="btn" type="submit" id="lock-btn">Unlock</button>
+    <p id="lock-err" class="err" role="alert"></p>
+    <p id="lock-note" class="muted small"></p>
+  </form>
+</main>
+
+<!-- ============ APP ============ -->
+<div id="app" hidden>
+  <header class="top">
+    <strong class="brand">Life Log</strong>
+    <nav id="tabs" class="tabs">
+      <button data-tab="dash" class="on">Dashboard</button>
+      <button data-tab="movies">Movies</button>
+      <button data-tab="food">Food</button>
+      <button data-tab="social">Social</button>
+      <button data-tab="reminders">Reminders</button>
+      <button data-tab="data">Data</button>
+    </nav>
+    <span id="sync-chip" class="muted small"></span>
+    <button id="lock-now" class="ghost">Lock</button>
+  </header>
+  <section id="view" class="view"></section>
+</div>
+
+<div id="modal" class="modal" hidden><div class="modal-card" id="modal-card"></div></div>
+
+<script src="../assets/js/config.js"></script>
+<script src="life.js"></script>
+</body>
+</html>
