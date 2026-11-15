@@ -64,6 +64,7 @@ function push(ss, schema, data) {
     if (sh.getLastColumn() === 0) { sh.getRange(1, 1, 1, 1).setValue(spec.cols[0][1]); }
     var head = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0].map(norm);
     spec.cols.forEach(function (c) {                       // add any missing header at the right-hand end
+      if (c[2] === 'readonly') return;                      // columns the page only reads (carried over from an earlier layout)
       if (head.indexOf(norm(c[1])) < 0) {
         var col = sh.getLastColumn() + 1;
         sh.getRange(1, col).setValue(c[1]).setFontWeight('bold');
@@ -73,6 +74,7 @@ function push(ss, schema, data) {
     sh.setFrozenRows(1);
     var last = Math.max(sh.getLastRow(), 2);
     spec.cols.forEach(function (c) {                       // rewrite only our columns; leave yours untouched
+      if (c[2] === 'readonly') return;
       var col = head.indexOf(norm(c[1])) + 1;
       sh.getRange(2, col, last - 1, 1).clearContent();
       if (!rows.length) return;

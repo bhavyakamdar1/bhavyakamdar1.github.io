@@ -87,35 +87,35 @@
       { k: 'every', h: 'Meet every (days)', t: 'n', step: '1' }, { k: 'last', h: 'Last met', t: 'date' }, { k: 'notes', h: 'Note' }
     ],
     visits: [
-      { k: 'date', h: 'Date', t: 'date', req: 1 }, { k: 'place', h: 'Place', dl: 1, req: 1 }, { k: 'time', h: 'Time', pair: 1 },
+      { k: 'date', h: 'Date', t: 'date', req: 1 }, { k: 'place', h: 'Place', dl: 1, req: 1 }, 
       { k: 'type', h: 'Visit Type', o: ['Outing', 'Meal out', 'Movie', 'At home', 'Trip', 'Other'] }, { k: 'notes', h: 'Notes', wide: 1 }
     ],
     payments: [
-      { k: 'date', h: 'Date' }, { k: 'payee', h: 'Payee' }, { k: 'total', h: 'Total Spend', t: 'n' }, { k: 'mine', h: 'My Spend', t: 'n' },
-      { k: 'for', h: 'For' }, { k: 'paidBy', h: 'Paid By' }, { k: 'linkType', h: 'Linked Type' }, { k: 'linkTo', h: 'Linked To' },
-      { k: 'linkId', h: 'Linked ID' }, { k: 'visitId', h: 'Visit ID' }, { k: 'notes', h: 'Notes' }
+      { k: 'date', h: 'Date' }, { k: 'payee', h: 'Payee' }, { k: 'total', h: 'Total Spend', t: 'n' }, { k: 'for', h: 'For' }, { k: 'linkBy', h: 'Linked By' },
+      { k: 'movieId', h: 'Movie ID' }, { k: 'foodId', h: 'Food ID' }, { k: 'visitId', h: 'Visit ID' }, { k: 'notes', h: 'Notes' }
     ],
-    places: [{ k: 'name', h: 'Place', req: 1 }, { k: 'kind', h: 'Kind' }, { k: 'notes', h: 'Notes' }]
   };
   // extra columns kept in the sheet but not edited by hand
   var X = {
     food: [{ k: 'source', h: 'Amount Source' }, { k: 'basis', h: 'Estimate Basis' }, { k: 'confidence', h: 'Confidence' }, { k: 'splitBasis', h: 'Split Basis' },
       { k: 'entryId', h: 'Entry ID' }, { k: 'entryTotal', h: 'Entry Total (Final)', t: 'n' }, { k: 'items', h: 'Items in Entry', t: 'n' }, { k: 'visitId', h: 'Visit ID' }],
-    visits: [{ k: 'people', h: 'People' }]
+    visits: [{ k: 'people', h: 'People' }],
+    payments: [{ k: 'legacyType', h: 'Linked Type', ro: 1 }, { k: 'legacyId', h: 'Linked ID', ro: 1 }]   // read once to carry an earlier layout over, never written
   };
-  var CATS = { movies: 'Movies', food: 'Food', social: 'Social', visits: 'Visits', payments: 'Payments', places: 'Places' };
-  var SYNCED = ['movies', 'food', 'social', 'visits', 'payments', 'places'];
+  var CATS = { movies: 'Movies', food: 'Food', social: 'Social', visits: 'Visits', payments: 'Payments' };
+  var SYNCED = ['movies', 'food', 'social', 'visits', 'payments'];
 
   var db = null, key = null, salt = null, tab = 'dash', editing = {}, search = {}, showAll = {}, askLog = '', ui = { visitSel: '', visitForm: '', payMsg: '' };
 
   function blank() {
-    return { v: 2, movies: [], food: [], social: [], reminders: [], visits: [], payments: [], places: [],
+    return { v: 2, movies: [], food: [], social: [], reminders: [], visits: [], payments: [],
       settings: { currency: '₹', foodBudget: 0, quietDays: 4, remindersStart: '', sync: { url: '', token: '' } }, meta: { dirty: false } };
   }
   function normalize(d) {
     var b = blank();
     if (!d.v || d.v < 2) { d.movies = []; d.food = []; d.social = []; d.v = 2; }   // older test layout: reloaded from the sheet
-    ['movies', 'food', 'social', 'reminders', 'visits', 'payments', 'places'].forEach(function (k) { d[k] = d[k] || []; });   // additive: older vaults just gain empty lists
+    ['movies', 'food', 'social', 'reminders', 'visits', 'payments'].forEach(function (k) { d[k] = d[k] || []; });   // additive: older vaults just gain empty lists
+    d.payments.forEach(migratePayment);
     d.settings = Object.assign(b.settings, d.settings || {}); d.settings.sync = Object.assign(b.settings.sync, d.settings.sync || {});
     d.meta = Object.assign(b.meta, d.meta || {});
     return d;
@@ -148,7 +148,7 @@
   function schema() {
     var s = {};
     SYNCED.forEach(function (c) {
-      s[c] = { sheet: CATS[c], cols: [['id', 'ID']].concat(F[c].map(function (f) { return [f.k, f.h]; }), (X[c] || []).map(function (f) { return [f.k, f.h]; })) };
+      s[c] = { sheet: CATS[c], cols: [['id', 'ID']].concat(F[c].map(function (f) { return [f.k, f.h]; }), (X[c] || []).map(function (f) { return f.ro ? [f.k, f.h, 'readonly'] : [f.k, f.h]; })) };
     });
     s.reminders = { sheet: 'Reminders', cols: [['id', 'ID'], ['text', 'Reminder'], ['date', 'Date'], ['done', 'Done']] };
     return s;
@@ -168,7 +168,7 @@
   function queuePush() { if (!syncCfg()) return; clearTimeout(pushT); setStatus('Saving to sheet…'); pushT = setTimeout(pushNow, 1200); }
   async function pushNow() {
     try {
-      var data = { movies: db.movies, food: withDerived(), social: db.social, reminders: db.reminders, visits: db.visits, payments: db.payments, places: db.places };
+      var data = { movies: db.movies, food: withDerived(), social: db.social, reminders: db.reminders, visits: db.visits, payments: db.payments };
       var s = db.settings; await call('push', { data: data, settings: { currency: s.currency, foodBudget: s.foodBudget, quietDays: s.quietDays, remindersStart: s.remindersStart } });
       db.meta.dirty = false; await persist(); setStatus('Synced ' + new Date().toLocaleTimeString());
     } catch (e) { setStatus('Sheet sync failed (saved on this device, will retry): ' + e.message); }
@@ -180,6 +180,7 @@
   function adopt(remote) {
     SYNCED.forEach(function (c) { db[c] = (remote[c] || []).map(function (r) { return typed(c, r); }); });
     db.food.forEach(function (r) { if (!r.entryId) r.entryId = r.id; });
+    db.payments.forEach(migratePayment);
     db.reminders = (remote.reminders || []).map(function (r) { return { id: String(r.id || '') || uid(), text: String(r.text || ''), date: String(r.date || ''), done: r.done === true || String(r.done).toLowerCase() === 'true' }; });
   }
   function count(o) { return SYNCED.reduce(function (a, k) { return a + (o[k] || []).length; }, 0); }
@@ -298,15 +299,12 @@
   function visitOptions(val) { return '<option value="">No visit</option>' + db.visits.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).map(function (v) { return '<option value="' + esc(v.id) + '"' + (v.id === val ? ' selected' : '') + '>' + esc(visitLabel(v)) + '</option>'; }).join(''); }
   function visitChip(id) { if (!id) return ''; var v = visitById(id); return '<button type="button" class="chip id linkchip" data-visit="' + esc(id) + '" title="' + esc(v ? visitLabel(v) : 'Visit not found') + '">' + esc(id) + (v ? '' : ' ?') + '</button>'; }
   function peopleOf(v) { return String(v.people || '').split(',').map(function (x) { return x.trim(); }).filter(Boolean); }
-  function placeNames() { return uniq(db.places.map(function (r) { return r.name; }).concat(db.food.map(function (r) { return r.place; }))); }
-  function rememberPlace(name) { name = (name || '').trim(); if (name && !db.places.some(function (r) { return r.name.toLowerCase() === name.toLowerCase(); }) && !db.food.some(function (r) { return String(r.place).toLowerCase() === name.toLowerCase(); })) db.places.push({ id: uid(), name: name, kind: '', notes: '' }); }
+  function placeNames() { return uniq(db.visits.map(function (v) { return v.place; }).concat(db.food.map(function (r) { return r.place; }))); }   // places are just the Place text on visits and Food
   function lastMet(p) {   // your own "Met today" date, or the latest visit you logged with them, whichever is later
     var best = p.last || '', n = String(p.name).toLowerCase(), t = today();
     db.visits.forEach(function (v) { if (v.date && v.date <= t && v.date > best && peopleOf(v).some(function (x) { return x.toLowerCase() === n; })) best = v.date; });
     return best;
   }
-  function parseTime(t) { var m = /^\s*(\d{1,2}:\d{2})?\s*[-–]\s*(\d{1,2}:\d{2})?\s*$/.exec(t || ''); return m ? { a: m[1] || '', d: m[2] || '' } : { a: /^\d{1,2}:\d{2}$/.test(t || '') ? t : '', d: '' }; }
-  function joinTime(a, d) { return a || d ? (a || '') + '-' + (d || '') : ''; }
   function goVisit(id) { tab = 'visits'; ui.visitSel = id; render(); window.scrollTo(0, 0); }
 
   // ----- Movies -----
@@ -468,24 +466,22 @@
   function visitStats(v) {
     var movies = db.movies.filter(function (m) { return m.visitId === v.id; }), meals = foodMealsOf(v.id), pays = db.payments.filter(function (p) { return p.visitId === v.id; });
     var foodMine = sumBy(meals, function (e) { return e.total; }), extra = sumBy(pays, mineExtra);
-    var uncovered = meals.filter(function (e) { return !pays.some(function (p) { return p.linkType === 'Food' && (p.linkId === e.id || (!p.linkId && String(p.linkTo).toLowerCase() === String(e.place).toLowerCase())); }); });
+    var uncovered = meals.filter(function (e) { return !pays.some(function (p) { return p.linkBy === 'Food' && p.foodId === e.id; }); });
     return { movies: movies, meals: meals, pays: pays, mine: foodMine + extra, total: sumBy(pays, function (p) { return num(p.total); }) + sumBy(uncovered, function (e) { return e.total; }) };
   }
   function visitsHTML() {
     var sel = visitById(ui.visitSel);
     var form = '';
     if (ui.visitForm) {
-      var ed = ui.visitForm === 'edit' && sel ? sel : { id: 'new', date: today(), type: 'Outing' }, tm = parseTime(ed.time);
-      form = '<form id="f-visit" class="form card">' + F.visits.map(function (f) {
-        return f.pair ? '<label>Arrived<input type="time" name="arrive" value="' + esc(tm.a) + '"></label><label>Left<input type="time" name="depart" value="' + esc(tm.d) + '"></label>' : fieldHTML('visits', f, ed);
-      }).join('') + '<div class="row wide"><button class="btn" type="submit">' + (ui.visitForm === 'edit' ? 'Save changes' : 'Create visit') + '</button><button class="btn alt" type="button" id="cancel-visit">Cancel</button></div></form>' +
+      var ed = ui.visitForm === 'edit' && sel ? sel : { id: 'new', date: today(), type: 'Outing' };
+      form = '<form id="f-visit" class="form card">' + F.visits.map(function (f) { return fieldHTML('visits', f, ed); }).join('') + '<div class="row wide"><button class="btn" type="submit">' + (ui.visitForm === 'edit' ? 'Save changes' : 'Create visit') + '</button><button class="btn alt" type="button" id="cancel-visit">Cancel</button></div></form>' +
         '<datalist id="' + dlId('visits', 'place') + '">' + placeNames().map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>';
     }
     var rows = filterRows('visits', db.visits.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)) || b.id.localeCompare(a.id); })), lastDay = '', list = '';
     rows.slice(0, 200).forEach(function (v) {
       var st = visitStats(v);
       if (v.date !== lastDay) { list += '<div class="day">' + esc(fmtD(v.date)) + '</div>'; lastDay = v.date; }
-      list += '<button class="visit" data-pick="' + esc(v.id) + '" aria-pressed="' + (v.id === ui.visitSel) + '"><b>' + esc(v.place) + '</b> <span class="muted small">' + esc(v.time || '') + '</span><div class="chips"><span class="chip id">' + esc(v.id) + '</span>' +
+      list += '<button class="visit" data-pick="' + esc(v.id) + '" aria-pressed="' + (v.id === ui.visitSel) + '"><b>' + esc(v.place) + '</b><div class="chips"><span class="chip id">' + esc(v.id) + '</span>' +
         st.movies.map(function (m) { return '<span class="chip">Movie · ' + esc(m.name) + '</span>'; }).join('') + st.meals.map(function (e) { return '<span class="chip">Meal · ' + esc(e.place || 'meal') + '</span>'; }).join('') +
         peopleOf(v).map(function (p) { return '<span class="chip">With ' + esc(p) + '</span>'; }).join('') + '<span class="chip">' + (st.mine ? amt(st.mine) + ' mine' : 'no spending') + '</span></div></button>';
     });
@@ -502,14 +498,14 @@
     var names = uniq(db.social.map(function (r) { return r.name; })).filter(function (n) { return ppl.map(function (x) { return x.toLowerCase(); }).indexOf(n.toLowerCase()) < 0; });
     function pick(attr, label, opts) { return '<select class="pick" data-add="' + attr + '"><option value="">' + label + '</option>' + opts + '</select>'; }
     return '<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap"><h2>' + esc(v.place) + '</h2><span class="chip id">' + esc(v.id) + '</span></div>' +
-      '<p class="muted small" style="margin:2px 0 0">' + esc(fmtD(v.date)) + (v.time ? ' · ' + esc(v.time) : '') + ' · ' + esc(v.type || 'Outing') + (v.notes ? ' · ' + esc(v.notes) : '') + '</p>' +
+      '<p class="muted small" style="margin:2px 0 0">' + esc(fmtD(v.date)) + ' · ' + esc(v.type || 'Outing') + (v.notes ? ' · ' + esc(v.notes) : '') + '</p>' +
       '<div class="btns"><button class="ghost" id="edit-visit">Edit details</button><button class="ghost" id="del-visit">Delete visit</button></div>' +
       '<div class="sec"><h3>People</h3>' + (ppl.length ? ppl.map(function (n) { return '<span class="chip">' + esc(n) + ' <button class="x" data-rmperson="' + esc(n) + '" title="Remove">✕</button></span>'; }).join(' ') + '<div class="small muted">Their last met date becomes ' + esc(fmtD(v.date)) + '.</div>' : '<span class="muted small">Nobody yet</span>') + '<div class="btns">' + pick('person', '+ Add a friend', names.map(function (n) { return '<option>' + esc(n) + '</option>'; }).join('')) + '</div></div>' +
       '<div class="sec"><h3>Movies</h3>' + (st.movies.length ? st.movies.map(function (m) { return '<div class="row"><span>' + esc(m.name) + ' <span class="muted small">' + esc(m.where || '') + '</span></span><span><button class="x" data-unlink="movies:' + m.id + '" title="Unlink">✕</button></span></div>'; }).join('') : '<span class="muted small">None linked</span>') +
         '<div class="btns">' + pick('movie', '+ Link a movie', freeMovies.slice(0, 80).map(function (m) { return '<option value="' + esc(m.id) + '">' + esc(fmtD(m.date) + ' · ' + m.name + (m.visitId ? ' (in ' + m.visitId + ')' : '')) + '</option>'; }).join('')) + '</div></div>' +
       '<div class="sec"><h3>Meals</h3>' + (st.meals.length ? st.meals.map(function (e) { return '<div class="row"><span>' + esc(e.place || 'Meal') + ' <span class="muted small">' + esc(e.rows.map(function (r) { return r.category; }).join(', ')) + '</span></span><span>' + amt(e.total) + ' <button class="x" data-unlink="food:' + e.id + '" title="Unlink">✕</button></span></div>'; }).join('') : '<span class="muted small">None linked</span>') +
         '<div class="btns">' + pick('meal', '+ Link a meal', freeMeals.slice(0, 80).map(function (e) { var cur = e.rows[0].visitId; return '<option value="' + esc(e.id) + '">' + esc(mealLabel(e) + (cur ? ' (in ' + cur + ')' : '')) + '</option>'; }).join('')) + '</div></div>' +
-      '<div class="sec"><h3>Payments</h3>' + (st.pays.length ? st.pays.map(function (p) { return '<div class="row"><span>' + esc(p.payee || 'Payment') + ' <span class="muted small">' + esc(p.for) + (p.paidBy && p.paidBy !== 'Me' ? ' · paid by ' + esc(p.paidBy) : '') + (p.linkType ? ' · ' + esc(p.linkType + ': ' + p.linkTo) : '') + '</span></span><span>' + amt(num(p.total)) + (num(p.mine) !== num(p.total) ? ' <span class="muted small">(mine ' + amt(num(p.mine)) + ')</span>' : '') + ' <button class="x" data-unlink="payments:' + p.id + '" title="Unlink">✕</button></span></div>'; }).join('') : '<span class="muted small">No payments</span>') +
+      '<div class="sec"><h3>Payments</h3>' + (st.pays.length ? st.pays.map(function (p) { return '<div class="row"><span>' + esc(p.payee || 'Payment') + ' <span class="muted small">' + esc(p['for']) + (p.linkBy ? ' · ' + esc(p.linkBy) + (payTarget(p) ? ': ' + esc(payTarget(p)) : '') : '') + '</span></span><span>' + amt(num(p.total)) + ' <button class="x" data-unlink="payments:' + p.id + '" title="Unlink">✕</button></span></div>'; }).join('') : '<span class="muted small">No payments</span>') +
         (warn.length ? '<div class="chips">' + warn.map(function (w) { return '<span class="chip warn">' + esc(w) + '</span>'; }).join('') + '</div>' : '') +
         '<div class="btns"><button class="ghost" id="add-pay">+ Add a payment</button>' + pick('pay', 'Link an existing payment', freePays.slice(0, 80).map(function (p) { return '<option value="' + esc(p.id) + '">' + esc(fmtD(p.date) + ' · ' + (p.payee || 'Payment') + ' · ' + amt(num(p.total))) + '</option>'; }).join('')) + '</div></div>' +
       '<div class="sum"><div><b>' + amt(st.total) + '</b><small>Total spend</small></div><div><b>' + amt(st.mine) + '</b><small>My spend</small></div></div>' +
@@ -522,8 +518,8 @@
       f.addEventListener('submit', async function (e) {
         e.preventDefault();
         var isEdit = ui.visitForm === 'edit' && visitById(ui.visitSel), r = isEdit ? visitById(ui.visitSel) : { id: nextId('V', db.visits), people: '' };
-        readForm('visits', f, r); var fd = new FormData(f); r.time = joinTime(fd.get('arrive'), fd.get('depart')); if (!r.type) r.type = 'Outing';
-        rememberPlace(r.place); if (!isEdit) db.visits.push(r);
+        readForm('visits', f, r); if (!r.type) r.type = 'Outing';
+        if (!isEdit) db.visits.push(r);
         ui.visitSel = r.id; ui.visitForm = ''; await save(); render();
       });
       $('#cancel-visit').onclick = function () { ui.visitForm = ''; render(); };
@@ -559,91 +555,84 @@
     };
   }
 
-  // ----- Payments: Total Spend and My Spend -----
-  var OTHER_CATS = ['Shopping', 'Travel', 'Gifts', 'Health', 'Bills', 'Family', 'Other'];
-  function mineExtra(p) { return p['for'] === 'Mine' && p.linkType !== 'Food' ? num(p.mine) : 0; }   // Food rows already hold your food spend
+  // ----- Payments: Total Spend, whose expense it is, and the links (Movie ID, Food ID, Visit ID) -----
+  function mineExtra(p) { return p['for'] === 'Mine' && p.linkBy !== 'Food' ? num(p.total) : 0; }   // Food rows already hold your food spend
+  function migratePayment(p) {   // carry over the earlier layout (Linked Type + Linked ID)
+    var lt = p.legacyType || p.linkType, li = p.legacyId || p.linkId;
+    if (lt && !p.linkBy) p.linkBy = lt;
+    if (li && lt === 'Movies' && !p.movieId) p.movieId = li;
+    if (li && lt === 'Food' && !p.foodId) p.foodId = li;
+    p.legacyType = ''; p.legacyId = ''; return p;
+  }
+  function payTarget(p) {
+    if (p.linkBy === 'Movies') { var m = db.movies.filter(function (x) { return x.id === p.movieId; })[0]; return m ? m.name : (p.movieId ? p.movieId : ''); }
+    if (p.linkBy === 'Food') { var e = entries().filter(function (x) { return x.id === p.foodId; })[0]; return e ? (e.place || e.rows[0].category) + ' · ' + fmtD(e.date) : (p.foodId ? p.foodId : ''); }
+    return '';
+  }
   function payWarnings(p) {
     var w = [];
-    if (p['for'] === 'Mine' && p.linkType === 'Food') {
-      var es = entries(), e = p.linkId ? es.filter(function (x) { return x.id === p.linkId; })[0] : es.filter(function (x) { return String(x.place).toLowerCase() === String(p.linkTo).toLowerCase() && Math.abs(daysBetween(x.date, p.date)) <= 1; })[0];
-      if (!e) w.push('No matching meal in Food'); else if (Math.abs(e.total - num(p.mine)) > 0.5) w.push('My spend ' + amt(num(p.mine)) + ' differs from the meal ' + amt(e.total));
-    }
-    if (p['for'] === 'Mine' && p.linkType === 'Movies' && p.linkId && !db.movies.some(function (m) { return m.id === p.linkId; })) w.push('Movie not found');
+    if (p['for'] === 'Mine' && p.linkBy === 'Food') { if (!p.foodId) w.push('No Food ID'); else if (!entries().some(function (e) { return e.id === p.foodId; })) w.push('Meal not found in Food'); }
+    if (p['for'] === 'Mine' && p.linkBy === 'Movies') { if (!p.movieId) w.push('No Movie ID'); else if (!db.movies.some(function (m) { return m.id === p.movieId; })) w.push('Movie not found'); }
     if (p.visitId && !visitById(p.visitId)) w.push('Visit not found');
     return w;
   }
   function spendParts(from, to) {
-    var food = sumBy(db.food.filter(function (r) { return inRange(r.date, from ? { from: from, to: to } : null); }), function (r) { return num(r.amount); });
-    var pays = db.payments.filter(function (p) { return inRange(p.date, from ? { from: from, to: to } : null); });
-    var mov = sumBy(pays.filter(function (p) { return p['for'] === 'Mine' && p.linkType === 'Movies'; }), function (p) { return num(p.mine); });
-    var oth = sumBy(pays.filter(function (p) { return p['for'] === 'Mine' && p.linkType === 'Others'; }), function (p) { return num(p.mine); });
+    var rg = from ? { from: from, to: to } : null;
+    var food = sumBy(db.food.filter(function (r) { return inRange(r.date, rg); }), function (r) { return num(r.amount); });
+    var pays = db.payments.filter(function (p) { return inRange(p.date, rg); });
+    var mov = sumBy(pays.filter(function (p) { return p['for'] === 'Mine' && p.linkBy === 'Movies'; }), function (p) { return num(p.total); });
+    var oth = sumBy(pays.filter(function (p) { return p['for'] === 'Mine' && p.linkBy === 'Others'; }), function (p) { return num(p.total); });
     var who = function (w) { return sumBy(pays.filter(function (p) { return p['for'] === w; }), function (p) { return num(p.total); }); };
-    return { food: food, movies: mov, others: oth, mine: food + mov + oth, mom: who('Mom'), dad: who('Dad'), othersFor: who('Others'), payTotal: sumBy(pays, function (p) { return num(p.total); }), payMine: sumBy(pays, function (p) { return num(p.mine); }) };
+    return { food: food, movies: mov, others: oth, mine: food + mov + oth, mom: who('Mom'), dad: who('Dad'), othersFor: who('Others'), payTotal: sumBy(pays, function (p) { return num(p.total); }) };
   }
   function paymentsHTML() {
     var ed = editing.payments && db.payments.filter(function (p) { return p.id === editing.payments; })[0] || null, sp = spendParts();
-    var o = ed || { date: today(), paidBy: 'Me', 'for': 'Mine', linkType: 'Movies', visitId: ui.payVisit || '' };
-    var people = uniq(['Me', 'Mom', 'Dad'].concat(db.social.map(function (r) { return r.name; }), db.payments.map(function (p) { return p.paidBy; })));
-    var tiles = [[amt(sp.mine), 'My spend', 'Food ' + amt(sp.food) + ' · Movies ' + amt(sp.movies) + ' · Others ' + amt(sp.others)], [amt(sp.payTotal), 'Payments: total spend', 'My share ' + amt(sp.payMine)], [amt(sp.mom), 'Mom', 'not mine'], [amt(sp.dad), 'Dad', 'not mine'], [amt(sp.othersFor), 'Others', 'not mine']]
+    var o = ed || { date: today(), 'for': 'Mine', linkBy: 'Movies', visitId: ui.payVisit || '' };
+    var tiles = [[amt(sp.mine), 'My spend', 'Food ' + amt(sp.food) + ' · Movies ' + amt(sp.movies) + ' · Others ' + amt(sp.others)], [amt(sp.payTotal), 'All payments', 'total spend'], [amt(sp.mom), 'Mom', 'not mine'], [amt(sp.dad), 'Dad', 'not mine'], [amt(sp.othersFor), 'Others', 'not mine']]
       .map(function (t) { return '<div class="card tile"><div class="k">' + t[1] + '</div><div class="v">' + t[0] + '</div><div class="s">' + t[2] + '</div></div>'; }).join('');
     var form = '<form id="f-pay" class="card"><div class="form"><label>Date<input name="date" type="date" value="' + esc(o.date) + '"></label><label>Payee<input name="payee" value="' + esc(o.payee || '') + '"></label>' +
       '<label>Total spend<input name="total" type="number" step="0.01" min="0" required value="' + esc(o.total === undefined ? '' : o.total) + '"></label>' +
       '<label>Expense is for<select name="for">' + ['Mine', 'Mom', 'Dad', 'Others'].map(function (x) { return '<option' + (x === o['for'] ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label>' +
-      '<label id="l-mine">My spend<input name="mine" type="number" step="0.01" min="0" placeholder="same as total" value="' + esc(o.mine === undefined || o.mine === '' ? '' : o.mine) + '"></label>' +
-      '<label>Paid by<input name="paidBy" list="dl-payby" value="' + esc(o.paidBy || 'Me') + '"></label>' +
-      '<label id="l-ltype">Linked to<select name="linkType">' + ['Movies', 'Food', 'Others'].map(function (x) { return '<option' + (x === o.linkType ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label>' +
-      '<label id="l-lto"></label><label id="l-meal">Meal (optional)<select name="linkId"></select></label>' +
-      '<label>Visit (optional)<select name="visitId">' + visitOptions(o.visitId) + '</select></label><label class="wide">Notes<input name="notes" value="' + esc(o.notes || '') + '"></label></div>' +
-      '<div class="row"><button class="btn" type="submit">' + (ed ? 'Save changes' : 'Add payment') + '</button>' + (ed ? '<button class="btn alt" type="button" id="cancel-pay">Cancel</button>' : '') + '</div><p class="small muted" id="pay-msg" style="margin:8px 0 0">' + esc(ui.payMsg) + '</p>' +
-      '<datalist id="dl-payby">' + people.map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist><datalist id="dl-cats">' + OTHER_CATS.map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist></form>';
+      '<label id="l-ltype">Linked by<select name="linkBy">' + ['Movies', 'Food', 'Others'].map(function (x) { return '<option' + (x === o.linkBy ? ' selected' : '') + '>' + x + '</option>'; }).join('') + '</select></label>' +
+      '<label id="l-movie">Movie ID<select name="movieId"></select></label><label id="l-meal">Food ID (meal)<select name="foodId"></select></label>' +
+      '<label>Visit ID<select name="visitId">' + visitOptions(o.visitId) + '</select></label><label class="wide">Notes<input name="notes" value="' + esc(o.notes || '') + '"></label></div>' +
+      '<div class="row"><button class="btn" type="submit">' + (ed ? 'Save changes' : 'Add payment') + '</button>' + (ed ? '<button class="btn alt" type="button" id="cancel-pay">Cancel</button>' : '') + '</div><p class="small muted" id="pay-msg" style="margin:8px 0 0">' + esc(ui.payMsg) + '</p></form>';
     var flt = ui.payFilter || 'All', rows = filterRows('payments', byDateDesc(db.payments)).filter(function (p) { return flt === 'All' || p['for'] === flt; });
-    var table = rows.length ? '<div class="tbl card"><table><thead><tr><th>Date</th><th>Payee</th><th>Total</th><th>My spend</th><th>For</th><th>Paid by</th><th>Linked to</th><th>Visit</th><th></th></tr></thead><tbody>' + rows.slice(0, 200).map(function (p) {
+    var table = rows.length ? '<div class="tbl card"><table><thead><tr><th>Date</th><th>Payee</th><th>Total</th><th>For</th><th>Linked by</th><th>Movie</th><th>Food</th><th>Visit</th><th></th></tr></thead><tbody>' + rows.slice(0, 200).map(function (p) {
       var w = payWarnings(p).map(function (x) { return '<div><span class="chip warn">' + esc(x) + '</span></div>'; }).join('');
-      return '<tr><td class="nw">' + esc(fmtD(p.date)) + '</td><td>' + esc(p.payee) + '</td><td class="n">' + amt(num(p.total)) + '</td><td class="n">' + amt(num(p.mine)) + '</td><td><span class="pill ' + (p['for'] === 'Mine' ? 'mine' : '') + '">' + esc(p['for']) + '</span></td><td>' + esc(p.paidBy) + '</td><td>' + (p.linkType ? esc(p.linkType) + ': ' : '') + esc(p.linkTo) + w + '</td><td>' + visitChip(p.visitId) + '</td><td class="act"><button class="link" data-edit="' + p.id + '">Edit</button><button class="link del" data-del="' + p.id + '">Delete</button></td></tr>';
+      var mv = p.movieId ? db.movies.filter(function (m) { return m.id === p.movieId; })[0] : null, ml = p.foodId ? entries().filter(function (e) { return e.id === p.foodId; })[0] : null;
+      return '<tr><td class="nw">' + esc(fmtD(p.date)) + '</td><td>' + esc(p.payee) + '</td><td class="n">' + amt(num(p.total)) + '</td><td><span class="pill ' + (p['for'] === 'Mine' ? 'mine' : '') + '">' + esc(p['for']) + '</span></td><td>' + esc(p.linkBy) + '</td><td title="' + esc(p.movieId) + '">' + esc(mv ? mv.name : '') + '</td><td title="' + esc(p.foodId) + '">' + esc(ml ? (ml.place || ml.rows[0].category) : '') + w + '</td><td>' + visitChip(p.visitId) + '</td><td class="act"><button class="link" data-edit="' + p.id + '">Edit</button><button class="link del" data-del="' + p.id + '">Delete</button></td></tr>';
     }).join('') + '</tbody></table></div>' : '<p class="empty">No payments yet.</p>';
     var fl = '<div class="filters">' + ['All', 'Mine', 'Mom', 'Dad', 'Others'].map(function (x) { return '<button type="button" data-pf="' + x + '" aria-pressed="' + (x === flt) + '">' + x + '</button>'; }).join('') + '</div>';
     return '<h2 class="h">Payments <span class="muted small">' + db.payments.length + ' recorded</span></h2><div class="grid tiles">' + tiles + '</div>' + form +
-      '<p class="small muted">Payments linked to Food are not added to My spend again: your Food entries already hold that amount. Movies and Others are counted from My spend here.</p>' + fl + searchBox('payments') + table;
+      '<p class="small muted">Only the total is tracked. Payments linked by Food are not added to My spend again: your Food entries already hold that amount. Movies and Others count from the payment total.</p>' + fl + searchBox('payments') + table;
   }
   function bindPayments() {
     var f = $('#f-pay'), ed = editing.payments && db.payments.filter(function (p) { return p.id === editing.payments; })[0];
-    function movieOpts(val) { return db.movies.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 150).map(function (m) { return '<option value="' + esc(m.id) + '"' + (m.id === val ? ' selected' : '') + '>' + esc(m.name + ' (' + fmtD(m.date) + ')') + '</option>'; }).join(''); }
-    function fill() {
-      var forV = f.elements['for'].value, type = f.elements.linkType.value, lto = $('#l-lto'), meal = $('#l-meal');
-      $('#l-mine').hidden = forV !== 'Mine'; $('#l-ltype').hidden = forV !== 'Mine'; meal.hidden = !(forV === 'Mine' && type === 'Food');
-      var cur = ed && ed.linkType === type && forV === 'Mine' ? ed : null;
-      if (forV !== 'Mine') lto.innerHTML = 'What for (optional)<input name="linkToText" value="' + esc(ed && ed['for'] !== 'Mine' ? ed.linkTo : '') + '">';
-      else if (type === 'Movies') lto.innerHTML = 'Which movie<select name="linkToMovie">' + movieOpts(cur ? cur.linkId : '') + '</select>';
-      else if (type === 'Food') lto.innerHTML = 'Food place<input name="linkToPlace" list="dl-places" value="' + esc(cur ? cur.linkTo : '') + '" placeholder="Pick or type a place"><datalist id="dl-places">' + placeNames().map(function (n) { return '<option value="' + esc(n) + '">'; }).join('') + '</datalist>';
-      else lto.innerHTML = 'Category<input name="linkToText" list="dl-cats" value="' + esc(cur ? cur.linkTo : '') + '" placeholder="e.g. Shopping">';
-      fillMeals(cur);
+    function visitMovies() { var v = visitById(f.elements.visitId.value); return v ? db.movies.filter(function (m) { return m.visitId === v.id; }) : []; }
+    function visitMeals() { var v = visitById(f.elements.visitId.value); return v ? foodMealsOf(v.id) : []; }
+    function fillLists(keepMovie, keepMeal) {
+      var vm = visitMovies(), ve = visitMeals();
+      f.elements.movieId.innerHTML = '<option value="">Not set</option>' + db.movies.slice().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 150).map(function (m) { return '<option value="' + esc(m.id) + '">' + esc(m.name + ' (' + fmtD(m.date) + ')') + '</option>'; }).join('');
+      f.elements.foodId.innerHTML = '<option value="">Not set</option>' + entries().sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 80).map(function (e) { return '<option value="' + esc(e.id) + '">' + esc(mealLabel(e)) + '</option>'; }).join('');
+      f.elements.movieId.value = keepMovie || (vm.length === 1 ? vm[0].id : '');
+      f.elements.foodId.value = keepMeal || (ve.length === 1 ? ve[0].id : '');
     }
-    function fillMeals(cur) {
-      var meal = $('#l-meal'); if (meal.hidden) return;
-      cur = cur === undefined ? (ed && ed.linkType === 'Food' ? ed : null) : cur;
-      {
-        var pl = (f.elements.linkToPlace ? f.elements.linkToPlace.value : '').trim().toLowerCase();
-        f.elements.linkId.innerHTML = '<option value="">Not sure / any meal</option>' + entries().filter(function (e) { return !pl || String(e.place).toLowerCase() === pl; }).sort(function (a, b) { return String(b.date).localeCompare(String(a.date)); }).slice(0, 60).map(function (e) { return '<option value="' + esc(e.id) + '"' + (cur && cur.linkId === e.id ? ' selected' : '') + '>' + esc(mealLabel(e)) + '</option>'; }).join('');
-      }
+    function show() {
+      var forV = f.elements['for'].value, type = f.elements.linkBy.value;
+      $('#l-ltype').hidden = forV !== 'Mine'; $('#l-movie').hidden = !(forV === 'Mine' && type === 'Movies'); $('#l-meal').hidden = !(forV === 'Mine' && type === 'Food');
     }
-    fill();
-    f.elements['for'].onchange = f.elements.linkType.onchange = fill;
-    f.addEventListener('input', function (e) { if (e.target.name === 'linkToPlace') fillMeals(); });
+    fillLists(ed ? ed.movieId : '', ed ? ed.foodId : ''); show();
+    f.elements['for'].onchange = f.elements.linkBy.onchange = show;
+    f.elements.visitId.onchange = function () { fillLists(f.elements.movieId.value, f.elements.foodId.value); };
     f.addEventListener('submit', async function (e) {
       e.preventDefault(); var fd = new FormData(f), msg = $('#pay-msg'), forV = fd.get('for'), total = numOrBlank(fd.get('total')), r = ed || { id: nextId('P', db.payments) };
       if (total === '') { msg.textContent = 'Enter the total spend.'; return; }
-      var mine = 0, type = '', to = '', lid = '';
-      if (forV === 'Mine') {
-        mine = numOrBlank(fd.get('mine')); if (mine === '') mine = total;
-        if (mine > total) { msg.textContent = 'My spend cannot be more than the total spend.'; return; }
-        type = fd.get('linkType');
-        if (type === 'Movies') { lid = fd.get('linkToMovie') || ''; var m = db.movies.filter(function (x) { return x.id === lid; })[0]; if (!m) { msg.textContent = 'Pick the movie this payment is for (add the movie first if it is missing).'; return; } to = m.name; }
-        else if (type === 'Food') { to = (fd.get('linkToPlace') || '').trim(); lid = fd.get('linkId') || ''; if (!to) { msg.textContent = 'Enter the Food place.'; return; } }
-        else { to = (fd.get('linkToText') || '').trim(); if (!to) { msg.textContent = 'Enter a category, for example Shopping.'; return; } }
-      } else to = (fd.get('linkToText') || '').trim();
-      Object.assign(r, { date: fd.get('date') || today(), payee: (fd.get('payee') || '').trim(), total: total, mine: mine, 'for': forV, paidBy: (fd.get('paidBy') || 'Me').trim(), linkType: type, linkTo: to, linkId: lid, visitId: fd.get('visitId') || '', notes: (fd.get('notes') || '').trim() });
+      var by = forV === 'Mine' ? fd.get('linkBy') : '', mid = by === 'Movies' ? (fd.get('movieId') || '') : '', fid = by === 'Food' ? (fd.get('foodId') || '') : '';
+      Object.assign(r, { date: fd.get('date') || today(), payee: (fd.get('payee') || '').trim(), total: total, 'for': forV, linkBy: by, movieId: mid, foodId: fid, visitId: fd.get('visitId') || '', notes: (fd.get('notes') || '').trim() });
       if (!ed) db.payments.push(r);
-      ui.payMsg = forV !== 'Mine' ? 'Saved under ' + forV + '. Your own spending is unchanged.' : type === 'Food' ? 'Saved. Linked to Food, so it is not added to My spend a second time.' : 'Saved. Added ' + amt(mine) + ' to My spend as ' + type + ': ' + to + '.';
+      var warn = payWarnings(r);
+      ui.payMsg = (forV !== 'Mine' ? 'Saved under ' + forV + '. Your own spending is unchanged.' : by === 'Food' ? 'Saved. Linked by Food, so it is not added to My spend a second time.' : 'Saved. Added ' + amt(total) + ' to My spend (' + by + ').') + (warn.length ? ' Check: ' + warn.join(', ') + '.' : '');
       ui.payVisit = ''; editing.payments = null; await save(); render();
     });
     var c = $('#cancel-pay'); if (c) c.onclick = function () { editing.payments = null; render(); };
@@ -817,11 +806,11 @@
     // ----- family and other people's expenses; movie and other spend from payments -----
     if (wantSpend && /\b(mom|dad)\b/.test(q)) {
       var who = /\bmom\b/.test(q) ? 'Mom' : 'Dad', pp = db.payments.filter(function (p) { return p['for'] === who && inRange(p.date, rg); });
-      return ansCard(amt(sumBy(pp, function (p) { return num(p.total); })) + ' on ' + who + esc(scope), pp.sort(function (a, b) { return b.date.localeCompare(a.date); }).map(function (p) { return [(p.payee || 'Payment') + (p.linkTo ? ' · ' + p.linkTo : ''), fmtD(p.date) + ' · ' + amt(num(p.total))]; }), raw);
+      return ansCard(amt(sumBy(pp, function (p) { return num(p.total); })) + ' on ' + who + esc(scope), pp.sort(function (a, b) { return b.date.localeCompare(a.date); }).map(function (p) { return [(p.payee || 'Payment') + (payTarget(p) ? ' · ' + payTarget(p) : ''), fmtD(p.date) + ' · ' + amt(num(p.total))]; }), raw);
     }
     if (wantSpend && /\b(movie|movies|cinema|film|films)\b/.test(q) && !fMovie) {
-      var mp = db.payments.filter(function (p) { return p['for'] === 'Mine' && p.linkType === 'Movies' && inRange(p.date, rg); });
-      return ansCard(amt(sumBy(mp, function (p) { return num(p.mine); })) + ' of your spend on movies' + esc(scope), mp.sort(function (a, b) { return b.date.localeCompare(a.date); }).map(function (p) { return [p.linkTo, fmtD(p.date) + ' · ' + amt(num(p.mine))]; }), raw);
+      var mp = db.payments.filter(function (p) { return p['for'] === 'Mine' && p.linkBy === 'Movies' && inRange(p.date, rg); });
+      return ansCard(amt(sumBy(mp, function (p) { return num(p.total); })) + ' of your spend on movies' + esc(scope), mp.sort(function (a, b) { return b.date.localeCompare(a.date); }).map(function (p) { return [payTarget(p) || p.payee || 'Payment', fmtD(p.date) + ' · ' + amt(num(p.total))]; }), raw);
     }
     // ----- friends -----
     if (socialWords && !(movieWords && !fName) && !(foodWords && !fName && !/friend|meet|met|overdue|due/.test(q))) {
@@ -1028,7 +1017,7 @@
     if (f.t === 'n') return numOrBlank(v);
     return String(v).trim();
   }
-  function sig(c, r) { return (c === 'food' ? ['date', 'place', 'category', 'subcategory', 'amount'] : c === 'movies' ? ['date', 'name'] : c === 'visits' ? ['id'] : c === 'payments' ? ['date', 'payee', 'total', 'for', 'linkTo'] : ['name']).map(function (k) { return String(r[k]).toLowerCase(); }).join('|'); }
+  function sig(c, r) { return (c === 'food' ? ['date', 'place', 'category', 'subcategory', 'amount'] : c === 'movies' ? ['date', 'name'] : c === 'visits' ? ['id'] : c === 'payments' ? ['date', 'payee', 'total', 'for', 'movieId', 'foodId'] : ['name']).map(function (k) { return String(r[k]).toLowerCase(); }).join('|'); }
   async function importWorkbook(wb) {
     var added = { movies: 0, food: 0, social: 0, visits: 0, payments: 0, places: 0 }, skipped = 0, missing = [], vmap = {};
     SYNCED.forEach(function (c) {
