@@ -42,8 +42,8 @@ if (navToggle && navLinks) {
   // Load the game only when the book scene is about to come into view, so the hero and first paint are not competing with it.
   if ('IntersectionObserver' in window) {
     const gio = new IntersectionObserver((es) => {
-      if (es.some((e) => e.isIntersecting)) { gio.disconnect(); loadGame(); }
-    }, { rootMargin: '0px' });
+      if (es.some((e) => e.isIntersecting && e.intersectionRatio > 0)) { gio.disconnect(); loadGame(); }
+    }, { rootMargin: '0px', threshold: [0, 0.001] });
     gio.observe(story);
   } else {
     window.addEventListener('load', () => setTimeout(loadGame, 300), { once: true });
