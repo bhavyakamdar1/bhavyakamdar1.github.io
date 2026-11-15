@@ -1486,10 +1486,11 @@ function flashResult(cls,icon,title,sub){
 
 /* ---------------- confetti ---------------- */
 const pc=document.getElementById('pc'); const pctx=pc.getContext('2d');
-let parts=[];
+let parts=[]; let tickOn=false;
 function sizeCanvas(){ pc.width=innerWidth; pc.height=innerHeight; }
 sizeCanvas(); addEventListener('resize',sizeCanvas);
 function confetti(n){
+  if(!tickOn){ tickOn=true; requestAnimationFrame(tick); }
   const colors=['#FCFF35','#0A0A0A','#111111','#FCFF35','#FCFF35'];
   for(let i=0;i<n;i++){
     parts.push({x:innerWidth/2+(Math.random()-0.5)*120, y:innerHeight/2-40,
@@ -1507,9 +1508,8 @@ function tick(){
     pctx.globalAlpha=Math.max(0,Math.min(1,p.life/40));
     pctx.fillStyle=p.c; pctx.fillRect(-p.s/2,-p.s/2,p.s,p.s*0.6); pctx.restore();
   });
-  requestAnimationFrame(tick);
+  if(parts.length) requestAnimationFrame(tick); else tickOn=false;
 }
-tick();
 
 /* ---------------- init ---------------- */
 renderBest();

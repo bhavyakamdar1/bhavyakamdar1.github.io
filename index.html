@@ -32,6 +32,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/images/hero-speaking.jpg" fetchpriority="high">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -54,7 +55,7 @@
 <!-- ============ HERO ============ -->
 <section class="hero" id="top">
   <div class="hero-photo">
-    <img src="assets/images/hero-speaking.jpg" alt="Bhavya Kamdar speaking on a panel" fetchpriority="high">
+    <img src="assets/images/hero-speaking.jpg" alt="Bhavya Kamdar speaking on a panel" width="1500" height="1000" fetchpriority="high" decoding="async">
   <!-- Invited by: institution logos, shown white on the hero, the whole corner links to /speaking/ (black-and-white sources in assets/images/institutions/) -->
   <a class="hero-invited" href="speaking/" aria-label="Invited by ICAI, GLS University, H. L. College of Commerce, SKIPS University and Rising Youth Network. See all speaking engagements">
     <p class="hero-invited-label">Invited by</p>
@@ -235,7 +236,6 @@
 </div>
 
 <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
-<script src="assets/js/config.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="assets/js/thinking-posts.js"></script>
 <script src="assets/js/thinking-render.js"></script>

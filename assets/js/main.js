@@ -1,11 +1,12 @@
 // Sticky nav background on scroll
 const header = document.querySelector('.site-header');
+let solid = null;
 const toggleSolid = () => {
-  if (window.scrollY > 60) header.classList.add('solid');
-  else header.classList.remove('solid');
+  const on = window.scrollY > 60;
+  if (on !== solid) { solid = on; header.classList.toggle('solid', on); }
 };
 toggleSolid();
-window.addEventListener('scroll', toggleSolid);
+window.addEventListener('scroll', toggleSolid, { passive: true });
 
 // Mobile nav toggle (button turns into a close icon while the menu is open)
 const navToggle = document.querySelector('.nav-toggle');
@@ -38,8 +39,15 @@ if (navToggle && navLinks) {
   // The embedded game is loaded once, as soon as the page has finished loading (after the hero is up), so it is
   // already running by the time a visitor scrolls to the book instead of starting to load when they arrive.
   const loadGame = () => { if (frame && !frame.getAttribute('src')) frame.src = GAME; };
-  if (document.readyState === 'complete') setTimeout(loadGame, 300);
-  else window.addEventListener('load', () => setTimeout(loadGame, 300), { once: true });
+  // Load the game only when the book scene is about to come into view, so the hero and first paint are not competing with it.
+  if ('IntersectionObserver' in window) {
+    const gio = new IntersectionObserver((es) => {
+      if (es.some((e) => e.isIntersecting)) { gio.disconnect(); loadGame(); }
+    }, { rootMargin: '0px' });
+    gio.observe(story);
+  } else {
+    window.addEventListener('load', () => setTimeout(loadGame, 300), { once: true });
+  }
   const clamp = (v) => Math.min(1, Math.max(0, v));
   const seg = (p, a, b) => clamp((p - a) / (b - a));
   const ease = (t) => t * t * (3 - 2 * t);

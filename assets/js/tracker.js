@@ -2,6 +2,8 @@
 // Does nothing until SITE_CONFIG.SHEETS_ENDPOINT is set. Never throws into the game.
 (function () {
   var cfg = window.SITE_CONFIG || {};
+  var embedded = false;
+  try { embedded = window.self !== window.top; } catch (e) { embedded = true; }
   var ls = function (k, v) {
     try { if (v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); } catch (e) {}
     return null;
@@ -13,7 +15,7 @@
 
   function send(event, data) {
     try {
-      if (!cfg.SHEETS_ENDPOINT) return;
+      if (!cfg.SHEETS_ENDPOINT || embedded) return; // the home-page preview must not log a visit/click
       var body = JSON.stringify({
         t: new Date().toISOString(), pid: playerId, sid: sessionId, name: name,
         event: event, data: data || {}, page: location.pathname,
