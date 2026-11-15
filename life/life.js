@@ -1039,6 +1039,7 @@
       cols.forEach(function (f) { var i = head.indexOf(normH(f.h)); if (i >= 0) idx[f.k] = i; });
       var seen = {}, eidMap = {}; db[c].forEach(function (r) { seen[sig(c, r)] = 1; });
       rows.forEach(function (row) {
+        if (!row.some(function (v) { return v !== '' && v != null; })) return;   // pre-formatted blank rows in a template
         var r = {}; cols.forEach(function (f) { r[f.k] = idx[f.k] != null ? cell(row[idx[f.k]], f) : ''; });
         var fileId = r.id; r.id = fileId && !db[c].some(function (x) { return x.id === fileId; }) ? fileId : (c === 'visits' ? nextId('V', db.visits) : c === 'payments' ? nextId('P', db.payments) : uid());
         if (c === 'visits' && fileId && fileId !== r.id) vmap[fileId] = r.id;
