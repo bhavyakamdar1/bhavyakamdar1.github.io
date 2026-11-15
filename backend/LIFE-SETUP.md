@@ -14,10 +14,15 @@ You do all of this signed in to **cabhavyakamdar@gmail.com** in your own browser
 ## How it behaves
 - Saving anything on the page sends it to the sheet within a couple of seconds. Opening the page loads the sheet.
 - If the sheet can't be reached, your change is kept on the device and sent on the next save or unlock. It is not lost.
-- You can also edit the sheet directly. Keep the header names; you may reorder columns or add your own (the script only touches the columns the page uses). New tabs `Reminders` and `Settings` are created automatically.
+- You can also edit the sheet directly. Keep the header names; you may reorder columns or add your own (the script only touches the columns the page uses). New tabs `Reminders`, `Settings`, `Visits`, `Payments` and `Places` are created automatically, and a `Visit ID` column is added to Movies and Food. The bridge script needs no change for these.
 - Don't edit the sheet and the page at the same moment: the last save wins.
 - "Anyone" only means the URL can be called. Every call without the token is rejected and the sheet itself is never shared.
 - If you edit the script later: **Deploy → Manage deployments → Edit → New version** (the URL stays the same). To rotate the token, change it in the script, redeploy a new version, and update it on the page.
 
 ## Asking Claude about the same sheet
 In claude.ai, turn on the Google Drive / Google Sheets connector for cabhavyakamdar@gmail.com and ask, e.g. "In my Life Log sheet, how much did I spend on coffee in 2026?". This uses your Claude plan, not extra API billing. Simple questions can be asked on the page itself (Dashboard → Ask your data), which needs no AI at all.
+
+## Visits and Payments
+- **Visits** carry a `Visit ID` (V-0001, V-0002, ...). A movie, a meal (all its Food rows) or a payment belongs to a visit when its `Visit ID` column holds that ID. People on a visit are matched to your Social list by name, and their last-met date follows the latest visit.
+- **Payments** record `Total Spend` and `My Spend`. `For` is Mine, Mom, Dad or Others; only Mine counts toward your spending. A Mine payment is linked to Movies, Food or Others. Payments linked to Food are not added again, because your Food rows already hold that spend; Movies and Others are counted from `My Spend`.
+- Visit times are stored as text such as `18:30-22:00`, so Google Sheets does not turn them into time-of-day values.
