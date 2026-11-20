@@ -17,15 +17,15 @@ const SPEAKING_EVENTS = [
     host: "Rising Youth Network \u00b7 SKIPS University",
     posts: [
       {
-        image: { src: "../assets/images/speaking/the-edge-2026.jpg", pos: "50% 0%" },
+        image: { src: "../assets/images/speaking/the-edge-2026.webp", pos: "50% 0%" },
         excerpt: "Excited to share that I\u2019ve been invited to be a Judge for THE EDGE 2026, jointly organised by Rising Youth Network and SKIPS University\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_theedge2026-ryn-skipsuniversity-share-7510941806772146176-1dv9/",
       },
       {
         images: [
-          { src: "../assets/images/speaking/the-edge-2026-judging.jpg", pos: "30% 40%" },
-          { src: "../assets/images/speaking/the-edge-2026-table.jpg", pos: "65% 40%" },
-          { src: "../assets/images/speaking/the-edge-2026-hall.jpg", pos: "50% 45%" },
+          { src: "../assets/images/speaking/the-edge-2026-judging.webp", pos: "30% 40%" },
+          { src: "../assets/images/speaking/the-edge-2026-table.webp", pos: "65% 40%" },
+          { src: "../assets/images/speaking/the-edge-2026-hall.webp", pos: "50% 45%" },
         ],
         excerpt: "Financial statements don\u2019t just present numbers. They tell stories. The real skill lies in reading them right\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_financekafunda-theedge-financialanalysis-share-7517834398726070272-OpzU/",
@@ -40,14 +40,14 @@ const SPEAKING_EVENTS = [
     host: "Faculty of Commerce, GLS University \u00b7 Innovision \u2013 The Management Club",
     posts: [
       {
-        image: { src: "../assets/images/speaking/managenious-2026.jpg", pos: "50% 50%" },
+        image: { src: "../assets/images/speaking/managenious-2026.webp", pos: "50% 50%" },
         excerpt: "Excited and grateful to be invited as a Judge for the Freshers\u2019 Idea Hunt at ManaGenious Conclave 2026\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_managenious2026-glsuniversity-facultyofcommerce-share-7487752434484936705-obWu/",
       },
       {
         images: [
-          { src: "../assets/images/speaking/managenious-2026-judges.jpg", pos: "50% 50%" },
-          { src: "../assets/images/speaking/managenious-2026-group.jpg", pos: "50% 50%" },
+          { src: "../assets/images/speaking/managenious-2026-judges.webp", pos: "50% 50%" },
+          { src: "../assets/images/speaking/managenious-2026-group.webp", pos: "50% 50%" },
         ],
         excerpt: "From Building the Product to Selling the Product. It was a pleasure to be invited as a Judge for the Fresher\u2019s Idea Hunt\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_managenious2026-fresherideahunt-glsuniversity-share-7502603288115113984-3OHW/",
@@ -63,21 +63,21 @@ const SPEAKING_EVENTS = [
     host: "H. L. College of Commerce (Autonomous)",
     posts: [
       {
-        image: { src: "../assets/images/speaking/finxplore-2026.jpg", pos: "50% 80%" },
+        image: { src: "../assets/images/speaking/finxplore-2026.webp", pos: "50% 80%" },
         excerpt: "\u201cWill AI take away my Finance Job?\u201d A question driven by fear, curiosity, and a rapidly changing reality\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_aiinfinance-futureready-careers-share-7443526016519757824-t0xt/",
       },
       {
         images: [
-          { src: "../assets/images/speaking/finxplore-2026-panel.jpg", pos: "50% 50%" },
-          { src: "../assets/images/speaking/finxplore-2026-memento.jpg", pos: "62% 40%" },
-          { src: "../assets/images/speaking/finxplore-2026-plaque.jpg", pos: "50% 45%" },
+          { src: "../assets/images/speaking/finxplore-2026-panel.webp", pos: "50% 50%" },
+          { src: "../assets/images/speaking/finxplore-2026-memento.webp", pos: "62% 40%" },
+          { src: "../assets/images/speaking/finxplore-2026-plaque.webp", pos: "50% 45%" },
         ],
         excerpt: "If you think AI will replace you, you\u2019re asking the wrong question\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_ai-finance-finxplore2026-ugcPost-7444975186501586944-Aj8A/",
       },
       {
-        image: { src: "../assets/images/speaking/finxplore-2026-speaking.jpg", pos: "52% 62%" },
+        image: { src: "../assets/images/speaking/finxplore-2026-speaking.webp", pos: "52% 62%" },
         questions: [
           {
             text: "Will unequal access to AI tools widen the investing gap between retail and institutions?",
@@ -99,15 +99,15 @@ const SPEAKING_EVENTS = [
     host: "Faculty of Commerce, GLS University",
     posts: [
       {
-        image: { src: "../assets/images/speaking/capital-conclave-2026.jpg", pos: "50% 8%" },
+        image: { src: "../assets/images/speaking/capital-conclave-2026.webp", pos: "50% 8%" },
         excerpt: "Grateful for the opportunity to serve as a Judge at The Budget\u2019s Chanakya\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_grateful-for-the-opportunity-to-serve-as-ugcPost-7427574143547691008-mqj9/",
       },
       {
         images: [
-          { src: "../assets/images/speaking/capital-conclave-speaking.jpg", pos: "50% 34%" },
-          { src: "../assets/images/speaking/capital-conclave-students.jpg", pos: "50% 62%" },
-          { src: "../assets/images/speaking/capital-conclave-team.jpg", pos: "50% 62%" },
+          { src: "../assets/images/speaking/capital-conclave-speaking.webp", pos: "50% 34%" },
+          { src: "../assets/images/speaking/capital-conclave-students.webp", pos: "50% 62%" },
+          { src: "../assets/images/speaking/capital-conclave-team.webp", pos: "50% 62%" },
         ],
         excerpt: "Where Policy Met Young Perspectives: Inside The Budget\u2019s Chanakya organised by FOC, GLS\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_budgetschanakya-unionbudget2026-budgetanalysis-ugcPost-7432306813859024898-k1fD/",
@@ -123,27 +123,27 @@ const SPEAKING_EVENTS = [
     posts: [
       {
         images: [
-          { src: "../assets/images/speaking/shikhar-2026-rbi.jpg", pos: "50% 62%" },
-          { src: "../assets/images/speaking/shikhar-2026-index-business.jpg", pos: "50% 52%" },
-          { src: "../assets/images/speaking/shikhar-2026-logo.jpg", pos: "50% 50%" },
+          { src: "../assets/images/speaking/shikhar-2026-rbi.webp", pos: "50% 62%" },
+          { src: "../assets/images/speaking/shikhar-2026-index-business.webp", pos: "50% 52%" },
+          { src: "../assets/images/speaking/shikhar-2026-logo.webp", pos: "50% 50%" },
         ],
         excerpt: "Thrilled to share that I have been invited by H. L. College of Commerce (Autonomous)\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-mun-ugcPost-7422144519313403904-jFZj/",
       },
       {
         images: [
-          { src: "../assets/images/speaking/shikhar-2026-memento.jpg", pos: "50% 20%" },
-          { src: "../assets/images/speaking/shikhar-2026-trophy.jpg", pos: "50% 38%" },
-          { src: "../assets/images/speaking/shikhar-2026-team.jpg", pos: "50% 40%" },
+          { src: "../assets/images/speaking/shikhar-2026-memento.webp", pos: "50% 20%" },
+          { src: "../assets/images/speaking/shikhar-2026-trophy.webp", pos: "50% 38%" },
+          { src: "../assets/images/speaking/shikhar-2026-team.webp", pos: "50% 40%" },
         ],
         excerpt: "It's a Wrap for Shikhar 2026 (HLCC MUN). Thank you to H. L. College of Commerce\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-hlccmun-ugcPost-7425043826228137985-GXu2/",
       },
       {
         images: [
-          { src: "../assets/images/speaking/shikhar-2026-delegates.jpg", pos: "50% 60%" },
-          { src: "../assets/images/speaking/shikhar-2026-committee.jpg", pos: "55% 40%" },
-          { src: "../assets/images/speaking/shikhar-2026-debate.jpg", pos: "50% 40%" },
+          { src: "../assets/images/speaking/shikhar-2026-delegates.webp", pos: "50% 60%" },
+          { src: "../assets/images/speaking/shikhar-2026-committee.webp", pos: "55% 40%" },
+          { src: "../assets/images/speaking/shikhar-2026-debate.webp", pos: "50% 40%" },
         ],
         excerpt: "When Digital Payments Fail: Policy Thinking at SHIKHAR 2026\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_hlcollegeofcommerce-shikhar2026-hlccmun-ugcPost-7426871148832813056-Dxpt/",
@@ -159,9 +159,9 @@ const SPEAKING_EVENTS = [
     posts: [
       {
         images: [
-          "../assets/images/speaking/ai-in-practice-podium.jpg",
-          { src: "../assets/images/speaking/ai-in-practice-panel.jpg", pos: "88% 30%" },
-          { src: "../assets/images/speaking/ai-in-practice-stage.jpg", pos: "88% 50%" },
+          "../assets/images/speaking/ai-in-practice-podium.webp",
+          { src: "../assets/images/speaking/ai-in-practice-panel.webp", pos: "88% 30%" },
+          { src: "../assets/images/speaking/ai-in-practice-stage.webp", pos: "88% 50%" },
         ],
         excerpt: "An insightful conference on \u201cAI in Practice: Transforming CA Offices through Smart Automation\u201d was held at ICAI Ahmedabad Branch\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_icai-ahmedabadbranch-artificialintelligence-ugcPost-7392503511592345600-T4Vx/",
@@ -177,9 +177,9 @@ const SPEAKING_EVENTS = [
     posts: [
       {
         images: [
-          "../assets/images/speaking/kelavani-mandal-session.jpg",
-          "../assets/images/speaking/kelavani-mandal-plaque.jpg",
-          "../assets/images/speaking/kelavani-mandal-hall.jpg",
+          "../assets/images/speaking/kelavani-mandal-session.webp",
+          "../assets/images/speaking/kelavani-mandal-plaque.webp",
+          "../assets/images/speaking/kelavani-mandal-hall.webp",
         ],
         excerpt: "It was an honour to be invited as a Guest Speaker at G.D. Modi Vidya Sankul, as part of the Non-Teaching Staff Training Programme\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_it-was-an-honour-to-be-invited-as-a-guest-ugcPost-7391146336634601472-p7TV/",
@@ -194,24 +194,24 @@ const SPEAKING_EVENTS = [
     host: "Faculty of Commerce, GLS University & Ahmedabad Branch of WIRC-ICAI",
     posts: [
       {
-        image: "../assets/images/speaking/explorer-2025.jpg",
+        image: "../assets/images/speaking/explorer-2025.webp",
         excerpt: "Life comes full circle. Years ago, I walked through the corridors of the Faculty of Commerce, GLS University as a student\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_life-comes-full-circle-years-ago-i-share-7369278045666357251-veA1/",
       },
       {
         images: [
-          "../assets/images/speaking/explorer-2025-with-dean.jpg",
-          "../assets/images/speaking/explorer-2025-on-site.jpg",
-          "../assets/images/speaking/explorer-2025-plaque.jpg",
+          "../assets/images/speaking/explorer-2025-with-dean.webp",
+          "../assets/images/speaking/explorer-2025-on-site.webp",
+          "../assets/images/speaking/explorer-2025-plaque.webp",
         ],
         excerpt: "Grateful and inspired. It has been a wonderful 3 day experience at Explorer 2025: A National Level FinTech Business Conclave\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_grateful-and-inspired-it-has-been-a-ugcPost-7371059639016214529-mfZS/",
       },
       {
         images: [
-          "../assets/images/speaking/explorer-2025-boardroom-hall.jpg",
-          "../assets/images/speaking/explorer-2025-boardroom-judges.jpg",
-          "../assets/images/speaking/explorer-2025-boardroom-round.jpg",
+          "../assets/images/speaking/explorer-2025-boardroom-hall.webp",
+          "../assets/images/speaking/explorer-2025-boardroom-judges.webp",
+          "../assets/images/speaking/explorer-2025-boardroom-round.webp",
         ],
         excerpt: "The curtains have closed on Explorer 2025: A National Level FinTech Business Conclave, and this is how THE BOARDROOM event went over the 3 Days\u2026",
         link: "https://www.linkedin.com/posts/ca-bhavya-kamdar-%F0%9F%8E%B2-687723194_the-curtains-have-closed-on-explorer-2025-ugcPost-7373946116045889536-Yc9f/",
@@ -234,12 +234,14 @@ const LI_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a
   const fmt = (iso) => new Date(iso + 'T00:00:00').toLocaleDateString('en-GB', { month: 'short', year: 'numeric' });
   const esc = (s) => String(s || '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-  const post = (p, title) => {
+  const post = (p, title, first) => {
     const imgs = (p.images || (p.image ? [p.image] : [])).map((i) => (typeof i === 'string' ? { src: i } : i));
     const alt = `${esc(title)} \u2014 from the LinkedIn post`;
+    // the first event is on screen at load: fetch it straight away; the rest load as they scroll into view
+    const load = first ? ' fetchpriority="high" decoding="async"' : ' loading="lazy" decoding="async"';
     const media = imgs.length > 1
-      ? `<div class="speaking-gallery${imgs.length === 2 ? ' two' : ''}">${imgs.map((i) => `<img src="${esc(i.src)}" alt="${alt}" loading="lazy"${i.pos ? ` style="object-position:${esc(i.pos)}"` : ''}>`).join('')}</div>`
-      : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0].src)}" alt="${alt}" loading="lazy"${imgs[0].pos ? ` style="object-position:${esc(imgs[0].pos)}"` : ''}>` : '';
+      ? `<div class="speaking-gallery${imgs.length === 2 ? ' two' : ''}">${imgs.map((i) => `<img src="${esc(i.src)}" alt="${alt}"${load}${i.pos ? ` style="object-position:${esc(i.pos)}"` : ''}>`).join('')}</div>`
+      : imgs.length ? `<img class="speaking-img" src="${esc(imgs[0].src)}" alt="${alt}"${load}${imgs[0].pos ? ` style="object-position:${esc(imgs[0].pos)}"` : ''}>` : '';
     const mediaLink = p.link || (p.questions && p.questions[0] && p.questions[0].link);
     const aria = `aria-label="Open on LinkedIn" tabindex="-1" target="_blank" rel="noopener"`;
     return `<div class="speaking-post${p.questions ? ' has-questions' : ''}">
@@ -252,16 +254,26 @@ const LI_ICON = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.98 3.5a
     </div>`;
   };
 
-  list.innerHTML = [...SPEAKING_EVENTS]
+  const html = [...SPEAKING_EVENTS]
     .sort((a, b) => b.date.localeCompare(a.date))
-    .map((e) => `<article class="speaking-row">
+    .map((e, n) => `<article class="speaking-row">
       <time class="speaking-date" datetime="${esc(e.date)}">${esc(e.dateLabel || fmt(e.date))}</time>
       <div>
         <span class="card-tag">${esc(e.type)}</span>
         <h3>${esc(e.title)}</h3>
         ${e.host ? `<p class="speaking-meta">${esc(e.host)}</p>` : ''}
-        <div class="speaking-posts${e.phoneRows === '2+1' ? ' phone-2-1' : ''}">${(e.posts || []).map((p) => post(p, e.title)).join('')}</div>
+        <div class="speaking-posts${e.phoneRows === '2+1' ? ' phone-2-1' : ''}">${(e.posts || []).map((p) => post(p, e.title, n === 0)).join('')}</div>
       </div>
     </article>`)
     .join('');
+
+  // The page ships pre-rendered (tools/seo.js). Only replace it if this data differs, so the
+  // browser does not throw away and re-request images it has already started loading.
+  if (typeof document.createElement === 'function') {
+    const t = document.createElement('template');
+    t.innerHTML = html;
+    const current = list.innerHTML.replace(/<!-- PRERENDER:(START|END) -->/g, '');
+    if (current === t.innerHTML) return;
+  }
+  list.innerHTML = html;
 })();
